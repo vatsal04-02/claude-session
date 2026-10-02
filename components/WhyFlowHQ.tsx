@@ -24,7 +24,7 @@ export default function WhyFlowHQ() {
             eyebrow="Why FlowHQ"
             title={
               <>
-                Not another tool. A <Highlight>system</Highlight> built around your business.
+                You&apos;ve got enough tools. You need them to <Highlight>work as one.</Highlight>
               </>
             }
             sub="Most businesses don't need more software. They need their existing tools and workflows to work together."

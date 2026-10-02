@@ -373,7 +373,7 @@ export default function DemoModal() {
                     arrow={status === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : undefined}
                     className="disabled:opacity-80"
                   >
-                    {status === "sending" ? "Submitting…" : "Book my demo"}
+                    {status === "sending" ? "Submitting…" : "Get My Free Demo"}
                   </Button>
                 </div>
               </form>

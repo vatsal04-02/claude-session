@@ -4,10 +4,10 @@ import { motion } from "motion/react";
 import { EASE, Highlight, Reveal, Section, SectionHeading, SpotlightCard, Stagger, StaggerItem } from "./ui";
 
 const BLOCKS = [
-  { name: "AI", body: "Understands enquiries and business context." },
-  { name: "CRM", body: "Keeps leads, customers and conversations organized." },
-  { name: "Automation", body: "Moves repetitive work forward automatically." },
-  { name: "Integrations", body: "Connects WhatsApp, email, calendar and other tools." },
+  { name: "AI", body: "Reads every message and knows what the customer wants." },
+  { name: "CRM", body: "Every lead, chat and booking in one place. Nothing slips." },
+  { name: "Automation", body: "Follow-ups, reminders and nudges — without anyone having to remember." },
+  { name: "Integrations", body: "WhatsApp, calls, calendar, email — plugged into how your team already works." },
 ];
 const STEPS = ["Capture", "Understand", "Manage", "Automate", "Act"];
 
@@ -16,10 +16,10 @@ export default function WhatWeDo() {
   return (
     <Section id="systems" className="bg-[#160f0b]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="What FlowHQ does" title={<>What FlowHQ <Highlight>builds.</Highlight></>} />
+        <SectionHeading eyebrow="What FlowHQ does" title={<>Not more software. A system that <Highlight>sells for you.</Highlight></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            We turn repetitive business processes into <Highlight delay={0.2}>connected</Highlight> systems. A CRM is just one block.
+            We turn the daily chaos of enquiries, chats and bookings into one <Highlight delay={0.2}>connected</Highlight> system. The CRM is just one part.
           </p>
         </Reveal>
       </div>
@@ -29,7 +29,7 @@ export default function WhatWeDo() {
           <div className="flex h-full flex-col rounded-2xl border border-accent/40 bg-accent/[0.04] p-6 md:p-8">
             <h3 className="text-[28px] font-medium leading-tight tracking-[-0.01em]">Workflows</h3>
             <p className="mt-2 max-w-[28ch] text-[16px] leading-[1.7] text-muted">
-              Turns the entire process into one connected system.
+              Every enquiry, chat, booking and follow-up — one connected flow.
             </p>
             <ol className="relative mt-8 flex flex-wrap gap-x-5 gap-y-2 lg:block lg:space-y-2.5">
               <span aria-hidden className="absolute bottom-2 left-[3px] top-2 hidden w-px bg-accent/40 lg:block" />

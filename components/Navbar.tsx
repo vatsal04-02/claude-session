@@ -66,7 +66,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2 lg:justify-self-end">
             <div className="hidden lg:block">
               <Button onClick={open}>
-                Book a Free Demo
+                Get My Free Demo
               </Button>
             </div>
             <button
@@ -113,7 +113,7 @@ export default function Navbar() {
             className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/90 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden"
           >
             <Button onClick={open} className="w-full">
-              Book a Free Demo
+              Get My Free Demo
             </Button>
           </motion.div>
         )}

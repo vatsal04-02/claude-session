@@ -19,32 +19,32 @@ import {
 const SERVICES = [
   {
     name: "AI CRM Systems",
-    body: "One workspace for leads, customers, conversations, tasks and bookings.",
+    body: "Every lead, chat and booking — on one screen.",
     flow: ["Lead", "Contact", "Pipeline", "Action"],
   },
   {
     name: "Lead Automation",
-    body: "Capture enquiries, assign ownership and trigger the next step automatically.",
+    body: "Every enquiry answered in seconds, assigned, and followed up.",
     flow: ["Form", "AI", "Assign", "Follow-up"],
   },
   {
     name: "WhatsApp Automation",
-    body: "Turn conversations into structured business workflows.",
+    body: "Chats that book, remind and follow up — on autopilot.",
     flow: ["Message", "Context", "Handoff", "Follow-up"],
   },
   {
     name: "Booking Automation",
-    body: "Confirmations, reminders, rescheduling and follow-up.",
+    body: "Bookings that confirm themselves. No-shows that chase themselves.",
     flow: ["Booking", "Confirm", "Reminder", "Outcome"],
   },
   {
     name: "Revenue Recovery",
-    body: "Recover missed calls, stale leads and no-shows.",
+    body: "We find the money hiding in your missed calls and dead leads.",
     flow: ["Missed", "Detect", "Follow-up", "Recover"],
   },
   {
     name: "AI Business Assistants",
-    body: "AI helpers built around your business knowledge and workflows.",
+    body: "An assistant trained on your business — not a generic chatbot.",
     flow: ["Question", "Context", "AI", "Human"],
   },
 ];
@@ -54,7 +54,7 @@ export default function Services() {
   return (
     <Section id="services" grid="strong" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="Services" title={<>Systems that do the <Highlight>repeat work.</Highlight></>} />
+        <SectionHeading eyebrow="Services" title={<>We automate the work that <Highlight>eats your day.</Highlight></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
             We build the automation layer around the way your business already operates.

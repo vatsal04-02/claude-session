@@ -67,25 +67,24 @@ export default function Hero() {
 
             <h1 className="display mt-5 text-[clamp(2.6rem,5.6vw,4.5rem)] text-text" style={{ fontWeight: 780, lineHeight: 1.02 }}>
               <motion.span {...rise(0.15)} className="block">
-                Your business has
+                You&apos;re not short
               </motion.span>
               <motion.span {...rise(0.25)} className="block">
-                enough tools.
+                on leads.
               </motion.span>
               <motion.span {...rise(0.38)} className="mt-3 block">
-                It needs a
+                You&apos;re short on
               </motion.span>
               <motion.span {...rise(0.45)} className="block">
-                <Highlight delay={1}>system.</Highlight>
+                <Highlight delay={1}>follow-up.</Highlight>
               </motion.span>
             </h1>
 
             <motion.p {...rise(0.5)} className="mt-7 max-w-[520px] text-balance text-[19px] font-medium leading-[1.5] text-text">
-              AI systems that capture, understand, and move work <Highlight delay={1.5}>forward.</Highlight>
+              We build AI systems that catch every enquiry, reply in seconds, and turn chats into <Highlight delay={1.5}>customers.</Highlight>
             </motion.p>
             <motion.p {...rise(0.58)} className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.75] text-muted/80">
-              FlowHQ designs and builds AI-powered business systems that capture leads, automate follow-ups and
-              connect the tools your team already uses.
+              FlowHQ builds AI-powered systems that capture every lead, automate the follow-ups your team forgets, and plug into the tools you already use.
             </motion.p>
             <motion.p {...rise(0.64)} className="label mt-5 text-subtle" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
               AI Systems · Automation · CRM · Integrations
@@ -93,7 +92,7 @@ export default function Hero() {
 
             <motion.div {...rise(0.7)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
               <Button size="lg" onClick={open}>
-                Book a Free Demo
+                Get My Free Demo
               </Button>
               <a
                 href="#workflow"

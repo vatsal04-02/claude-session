@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { EASE, Section, SectionHeading } from "./ui";
 
-const ITEMS = ["Website / Lead Capture", "CRM", "AI Layer", "Automation", "Integrations", "Ongoing Support"];
+const ITEMS = ["A website that captures leads, not just looks pretty", "One place for every customer", "AI that understands your business", "Follow-ups that run themselves", "Works with your WhatsApp, calendar, email", "We keep improving it with you"];
 
 export default function WhatYouGet() {
   return (
@@ -12,8 +12,8 @@ export default function WhatYouGet() {
         <SectionHeading
           size="sm"
           eyebrow="Implementation partner"
-          title="What you get with FlowHQ."
-          sub="We don't just hand you software. We design, build, connect and improve the system with you."
+          title="A system that works while you sleep."
+          sub="We design it, build it, connect it — and keep improving it with you."
         />
         <ol className="grid grid-cols-2 gap-x-6 md:gap-x-8">
           {ITEMS.map((it, i) => (

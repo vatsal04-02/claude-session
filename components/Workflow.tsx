@@ -11,7 +11,7 @@ const STAGES = [
   {
     name: "Capture",
     kicker: "Input",
-    line: "Every enquiry enters one connected system.",
+    line: "Every enquiry — website, WhatsApp, even missed calls — caught automatically.",
     tags: ["Website", "WhatsApp", "Forms", "Calls"],
     flow: ["Enquiry", "Lead created"],
     result: "Lead created",
@@ -19,7 +19,7 @@ const STAGES = [
   {
     name: "Understand",
     kicker: "Understand",
-    line: "AI reads intent, context and useful details before the next action.",
+    line: "AI reads what the customer actually wants.",
     tags: ["Intent", "Context", "Priority"],
     flow: ["Message", "AI", "Context"],
     result: "Intent understood",
@@ -27,7 +27,7 @@ const STAGES = [
   {
     name: "Manage",
     kicker: "Record",
-    line: "The CRM keeps the customer, owner, stage and next action together.",
+    line: "One place that knows the customer and the next move.",
     tags: ["CRM", "Owner", "Timeline"],
     flow: ["Lead", "Record", "Next action"],
     result: "Owner assigned",
@@ -35,7 +35,7 @@ const STAGES = [
   {
     name: "Automate",
     kicker: "Automate",
-    line: "Follow-ups, reminders, tasks and notifications move forward automatically.",
+    line: "Follow-ups, reminders and nudges run while you work.",
     tags: ["Follow-up", "Tasks", "Reminders"],
     flow: ["Trigger", "Rule", "Action"],
     result: "Follow-up created",
@@ -43,7 +43,7 @@ const STAGES = [
   {
     name: "Act",
     kicker: "Action",
-    line: "The right person, tool or workflow takes the next step.",
+    line: "Your team steps in exactly where humans win.",
     tags: ["Person", "Tool", "Workflow"],
     flow: ["Decision", "Action", "Outcome"],
     result: "Next action completed",
@@ -155,15 +155,12 @@ export default function Workflow() {
           </Reveal>
           <Reveal delay={0.07}>
             <h2 className="display mt-4 text-[clamp(2.25rem,4.4vw,3.5rem)]">
-              How the work
-              <br />
-              flows.
+              From enquiry to customer <br /> in five steps.
             </h2>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="mt-5 max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-              Every system we build follows a simple path — capture the work, understand the context, organize it,
-              automate the repetitive steps, and move the right action forward.
+              Every system we build runs the same five steps — automatically.
             </p>
           </Reveal>
 

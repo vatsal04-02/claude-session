@@ -27,7 +27,7 @@ export default function FinalCTA() {
           </Reveal>
           <Reveal delay={0.18} className="mt-8 flex flex-wrap items-center gap-3">
             <Button size="lg" onClick={open}>
-              Book a Free Demo
+              Get My Free Demo
             </Button>
             <Button size="lg" variant="whatsapp" {...waLink(WHATSAPP_MESSAGES.general)}>
               WhatsApp Us

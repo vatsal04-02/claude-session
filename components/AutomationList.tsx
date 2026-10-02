@@ -4,14 +4,14 @@ import { motion } from "motion/react";
 import { EASE, Section, SectionHeading } from "./ui";
 
 const ITEMS = [
-  ["New enquiry", "Captured and assigned"],
-  ["Missed call", "Callback task created"],
-  ["No response", "Follow-up triggered"],
-  ["New booking", "Confirmation sent"],
-  ["Upcoming appointment", "Reminder sent"],
-  ["No-show", "Recovery workflow started"],
-  ["Completed service", "Review / follow-up requested"],
-  ["Dormant customer", "Reactivation workflow"],
+  ["New enquiry", "Answered in seconds"],
+  ["Missed call", "Messaged instantly, lead saved"],
+  ["No response", "Nudged until they reply"],
+  ["New booking", "Confirmed instantly"],
+  ["Upcoming appointment", "Reminded — no-shows drop"],
+  ["No-show", "Chased and re-booked"],
+  ["Completed service", "Review asked, repeat booked"],
+  ["Dormant customer", "Won back with an offer"],
 ] as const;
 
 /* A plain trigger → outcome list; a thin orange line sweeps each row as it enters. */
@@ -22,7 +22,7 @@ export default function AutomationList() {
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading
             eyebrow="Automation examples"
-            title="What can actually be automated?"
+            title="What stops getting forgotten."
             sub="Real triggers, and what happens next without anyone having to remember."
           />
         </div>
