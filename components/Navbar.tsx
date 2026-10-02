@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/site";
 import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
@@ -14,6 +14,20 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [active, setActive] = useState("");
+
+  // underline the nav item for the section currently in view
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    NAV_LINKS.forEach((l) => {
+      const el = document.getElementById(l.href.slice(1));
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 8));
 
@@ -25,7 +39,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: EASE }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300",
-          scrolled || menu ? "border-border bg-bg/85 backdrop-blur-md" : "border-border/0 bg-transparent"
+          scrolled || menu ? "border-border bg-[rgba(16,11,8,0.72)] backdrop-blur-md" : "border-border/0 bg-transparent"
         )}
       >
         <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 lg:grid lg:grid-cols-[1fr_auto_1fr] md:px-8">
@@ -36,7 +50,13 @@ export default function Navbar() {
           <ul className="hidden items-center gap-7 lg:flex">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="text-[14px] text-muted transition-colors hover:text-text">
+                <a
+                  href={l.href}
+                  className={cn(
+                    "relative py-1 text-[14px] transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:bg-accent after:transition-transform after:duration-300 hover:text-text hover:after:scale-x-100",
+                    active === l.href.slice(1) ? "text-text after:scale-x-100" : "text-muted after:scale-x-0"
+                  )}
+                >
                   {l.label}
                 </a>
               </li>
@@ -45,7 +65,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 lg:justify-self-end">
             <div className="hidden lg:block">
-              <Button onClick={open} arrow={null}>
+              <Button onClick={open}>
                 Book a Free Demo
               </Button>
             </div>

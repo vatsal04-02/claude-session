@@ -61,15 +61,20 @@ export default function ProductPreview() {
   ];
 
   return (
-    <Section id="product" space="lg" className="border-t border-border">
+    <Section id="product" space="lg" className="overflow-x-clip bg-[#100a07]">
       <SectionHeading
         eyebrow="The control center"
         title="Everything important, in one place."
         sub="A shared system for leads, conversations, bookings and follow-up."
       />
 
-      <Reveal y={30} className="mt-12 md:mt-14">
-          <div ref={ref} className="overflow-hidden rounded-2xl border border-border bg-surface">
+      <Reveal y={30} className="relative mt-12 md:mt-14">
+        {/* soft warm halo so the preview lifts off the page */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-x-12 -inset-y-14 bg-[radial-gradient(ellipse_at_center,rgba(160,75,35,0.28),transparent_65%)] blur-2xl"
+        />
+          <div ref={ref} className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]">
             <div className="flex items-center justify-between border-b border-border px-5 py-4 md:px-7">
               <span className="label text-[10px] text-subtle">Today</span>
               <span className="label text-[10px] text-subtle">Sample data</span>

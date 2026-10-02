@@ -7,7 +7,7 @@ const ITEMS = ["Website / Lead Capture", "CRM", "AI Layer", "Automation", "Integ
 
 export default function WhatYouGet() {
   return (
-    <Section id="get" className="border-t border-border bg-bg-soft">
+    <Section id="get" className="bg-[#120d09]">
       <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
           size="sm"

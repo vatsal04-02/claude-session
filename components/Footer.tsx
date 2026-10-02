@@ -1,5 +1,6 @@
 import { FOOTER_LINKS } from "@/lib/site";
 import Logo from "./Logo";
+import { StatusDot } from "./ui";
 
 export default function Footer() {
   return (
@@ -24,8 +25,11 @@ export default function Footer() {
           </ul>
         </nav>
       </div>
-      <div className="mx-auto mt-8 max-w-[1140px] border-t border-border pt-5 text-[13px] text-subtle">
-        © 2026 FlowHQ
+      <div className="mx-auto mt-8 flex max-w-[1140px] flex-wrap items-center justify-between gap-4 border-t border-border pt-5 text-[13px] text-subtle">
+        <span>© 2026 FlowHQ</span>
+        <span className="label inline-flex items-center gap-2.5 rounded-full border border-border px-3 py-1.5 text-[10px] text-muted">
+          <StatusDot tone="accent" /> FlowHQ System · Online
+        </span>
       </div>
     </footer>
   );

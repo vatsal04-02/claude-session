@@ -60,7 +60,7 @@ export default function Workflow() {
   const line = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
   return (
-    <Section id="workflow" space="lg" className="border-t border-border bg-bg-soft">
+    <Section id="workflow" space="lg" className="">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         {/* left: sticky */}
         <div className="lg:sticky lg:top-32 lg:self-start">

@@ -14,9 +14,9 @@ const STEPS = ["Capture", "Understand", "Manage", "Automate", "Act"];
 /* One primary Workflows block, four supporting blocks wired into it. */
 export default function WhatWeDo() {
   return (
-    <Section id="systems" className="border-t border-border">
+    <Section id="systems" className="bg-[#130d09]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="What FlowHQ does" title="What we actually build." />
+        <SectionHeading eyebrow="What FlowHQ does" title={<>What we actually <em>build.</em></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
             We turn repetitive business processes into connected systems. A CRM is just one block.

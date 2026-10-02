@@ -17,7 +17,7 @@ const ITEMS = [
 /* A plain trigger → outcome list; a thin orange line sweeps each row as it enters. */
 export default function AutomationList() {
   return (
-    <Section id="automations" space="lg" className="border-t border-border bg-bg-soft">
+    <Section id="automations" space="lg" className="">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading

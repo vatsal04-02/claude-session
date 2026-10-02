@@ -17,7 +17,7 @@ const POINTS = [
 
 export default function WhyFlowHQ() {
   return (
-    <Section id="why" className="border-t border-border">
+    <Section id="why" className="bg-[#130d09]">
       <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20">
         <div>
           <SectionHeading

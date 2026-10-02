@@ -51,9 +51,9 @@ const SERVICES = [
 export default function Services() {
   const { open } = useDemo();
   return (
-    <Section id="services" className="border-t border-border">
+    <Section id="services" className="bg-[#120d09]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="Services" title="Systems that do the repeat work." />
+        <SectionHeading eyebrow="Services" title={<>Systems that do the <em>repeat work.</em></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
             We build the automation layer around the way your business already operates.
@@ -64,8 +64,15 @@ export default function Services() {
       <Stagger className={cn("mt-12 md:mt-14", SWIPE_ROW, "md:grid-cols-2 md:gap-5 lg:grid-cols-3")}>
         {SERVICES.map((s, i) => (
           <StaggerItem key={s.name} className={SWIPE_ITEM}>
-            <SpotlightCard className="flex h-full flex-col p-6">
-              <span className="label text-subtle">0{i + 1}</span>
+            <SpotlightCard className="group relative flex h-full flex-col overflow-hidden p-7 md:p-8">
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-accent via-accent/50 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+              />
+              <span className="label flex items-center gap-2 text-subtle">
+                <span className="h-1.5 w-1.5 rounded-full bg-border-bright transition-colors duration-300 group-hover:bg-accent" />
+                0{i + 1}
+              </span>
               <h3 className="item-title mt-4">{s.name}</h3>
               <p className="mt-2 max-w-[34ch] text-[16px] leading-[1.7] text-muted">{s.body}</p>
               <FlowChain steps={s.flow} className="mt-auto pt-6" />

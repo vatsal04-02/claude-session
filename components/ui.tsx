@@ -106,7 +106,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 md:px-8", SPACE[space], className)}>
+    <section id={id} className={cn("section-edge relative px-5 md:px-8", SPACE[space], className)}>
       <div className="mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
@@ -266,7 +266,7 @@ export function Button({
     "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-300 active:scale-[0.97] cursor-pointer",
     size === "md" ? "h-10 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
-      ? "bg-accent text-[#1a0a03] hover:bg-accent-2 hover:shadow-[0_10px_34px_-10px_rgba(234,106,45,0.8)]"
+      ? "bg-accent text-[#1a0a03] hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-[0_12px_30px_-10px_rgba(233,107,47,0.7)]"
       : "border border-border-bright text-text hover:border-accent/60 hover:text-accent",
     className
   );

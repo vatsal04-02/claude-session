@@ -15,7 +15,7 @@ const SYSTEMS: { name: string; flow: string[]; status?: Status }[] = [
 
 export default function Work() {
   return (
-    <Section id="work" className="border-t border-border">
+    <Section id="work" className="">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <SectionHeading size="sm" eyebrow="Selected systems" title="How the pieces come together." />
         <Reveal delay={0.12}>
