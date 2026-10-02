@@ -1,6 +1,5 @@
 import AutomationList from "@/components/AutomationList";
 import Faq from "@/components/Faq";
-import Founder from "@/components/Founder";
 import IndustryTabs from "@/components/IndustryTabs";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import ProductScreens from "@/components/ProductScreens";
@@ -35,7 +34,6 @@ export default function Home() {
         <RoiCalculator />
         <ProductScreens />
         <Faq />
-        <Founder />
         <AutomationList />
         <WhyFlowHQ />
         <ProductPreview />
