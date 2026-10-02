@@ -28,8 +28,8 @@ export default function Navbar() {
           scrolled || menu ? "border-border bg-bg/85 backdrop-blur-md" : "border-border/0 bg-transparent"
         )}
       >
-        <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 md:px-8">
-          <a href="#top" aria-label="FlowHQ home" onClick={() => setMenu(false)}>
+        <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8">
+          <a href="#top" aria-label="FlowHQ home" className="md:justify-self-start" onClick={() => setMenu(false)}>
             <Logo />
           </a>
 
@@ -43,10 +43,10 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:justify-self-end">
             <div className="hidden md:block">
               <Button onClick={open} arrow={null}>
-                Book a call
+                Book a Free Demo
               </Button>
             </div>
             <button

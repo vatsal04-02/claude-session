@@ -6,11 +6,31 @@ import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, Tag } from "./ui";
 
 const STAGES = [
-  { name: "Trigger", line: "Something happens.", chips: ["Form submit", "Missed call", "WhatsApp message"] },
-  { name: "Ingest", line: "Context gets gathered.", chips: ["Contact lookup", "Past history", "Lead source"] },
-  { name: "Reason", line: "AI understands the request.", chips: ["Intent", "Urgency", "Summary"] },
-  { name: "Route", line: "Rules decide what happens.", chips: ["Owner", "Priority", "Guardrails"] },
-  { name: "Act", line: "The system executes.", chips: ["CRM update", "WhatsApp reply", "Booking", "Task"] },
+  {
+    name: "Capture",
+    line: "Website, WhatsApp, forms or other enquiries enter the system.",
+    chips: ["Website", "WhatsApp", "Forms", "Calls"],
+  },
+  {
+    name: "Understand",
+    line: "AI extracts intent, context and useful information.",
+    chips: ["Intent", "Context", "Priority"],
+  },
+  {
+    name: "Manage",
+    line: "Customer information enters the CRM and gets an owner and a next action.",
+    chips: ["CRM", "Owner", "Next action"],
+  },
+  {
+    name: "Automate",
+    line: "Follow-ups, tasks, notifications, reminders and other actions run automatically.",
+    chips: ["Follow-ups", "Tasks", "Reminders", "Notifications"],
+  },
+  {
+    name: "Act",
+    line: "The right person, tool or workflow takes the next step.",
+    chips: ["Person", "Tool", "Workflow"],
+  },
 ];
 
 function Stage({
@@ -31,13 +51,14 @@ function Stage({
   }, [centred, i, onActive]);
 
   return (
-    <li ref={ref} className="relative flex gap-5 py-7 md:gap-8 md:py-9">
+    <li ref={ref} className="relative flex gap-5 py-4 md:gap-7 md:py-[18px]">
       <span className="relative z-10 mt-2 grid h-[17px] w-[17px] shrink-0 place-items-center">
+        {active && <span aria-hidden className="pulse-dot absolute h-3 w-3 rounded-full text-accent" />}
         <span
           className={cn(
-            "h-3 w-3 rounded-full border-2 transition-all duration-500",
+            "relative h-3 w-3 rounded-full border-2 transition-all duration-500",
             active
-              ? "border-accent bg-accent shadow-[0_0_0_6px_rgba(233,104,45,0.18),0_0_20px_rgba(233,104,45,0.7)]"
+              ? "border-accent bg-accent shadow-[0_0_0_6px_rgba(234,106,45,0.18),0_0_20px_rgba(234,106,45,0.7)]"
               : "border-border-bright bg-bg"
           )}
         />
@@ -51,10 +72,10 @@ function Stage({
       >
         <div className="flex items-baseline gap-3">
           <span className={cn("label transition-colors", active ? "text-accent" : "text-subtle")}>0{i + 1}</span>
-          <h3 className="display text-4xl md:text-5xl">{s.name}</h3>
+          <h3 className="display text-[30px] md:text-[36px]">{s.name}</h3>
         </div>
-        <p className="mt-2 text-lg text-muted">{s.line}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <p className="mt-2 max-w-[58ch] text-[15.5px] leading-snug text-muted">{s.line}</p>
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
           {s.chips.map((c) => (
             <Tag key={c} tone={active ? "accent" : "muted"}>
               {c}
@@ -75,7 +96,7 @@ export default function Workflow() {
 
   return (
     <Section id="workflow" className="border-t border-border">
-      <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
         {/* left: sticky */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>
@@ -84,17 +105,17 @@ export default function Workflow() {
             </span>
           </Reveal>
           <Reveal delay={0.07}>
-            <h2 className="display mt-4 text-[clamp(2.6rem,5.4vw,4.4rem)]">
-              From signal to <em>finished work.</em>
+            <h2 className="display mt-4 text-[clamp(2.4rem,4.8vw,3.9rem)]">
+              How the work <em>flows.</em>
             </h2>
           </Reveal>
           <Reveal delay={0.14}>
-            <p className="mt-5 max-w-sm text-base leading-relaxed text-muted md:text-lg">
-              Every system we build follows the same five steps.
+            <p className="mt-4 max-w-sm text-[16px] leading-relaxed text-muted md:text-[17px]">
+              Every system we build follows the same five steps, from the first enquiry to the next action.
             </p>
           </Reveal>
 
-          <div className="mt-8 hidden items-center gap-4 rounded-xl border border-border bg-surface/70 px-5 py-4 lg:flex">
+          <div className="mt-7 hidden items-center gap-4 rounded-xl border border-border bg-surface/70 px-5 py-4 lg:flex">
             <span className="label text-subtle">Now</span>
             <div className="relative h-8 flex-1 overflow-hidden">
               <AnimatePresence mode="wait" initial={false}>
@@ -118,7 +139,7 @@ export default function Workflow() {
 
         {/* right: stages + timeline */}
         <ol ref={listRef} className="relative">
-          <div aria-hidden className="absolute bottom-10 left-[8px] top-10 w-px bg-border">
+          <div aria-hidden className="absolute bottom-8 left-[8px] top-8 w-px bg-border">
             <motion.div style={{ scaleY: reduce ? 1 : line }} className="absolute inset-0 origin-top bg-accent" />
           </div>
           {STAGES.map((_, i) => (

@@ -1,103 +1,84 @@
 "use client";
 
-import { motion } from "motion/react";
 import { cn } from "@/lib/cn";
-import { EASE, Section, SectionHeading, StatusDot, Tag } from "./ui";
+import {
+  FlowChain,
+  Reveal,
+  Section,
+  SectionHeading,
+  SpotlightCard,
+  Stagger,
+  StaggerItem,
+  SWIPE_ITEM,
+  SWIPE_ROW,
+  SwipeHint,
+  Tag,
+} from "./ui";
 
-type Status = "In Progress" | "Prototype" | "Live";
+type Status = "Prototype" | "In Progress" | "Live";
 
-/* Status labels: change to "Live" only once a system is verifiably live. */
-const PROJECTS: { title: string; tag: string; status: Status; flow: string[] }[] = [
+/* Examples of how the services assemble into systems, not client case studies.
+   Set `status` only when it is accurate; until then a card reads "Example workflow". */
+const SYSTEMS: { name: string; flow: string[]; span: string; status?: Status }[] = [
   {
-    title: "Physiotherapy Clinic",
-    tag: "AI CRM",
-    status: "In Progress",
-    flow: ["Enquiry", "AI", "CRM", "Appointment", "Reminder"],
+    name: "Lead Management System",
+    flow: ["Website", "Lead", "AI", "Assignment", "Follow-up"],
+    span: "lg:col-span-7",
   },
   {
-    title: "Lead Management",
-    tag: "LEAD AUTOMATION",
-    status: "Prototype",
-    flow: ["Capture", "Assign", "Qualify", "Follow-up"],
+    name: "Customer Communication System",
+    flow: ["WhatsApp", "AI Context", "Human Handoff", "Follow-up"],
+    span: "lg:col-span-5",
   },
   {
-    title: "WhatsApp Business System",
-    tag: "WHATSAPP · AI",
-    status: "In Progress",
-    flow: ["Message", "AI Context", "Human Handoff", "Follow-up"],
+    name: "Booking Automation",
+    flow: ["Booking", "Confirmation", "Reminder", "Reschedule", "Recovery"],
+    span: "lg:col-span-7",
   },
   {
-    title: "Booking & Recovery",
-    tag: "BOOKING",
-    status: "Prototype",
-    flow: ["Booking", "Reminder", "No-show", "Recovery"],
+    name: "Revenue Recovery System",
+    flow: ["Missed Lead", "Detection", "Follow-up", "Recovery"],
+    span: "lg:col-span-5",
   },
 ];
-
-const tone = { "In Progress": "warning", Prototype: "accent", Live: "success" } as const;
 
 export default function Work() {
   return (
     <Section id="work" className="border-t border-border">
-      <SectionHeading
-        eyebrow="Selected work"
-        title={
-          <>
-            Systems we&apos;re <em>building.</em>
-          </>
-        }
-        sub="Shown honestly. Each label says where the system really is."
-      />
-
-      <ul className="mt-10 border-t border-border md:mt-12">
-        {PROJECTS.map((p, i) => (
-          <motion.li
-            key={p.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.7, ease: EASE, delay: i * 0.05 }}
-            className="group grid gap-5 border-b border-border py-7 transition-colors duration-300 hover:bg-surface/50 md:grid-cols-[0.8fr_1.2fr] md:items-center md:gap-10 md:px-4"
-          >
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="label text-[10px] text-subtle">0{i + 1}</span>
-                <Tag tone="muted">{p.tag}</Tag>
+      <div className="grid items-end gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+        <SectionHeading
+          eyebrow="Selected systems"
+          title={
+            <>
+              How the pieces <em>come together.</em>
+            </>
+          }
+        />
+        <Reveal delay={0.12}>
+          <p className="max-w-md text-[16px] leading-relaxed text-muted md:text-[17px]">
+            Example systems assembled from the services above. Illustrative workflows, not client case studies.
+          </p>
+        </Reveal>
+      </div>
+      <Stagger className={cn("mt-7", SWIPE_ROW, "md:grid-cols-2 lg:grid-cols-12")}>
+        {SYSTEMS.map((s, i) => (
+          <StaggerItem key={s.name} className={cn(SWIPE_ITEM, s.span)}>
+            <SpotlightCard className="group flex h-full flex-col p-4 md:p-5">
+              <div className="flex items-center justify-between">
+                <span className="label text-accent">0{i + 1}</span>
+                <Tag tone={s.status === "Live" ? "success" : s.status ? "warning" : "muted"}>
+                  {s.status ?? "Example workflow"}
+                </Tag>
               </div>
-              <h3 className="mt-3 font-serif text-[32px] leading-tight transition-colors group-hover:text-accent md:text-[38px]">
-                {p.title}
+              <h3 className="mt-3 font-serif text-[26px] leading-tight transition-colors group-hover:text-accent">
+                {s.name}
               </h3>
-              <span className="label mt-2 flex items-center gap-2 text-[10.5px] text-muted">
-                <StatusDot tone={tone[p.status]} pulse={p.status !== "Prototype"} /> {p.status}
-              </span>
-            </div>
-
-            <ol className="flex flex-wrap items-center gap-y-2">
-              {p.flow.map((s, k) => (
-                <li key={s} className="flex items-center">
-                  <span
-                    className="rounded-full border border-border px-3.5 py-1.5 text-[13.5px] text-muted transition-all duration-300 group-hover:border-accent/60 group-hover:text-text"
-                    style={{ transitionDelay: `${k * 70}ms` }}
-                  >
-                    {s}
-                  </span>
-                  {k < p.flow.length - 1 && (
-                    <span
-                      aria-hidden
-                      className={cn(
-                        "mx-1.5 text-border-bright transition-colors duration-300 group-hover:text-accent"
-                      )}
-                      style={{ transitionDelay: `${k * 70 + 35}ms` }}
-                    >
-                      →
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </motion.li>
+              <FlowChain steps={s.flow} className="mt-auto pt-4" />
+            </SpotlightCard>
+          </StaggerItem>
         ))}
-      </ul>
+      </Stagger>
+      <SwipeHint>Swipe · 4 systems</SwipeHint>
     </Section>
   );
 }

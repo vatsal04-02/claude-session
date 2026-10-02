@@ -5,14 +5,14 @@
   --color-bg: #0d0906;
   --color-bg-soft: #110c08;
   --color-surface: #15100c;
-  --color-surface-2: #1b1510;
+  --color-surface-2: #1c1510;
   --color-border: rgba(255, 235, 215, 0.12);
   --color-border-bright: rgba(255, 235, 215, 0.24);
-  --color-text: #f3ede4;
-  --color-muted: #a49a90;
+  --color-text: #f1eae1;
+  --color-muted: #aaa096;
   --color-subtle: #75695f;
-  --color-accent: #e9682d;
-  --color-accent-2: #f07a3b;
+  --color-accent: #ea6a2d;
+  --color-accent-2: #f17b3c;
   --color-success: #8fc98a;
   --color-warning: #e8b45a;
   --color-danger: #e8776b;
@@ -24,7 +24,7 @@
 
 html {
   background: var(--color-bg);
-  scroll-padding-top: 64px;
+  scroll-padding-top: 56px;
 }
 html.lenis,
 html.lenis body {
@@ -48,7 +48,7 @@ body {
 }
 
 ::selection {
-  background: rgba(233, 104, 45, 0.35);
+  background: rgba(234,106,45, 0.35);
   color: #fff;
 }
 
@@ -99,7 +99,7 @@ body {
   border-radius: inherit;
   background: radial-gradient(
     340px circle at var(--mx, 50%) var(--my, 0%),
-    rgba(233, 104, 45, 0.09),
+    rgba(234,106,45, 0.09),
     transparent 60%
   );
   opacity: 0;
@@ -146,3 +146,47 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- flow diagrams ---------- */
+/* chips in a FlowChain light up in sequence once when scrolled into view */
+@keyframes chip-run {
+  0%, 100% { border-color: var(--color-border); color: var(--color-muted); background-color: transparent; }
+  5%, 17% { border-color: rgba(234, 106, 45, 0.8); color: var(--color-text); background-color: rgba(234, 106, 45, 0.14); }
+  28% { border-color: var(--color-border); color: var(--color-muted); background-color: transparent; }
+}
+@keyframes arrow-run {
+  0%, 100% { color: var(--color-border-bright); }
+  6%, 18% { color: var(--color-accent); }
+  30% { color: var(--color-border-bright); }
+}
+.flow-chain[data-run="true"] .flow-chip { animation: chip-run var(--cycle, 5s) ease-in-out 1 both; }
+.flow-chain[data-run="true"] .flow-arrow { animation: arrow-run var(--cycle, 5s) ease-in-out 1 both; }
+
+/* hero system strip: a signal travels the line, nodes light as it passes */
+@keyframes node-lit {
+  0%, 100% { background-color: var(--color-bg); border-color: var(--color-border-bright); box-shadow: 0 0 0 0 rgba(234, 106, 45, 0); }
+  4%, 13% { background-color: var(--color-accent); border-color: var(--color-accent); box-shadow: 0 0 0 5px rgba(234, 106, 45, 0.18), 0 0 16px rgba(234, 106, 45, 0.6); }
+  24% { background-color: var(--color-bg); border-color: var(--color-border-bright); box-shadow: 0 0 0 0 rgba(234, 106, 45, 0); }
+}
+@keyframes node-text {
+  0%, 100% { color: var(--color-muted); }
+  4%, 13% { color: var(--color-text); }
+  24% { color: var(--color-muted); }
+}
+@keyframes signal {
+  0% { left: 0; opacity: 0; }
+  4% { opacity: 1; }
+  68% { left: 100%; opacity: 1; }
+  72%, 100% { left: 100%; opacity: 0; }
+}
+.strip-dot { animation: node-lit var(--cycle, 8s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+.strip-name { animation: node-text var(--cycle, 8s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+.strip-signal { animation: signal var(--cycle, 8s) linear infinite; }
+
+/* small dots that drip down a connector line */
+@keyframes drip {
+  0% { transform: translateY(0); opacity: 0; }
+  15%, 80% { opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
+}
+.drip { animation: drip 2.8s ease-in infinite; animation-delay: var(--d, 0s); }

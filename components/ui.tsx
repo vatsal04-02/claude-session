@@ -98,7 +98,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 py-16 md:px-8 md:py-24", className)}>
+    <section id={id} className={cn("relative px-5 py-10 md:px-8 md:py-12", className)}>
       <div className="mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
@@ -124,11 +124,11 @@ export function SectionHeading({
         </span>
       </Reveal>
       <Reveal delay={0.07}>
-        <h2 className="display mt-4 text-[clamp(2.4rem,5.2vw,4rem)] text-text">{title}</h2>
+        <h2 className="display mt-4 text-[clamp(2.1rem,4.2vw,3.25rem)] text-text">{title}</h2>
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted md:text-lg">{sub}</p>
+          <div className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted md:text-[17px]">{sub}</div>
         </Reveal>
       )}
     </div>
@@ -249,7 +249,7 @@ export function Button({
     "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-300 active:scale-[0.97] cursor-pointer",
     size === "md" ? "h-10 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
-      ? "bg-accent text-[#1a0a03] hover:bg-accent-2 hover:shadow-[0_10px_34px_-10px_rgba(233,104,45,0.8)]"
+      ? "bg-accent text-[#1a0a03] hover:bg-accent-2 hover:shadow-[0_10px_34px_-10px_rgba(234,106,45,0.8)]"
       : "border border-border-bright text-text hover:border-accent/60 hover:text-accent",
     className
   );
@@ -316,6 +316,58 @@ export function Magnetic({
     >
       {children}
     </motion.div>
+  );
+}
+
+/** Phones: horizontal snap-swipe row with the next card peeking. md+: the caller's grid. */
+export const SWIPE_ROW =
+  "no-scrollbar -mx-5 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-1 md:mx-0 md:grid md:overflow-visible md:px-0 md:pb-0";
+export const SWIPE_ITEM = "w-[84%] shrink-0 snap-start md:h-full md:w-auto";
+export function SwipeHint({ children }: { children: React.ReactNode }) {
+  return <p className="label mt-3 text-[10px] text-subtle md:hidden">{children} →</p>;
+}
+
+/** A short chip sequence ("Lead → Contact → Pipeline") that lights up once on reveal. */
+export function FlowChain({
+  steps,
+  step = 0.55,
+  className,
+}: {
+  steps: readonly string[];
+  step?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLOListElement>(null);
+  const run = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
+  const cycle = steps.length * step + 2.4;
+  return (
+    <ol
+      ref={ref}
+      data-run={run}
+      aria-label={steps.join(", then ")}
+      style={{ "--cycle": `${cycle}s` } as React.CSSProperties}
+      className={cn("flow-chain flex flex-wrap items-center gap-y-1.5", className)}
+    >
+      {steps.map((s, i) => (
+        <li key={s} className="flex items-center">
+          <span
+            className="flow-chip rounded-full border border-border px-2.5 py-1 text-[12px] leading-none text-muted"
+            style={{ animationDelay: `${0.5 + i * step}s` }}
+          >
+            {s}
+          </span>
+          {i < steps.length - 1 && (
+            <span
+              aria-hidden
+              className="flow-arrow mx-1 text-[12px] text-border-bright"
+              style={{ animationDelay: `${0.5 + i * step + 0.25}s` }}
+            >
+              →
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
   );
 }
 

@@ -26,7 +26,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         lerp: 0.09,
         wheelMultiplier: 0.95,
         smoothWheel: true,
-        anchors: { offset: -60 },
+        anchors: true,
       }}
     >
       {tree}

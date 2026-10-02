@@ -44,15 +44,30 @@ export default function ProductPreview() {
 
   return (
     <Section id="product" className="border-t border-border">
-      <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:gap-14">
+      <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-center lg:gap-12">
         <SectionHeading
-          eyebrow="Product preview"
+          eyebrow="The shared workspace"
           title={
             <>
-              What your team <em>opens each morning.</em>
+              Everything important, <em>in one place.</em>
             </>
           }
-          sub="Pick a lead to see what the AI prepared."
+          sub={
+            <>
+              <p>
+                Behind the automation is a shared system for leads, customers, conversations, tasks and
+                bookings.
+              </p>
+              <ul className="mt-4 hidden flex-wrap gap-1.5 sm:flex">
+                {["Leads", "Customers", "Conversations", "Tasks", "Bookings"].map((t) => (
+                  <li key={t}>
+                    <Tag tone="muted">{t}</Tag>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-[14px] text-subtle">Pick a lead to see what the AI prepared.</p>
+            </>
+          }
         />
 
         <Reveal y={30}>
@@ -66,10 +81,10 @@ export default function ProductPreview() {
               {metrics.map((m, i) => (
                 <div
                   key={m.label}
-                  className={cn("px-5 py-4", i > 0 && "sm:border-l sm:border-border", i % 2 === 1 && "border-l border-border sm:border-l", i > 1 && "border-t border-border sm:border-t-0")}
+                  className={cn("px-4 py-3 md:px-5 md:py-4", i > 0 && "sm:border-l sm:border-border", i % 2 === 1 && "border-l border-border sm:border-l", i > 1 && "border-t border-border sm:border-t-0")}
                 >
                   <div className="text-[12px] text-muted">{m.label}</div>
-                  <div className={cn("mt-1 font-serif text-[32px] leading-none", m.warn && "text-accent")}>
+                  <div className={cn("mt-1 font-serif text-[26px] leading-none md:text-[32px]", m.warn && "text-accent")}>
                     <Counter to={m.value} prefix={m.prefix} duration={0.9} />
                   </div>
                 </div>
@@ -88,7 +103,7 @@ export default function ProductPreview() {
                         aria-selected={on}
                         onClick={() => setSel(i)}
                         className={cn(
-                          "relative flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors",
+                          "relative flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors md:py-3",
                           on ? "text-text" : "text-muted hover:bg-surface-2"
                         )}
                       >
@@ -112,7 +127,7 @@ export default function ProductPreview() {
                 })}
               </ul>
 
-              <div className="p-5 md:p-6">
+              <div className="p-4 md:p-6">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={lead.name}

@@ -1,13 +1,15 @@
 export const NAV_LINKS = [
-  { label: "Workflow", href: "#workflow" },
-  { label: "Capabilities", href: "#capabilities" },
+  { label: "Systems", href: "#systems" },
+  { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
+  { label: "About", href: "#why" },
 ] as const;
 
 export const FOOTER_LINKS = [
-  { label: "Workflow", href: "#workflow" },
-  { label: "Capabilities", href: "#capabilities" },
+  { label: "Systems", href: "#systems" },
+  { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
+  { label: "About", href: "#why" },
   { label: "Contact", href: "#demo" },
 ] as const;
 
