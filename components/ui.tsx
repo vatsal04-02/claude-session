@@ -89,9 +89,9 @@ export function StaggerItem({
 /* ------------------------------------------------------------------ */
 
 const SPACE = {
-  md: "py-20 md:py-[120px]",
-  lg: "py-24 md:py-[150px]",
-  xl: "py-28 md:py-[180px]",
+  md: "py-16 md:py-[104px]",
+  lg: "py-20 md:py-[128px]",
+  xl: "py-24 md:py-[150px]",
 } as const;
 
 const GRID = { strong: 1, mid: 0.75, soft: 0.5 } as const;

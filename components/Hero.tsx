@@ -39,10 +39,10 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="hero-atmos relative overflow-hidden px-5 pb-20 pt-28 md:px-8 md:pb-[120px] md:pt-32"
+      className="hero-atmos relative overflow-hidden px-5 pb-16 pt-28 md:px-8 md:pb-[88px] md:pt-32"
     >
       {/* layer 2: grid · layer 3: two soft, localised glows (one drifts very slowly) */}
-      <div aria-hidden className="grid-bg pointer-events-none absolute inset-0" />
+      <div aria-hidden className="grid-layer" style={{ "--grid-o": 1 } as React.CSSProperties} />
       <div
         aria-hidden
         className="anim-glow pointer-events-none absolute -right-24 top-16 h-[520px] w-[520px] rounded-full bg-[rgba(234,106,47,0.11)] blur-[140px]"

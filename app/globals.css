@@ -77,16 +77,6 @@ body {
   text-transform: uppercase;
 }
 
-/* technical paper texture: warm brown, faint, strongest behind the visual, fading at the edges */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, rgba(190, 105, 60, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(190, 105, 60, 0.07) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, rgba(0, 0, 0, 0.95) 0%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, rgba(0, 0, 0, 0.95) 0%, transparent 72%);
-}
-
 /* hero atmosphere: layer 1 (warmth). Layer 2 is .grid-bg, layer 3 the localised glows. */
 .hero-atmos {
   background:
@@ -245,7 +235,7 @@ body::before {
     linear-gradient(rgba(190, 105, 60, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(190, 105, 60, 0.07) 1px, transparent 1px);
   background-size: 64px 64px;
-  background-position: center top;
+  background-position: calc(50% + var(--grid-x, 0px)) top;
   -webkit-mask-image:
     linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent),
     linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
