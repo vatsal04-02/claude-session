@@ -1,4 +1,10 @@
 import AutomationList from "@/components/AutomationList";
+import Faq from "@/components/Faq";
+import Founder from "@/components/Founder";
+import IndustryTabs from "@/components/IndustryTabs";
+import LiveDemoChat from "@/components/LiveDemoChat";
+import ProductScreens from "@/components/ProductScreens";
+import RoiCalculator from "@/components/RoiCalculator";
 import DemoModal from "@/components/DemoModal";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
@@ -24,6 +30,12 @@ export default function Home() {
         <WhatWeDo />
         <Workflow />
         <Services />
+        <IndustryTabs />
+        <LiveDemoChat />
+        <RoiCalculator />
+        <ProductScreens />
+        <Faq />
+        <Founder />
         <AutomationList />
         <WhyFlowHQ />
         <ProductPreview />
