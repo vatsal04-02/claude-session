@@ -98,7 +98,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 py-10 md:px-8 md:py-12", className)}>
+    <section id={id} className={cn("relative px-5 py-8 md:px-8 md:py-10", className)}>
       <div className="mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
@@ -108,11 +108,13 @@ export function SectionHeading({
   eyebrow,
   title,
   sub,
+  size = "md",
   className,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   sub?: React.ReactNode;
+  size?: "md" | "sm";
   className?: string;
 }) {
   return (
@@ -124,7 +126,14 @@ export function SectionHeading({
         </span>
       </Reveal>
       <Reveal delay={0.07}>
-        <h2 className="display mt-4 text-[clamp(2.1rem,4.2vw,3.25rem)] text-text">{title}</h2>
+        <h2
+          className={cn(
+            "display mt-4 text-text",
+            size === "md" ? "text-[clamp(2.1rem,4.2vw,3.25rem)]" : "text-[clamp(1.8rem,3.1vw,2.5rem)]"
+          )}
+        >
+          {title}
+        </h2>
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>

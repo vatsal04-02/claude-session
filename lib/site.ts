@@ -1,15 +1,16 @@
 export const NAV_LINKS = [
-  { label: "Systems", href: "#systems" },
+  { label: "What We Build", href: "#systems" },
+  { label: "How It Works", href: "#workflow" },
   { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
   { label: "About", href: "#why" },
 ] as const;
 
 export const FOOTER_LINKS = [
-  { label: "Systems", href: "#systems" },
+  { label: "What We Build", href: "#systems" },
+  { label: "How It Works", href: "#workflow" },
   { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
-  { label: "About", href: "#why" },
   { label: "Contact", href: "#demo" },
 ] as const;
 

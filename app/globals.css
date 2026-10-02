@@ -162,27 +162,6 @@ body {
 .flow-chain[data-run="true"] .flow-chip { animation: chip-run var(--cycle, 5s) ease-in-out 1 both; }
 .flow-chain[data-run="true"] .flow-arrow { animation: arrow-run var(--cycle, 5s) ease-in-out 1 both; }
 
-/* hero system strip: a signal travels the line, nodes light as it passes */
-@keyframes node-lit {
-  0%, 100% { background-color: var(--color-bg); border-color: var(--color-border-bright); box-shadow: 0 0 0 0 rgba(234, 106, 45, 0); }
-  4%, 13% { background-color: var(--color-accent); border-color: var(--color-accent); box-shadow: 0 0 0 5px rgba(234, 106, 45, 0.18), 0 0 16px rgba(234, 106, 45, 0.6); }
-  24% { background-color: var(--color-bg); border-color: var(--color-border-bright); box-shadow: 0 0 0 0 rgba(234, 106, 45, 0); }
-}
-@keyframes node-text {
-  0%, 100% { color: var(--color-muted); }
-  4%, 13% { color: var(--color-text); }
-  24% { color: var(--color-muted); }
-}
-@keyframes signal {
-  0% { left: 0; opacity: 0; }
-  4% { opacity: 1; }
-  68% { left: 100%; opacity: 1; }
-  72%, 100% { left: 100%; opacity: 0; }
-}
-.strip-dot { animation: node-lit var(--cycle, 8s) ease-in-out infinite; animation-delay: var(--d, 0s); }
-.strip-name { animation: node-text var(--cycle, 8s) ease-in-out infinite; animation-delay: var(--d, 0s); }
-.strip-signal { animation: signal var(--cycle, 8s) linear infinite; }
-
 /* small dots that drip down a connector line */
 @keyframes drip {
   0% { transform: translateY(0); opacity: 0; }
@@ -190,3 +169,10 @@ body {
   100% { transform: translateY(30px); opacity: 0; }
 }
 .drip { animation: drip 2.8s ease-in infinite; animation-delay: var(--d, 0s); }
+
+@keyframes drip-x {
+  0% { transform: translateX(0); opacity: 0; }
+  15%, 80% { opacity: 1; }
+  100% { transform: translateX(50px); opacity: 0; }
+}
+.drip-x { animation: drip-x 2.8s ease-in infinite; animation-delay: var(--d, 0s); }

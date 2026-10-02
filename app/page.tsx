@@ -1,3 +1,4 @@
+import AutomationList from "@/components/AutomationList";
 import DemoModal from "@/components/DemoModal";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
@@ -7,6 +8,7 @@ import Process from "@/components/Process";
 import ProductPreview from "@/components/ProductPreview";
 import Services from "@/components/Services";
 import WhatWeDo from "@/components/WhatWeDo";
+import WhatYouGet from "@/components/WhatYouGet";
 import WhyFlowHQ from "@/components/WhyFlowHQ";
 import Work from "@/components/Work";
 import Workflow from "@/components/Workflow";
@@ -22,8 +24,10 @@ export default function Home() {
         <WhatWeDo />
         <Workflow />
         <Services />
+        <AutomationList />
         <WhyFlowHQ />
         <ProductPreview />
+        <WhatYouGet />
         <Work />
         <Process />
         <FinalCTA />

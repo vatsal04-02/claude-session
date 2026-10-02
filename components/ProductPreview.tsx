@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { MessageCircle, Phone } from "lucide-react";
+import { Globe, Mail, MessageCircle, Phone, PhoneMissed } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { Counter, EASE, Reveal, Section, SectionHeading, StatusDot, Tag, Typewriter, useOnScreen, useTicker } from "./ui";
@@ -9,22 +9,40 @@ import { Counter, EASE, Reveal, Section, SectionHeading, StatusDot, Tag, Typewri
 /* Fictional sample data, labelled as such in the UI. */
 const LEADS = [
   {
-    name: "Rahul Sharma",
-    service: "Physiotherapy Consultation",
-    summary: "High-intent enquiry. Requested evening appointment.",
+    name: "New Service Enquiry",
+    service: "Requested a callback",
+    source: "Website form",
+    icon: Globe,
+    intent: "High",
+    summary: "Customer is interested and expects a response today.",
     next: "Call within 15 minutes.",
   },
   {
-    name: "Ananya Mehta",
-    service: "Gym trial pass",
-    summary: "Asked about trial timings and pricing. Prefers mornings.",
-    next: "Send trial slots on WhatsApp.",
+    name: "Product Enquiry",
+    service: "Asked about availability",
+    source: "WhatsApp",
+    icon: MessageCircle,
+    intent: "Medium",
+    summary: "Wants details and next steps before deciding.",
+    next: "Send details on WhatsApp.",
   },
   {
-    name: "Vikram Rao",
-    service: "3BHK site visit",
-    summary: "Called twice this week. Viewed two listings.",
-    next: "Call back and offer Saturday.",
+    name: "Callback Request",
+    service: "Missed call, no message",
+    source: "Phone",
+    icon: PhoneMissed,
+    intent: "High",
+    summary: "Called twice and left no message. Likely still interested.",
+    next: "Call back and log the outcome.",
+  },
+  {
+    name: "Website Lead",
+    service: "Submitted the contact form",
+    source: "Contact form",
+    icon: Mail,
+    intent: "Medium",
+    summary: "Interested, but has not said what they need yet.",
+    next: "Send a short qualifying message.",
   },
 ];
 
@@ -46,10 +64,10 @@ export default function ProductPreview() {
     <Section id="product" className="border-t border-border">
       <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-center lg:gap-12">
         <SectionHeading
-          eyebrow="The shared workspace"
+          eyebrow="Control center"
           title={
             <>
-              Everything important, <em>in one place.</em>
+              Everything important, in one place.
             </>
           }
           sub={
@@ -73,7 +91,7 @@ export default function ProductPreview() {
         <Reveal y={30}>
           <div ref={ref} className="overflow-hidden rounded-2xl border border-border bg-surface">
             <div className="flex items-center justify-between border-b border-border px-5 py-3">
-              <span className="label text-accent">Today</span>
+              <span className="label text-accent">System control center</span>
               <Tag tone="muted">Sample data</Tag>
             </div>
 
@@ -81,7 +99,7 @@ export default function ProductPreview() {
               {metrics.map((m, i) => (
                 <div
                   key={m.label}
-                  className={cn("px-4 py-3 md:px-5 md:py-4", i > 0 && "sm:border-l sm:border-border", i % 2 === 1 && "border-l border-border sm:border-l", i > 1 && "border-t border-border sm:border-t-0")}
+                  className={cn("px-4 py-3 md:px-5 md:py-3.5", i > 0 && "sm:border-l sm:border-border", i % 2 === 1 && "border-l border-border sm:border-l", i > 1 && "border-t border-border sm:border-t-0")}
                 >
                   <div className="text-[12px] text-muted">{m.label}</div>
                   <div className={cn("mt-1 font-serif text-[26px] leading-none md:text-[32px]", m.warn && "text-accent")}>
@@ -92,11 +110,11 @@ export default function ProductPreview() {
             </div>
 
             <div className="grid md:grid-cols-[0.8fr_1.2fr]">
-              <ul role="listbox" aria-label="Sample leads" className="border-b border-border p-2 md:border-b-0 md:border-r">
+              <ul role="listbox" aria-label="Sample leads" className="no-scrollbar flex gap-2 overflow-x-auto border-b border-border p-2 md:block md:space-y-1 md:border-b-0 md:border-r">
                 {LEADS.map((l, i) => {
                   const on = i === sel;
                   return (
-                    <li key={l.name}>
+                    <li key={l.name} className="w-[200px] shrink-0 md:w-auto">
                       <button
                         type="button"
                         role="option"
@@ -115,7 +133,7 @@ export default function ProductPreview() {
                           />
                         )}
                         <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border text-[11px] text-accent">
-                          {l.name.split(" ").map((p) => p[0]).join("")}
+                          <l.icon className="h-4 w-4" />
                         </span>
                         <span className="relative min-w-0">
                           <span className="block truncate text-[14px] font-medium">{l.name}</span>
@@ -138,6 +156,10 @@ export default function ProductPreview() {
                   >
                     <div className="font-serif text-[28px] leading-tight">{lead.name}</div>
                     <div className="text-sm text-muted">{lead.service}</div>
+                    <div className="mt-2 flex gap-1.5">
+                      <Tag tone={lead.intent === "High" ? "success" : "warning"}>{lead.intent} intent</Tag>
+                      <Tag tone="muted">{lead.source}</Tag>
+                    </div>
 
                     <div className="mt-5">
                       <div className="label mb-1.5 flex items-center gap-2 text-[10px] text-accent">

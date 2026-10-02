@@ -8,7 +8,7 @@ import { EASE, Reveal, Section, Tag } from "./ui";
 const STAGES = [
   {
     name: "Capture",
-    line: "Website, WhatsApp, forms or other enquiries enter the system.",
+    line: "Website, forms, WhatsApp, calls and other enquiries enter the system.",
     chips: ["Website", "WhatsApp", "Forms", "Calls"],
   },
   {
@@ -18,13 +18,13 @@ const STAGES = [
   },
   {
     name: "Manage",
-    line: "Customer information enters the CRM and gets an owner and a next action.",
+    line: "The CRM stores the customer, owner and next action.",
     chips: ["CRM", "Owner", "Next action"],
   },
   {
     name: "Automate",
-    line: "Follow-ups, tasks, notifications, reminders and other actions run automatically.",
-    chips: ["Follow-ups", "Tasks", "Reminders", "Notifications"],
+    line: "Follow-ups, tasks, reminders and notifications run automatically.",
+    chips: ["Follow-ups", "Tasks", "Reminders", "Alerts"],
   },
   {
     name: "Act",
@@ -51,7 +51,7 @@ function Stage({
   }, [centred, i, onActive]);
 
   return (
-    <li ref={ref} className="relative flex gap-5 py-4 md:gap-7 md:py-[18px]">
+    <li ref={ref} className="relative flex gap-5 py-3.5 md:gap-7 md:py-[14px]">
       <span className="relative z-10 mt-2 grid h-[17px] w-[17px] shrink-0 place-items-center">
         {active && <span aria-hidden className="pulse-dot absolute h-3 w-3 rounded-full text-accent" />}
         <span
@@ -106,7 +106,7 @@ export default function Workflow() {
           </Reveal>
           <Reveal delay={0.07}>
             <h2 className="display mt-4 text-[clamp(2.4rem,4.8vw,3.9rem)]">
-              How the work <em>flows.</em>
+              How the work flows.
             </h2>
           </Reveal>
           <Reveal delay={0.14}>

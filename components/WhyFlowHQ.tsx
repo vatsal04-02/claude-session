@@ -12,7 +12,7 @@ const JITTER = [0, 14, -10, 10, -6, 6]; // the "without" column is deliberately 
 const POINTS = [
   "Works with the tools you already use",
   "Built around how your team operates",
-  "People step in where it matters",
+  "People stay in control where it matters",
 ];
 
 export default function WhyFlowHQ() {

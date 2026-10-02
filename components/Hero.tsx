@@ -1,18 +1,18 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { Database, Globe, Sparkles, UserCheck, UserPlus, Workflow, type LucideIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
 import { Button, EASE, StatusDot } from "./ui";
 
 const NODES = [
-  { name: "Form Submit", tag: "TRIGGER", log: "Rahul S. · physiotherapy enquiry" },
-  { name: "Enrich", tag: "LOOKUP", log: "No existing record · source: website" },
-  { name: "AI Agent", tag: "REASON", log: "Wants an evening appointment" },
-  { name: "Guardrail", tag: "CHECK", log: "Approved template · no sensitive data" },
-  { name: "CRM + Send", tag: "ACT", log: "Contact saved · WhatsApp sent" },
+  { name: "Form Submit", tag: "TRIGGER", log: "New enquiry · requested a callback" },
+  { name: "Enrich", tag: "LOOKUP", log: "Source: website form" },
+  { name: "AI Agent", tag: "REASON", log: "AI understood intent" },
+  { name: "Guardrail", tag: "CHECK", log: "Approved template · checks passed" },
+  { name: "CRM + Send", tag: "ACT", log: "Contact saved · follow-up created" },
 ];
 
 const STEP_MS = 1300;
@@ -64,12 +64,12 @@ export default function Hero() {
             </h1>
 
             <motion.p {...rise(0.5)} className="mt-6 max-w-[35rem] text-[17px] leading-relaxed text-muted">
-              FlowHQ designs and builds AI-powered systems that capture leads, manage customer workflows,
-              automate repetitive work and connect the tools your team already uses.
+              FlowHQ designs and builds AI-powered business systems that capture leads, automate
+              follow-ups, connect your tools and keep your team moving.
             </motion.p>
 
             <motion.p {...rise(0.58)} className="label mt-5 text-accent/80">
-              AI · CRM · Automation · Integrations
+              AI Systems · Automation · CRM · Integrations
             </motion.p>
 
             <motion.div {...rise(0.66)} className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4">
@@ -97,40 +97,61 @@ export default function Hero() {
   );
 }
 
-/* Compact system map: Website → Lead → AI → CRM → Automation → Customer.
-   A signal runs along the line and each node lights as it passes (pure CSS loop). */
-const CYCLE = 8;
+/* Thin system rail: Website → Lead → AI → CRM → Automation → Customer.
+   Scroll drives it: nodes turn orange, the line fills and labels brighten as you move down. */
 function SystemStrip() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLOListElement>(null);
   const n = SYSTEM.length;
+  const [active, setActive] = useState(0);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 98%", "start 38%"] });
+  const toIdx = (p: number) => Math.min(n - 1, Math.max(0, Math.floor(p * n)));
+
+  useMotionValueEvent(scrollYProgress, "change", (p) => !reduce && setActive(toIdx(p)));
+  useEffect(() => {
+    if (reduce) return setActive(n - 1);
+    const id = requestAnimationFrame(() => setActive(toIdx(scrollYProgress.get())));
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduce]);
+
   return (
-    <motion.div
-      {...rise(0.85)}
-      className="mt-9 md:mt-10"
-      style={{ "--cycle": `${CYCLE}s` } as React.CSSProperties}
-    >
+    <motion.div {...rise(0.85)} className="mt-9 md:mt-10">
       <div className="label mb-4 text-subtle">One connected system</div>
-      <ol className="relative grid grid-cols-3 gap-y-6 lg:grid-cols-6">
-        <span
-          aria-hidden
-          className="strip-signal pointer-events-none absolute top-0 hidden h-px w-28 -translate-x-full -translate-y-1/2 bg-gradient-to-r from-transparent to-accent lg:block"
-        />
-        {SYSTEM.map((node, i) => (
-          <li key={node.name} className="relative border-t border-border pr-3 pt-5">
-            <span
-              aria-hidden
-              className="strip-dot absolute -top-[6px] left-0 h-3 w-3 rounded-full border-2 border-border-bright bg-bg"
-              style={{ "--d": `${(i / n) * 0.68 * CYCLE - 0.04 * CYCLE}s` } as React.CSSProperties}
-            />
-            <div
-              className="strip-name flex items-center gap-2 text-[15px] font-medium text-muted"
-              style={{ "--d": `${(i / n) * 0.68 * CYCLE - 0.04 * CYCLE}s` } as React.CSSProperties}
+      <ol ref={ref} className="relative grid grid-cols-3 gap-y-6 lg:grid-cols-6">
+        {SYSTEM.map((node, i) => {
+          const lit = i <= active;
+          return (
+            <li
+              key={node.name}
+              className={cn(
+                "relative border-t pr-3 pt-5 transition-colors duration-500",
+                i < active ? "border-accent" : "border-border"
+              )}
             >
-              <node.icon className="h-4 w-4 text-accent" strokeWidth={1.8} />
-              {node.name}
-            </div>
-            <p className="mt-1 text-[13px] leading-snug text-subtle">{node.sub}</p>
-          </li>
-        ))}
+              <span
+                aria-hidden
+                className={cn(
+                  "absolute -top-[6px] left-0 h-3 w-3 rounded-full border-2 transition-all duration-500",
+                  lit ? "border-accent bg-accent" : "border-border-bright bg-bg",
+                  i === active && "shadow-[0_0_0_5px_rgba(234,106,45,0.18),0_0_16px_rgba(234,106,45,0.6)]"
+                )}
+              />
+              <div
+                className={cn(
+                  "flex items-center gap-2 text-[15px] font-medium transition-colors duration-500",
+                  lit ? "text-text" : "text-muted"
+                )}
+              >
+                <node.icon className={cn("h-4 w-4 transition-colors duration-500", lit ? "text-accent" : "text-subtle")} strokeWidth={1.8} />
+                {node.name}
+              </div>
+              <p className={cn("mt-1 text-[13px] leading-snug transition-colors duration-500", lit ? "text-muted" : "text-subtle")}>
+                {node.sub}
+              </p>
+            </li>
+          );
+        })}
       </ol>
     </motion.div>
   );
