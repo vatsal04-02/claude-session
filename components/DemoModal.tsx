@@ -181,11 +181,11 @@ export default function DemoModal() {
                   initial={{ scale: 0, rotate: -30 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", stiffness: 260, damping: 16 }}
-                  className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success text-[#06251a] shadow-[0_0_0_10px_rgba(99,214,160,0.12),0_0_40px_rgba(99,214,160,0.4)]"
+                  className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success text-[#06251a] shadow-[0_0_0_10px_rgba(143,201,138,0.14),0_0_40px_rgba(143,201,138,0.4)]"
                 >
                   <Check className="h-8 w-8" strokeWidth={3} />
                 </motion.div>
-                <h2 id={titleId} className="mt-8 text-3xl font-semibold tracking-tight">
+                <h2 id={titleId} className="display mt-8 text-4xl">
                   You&apos;re booked. We&apos;ll be in touch shortly.
                 </h2>
                 <p className="mx-auto mt-3 max-w-sm text-muted">
@@ -202,7 +202,7 @@ export default function DemoModal() {
             ) : (
               <form onSubmit={submit} noValidate className="p-6 sm:p-8">
                 <span className="label text-accent">Free 20-minute demo</span>
-                <h2 id={titleId} className="mt-2 pr-10 text-2xl font-semibold tracking-tight sm:text-3xl">
+                <h2 id={titleId} className="mt-2 pr-10 display text-3xl sm:text-4xl">
                   Book your free demo
                 </h2>
                 <p className="mt-2 text-[15px] text-muted">

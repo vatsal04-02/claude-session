@@ -1,15 +1,13 @@
 export const NAV_LINKS = [
-  { label: "Solutions", href: "#solutions" },
-  { label: "Projects", href: "#projects" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "About", href: "#why" },
+  { label: "Workflow", href: "#workflow" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Work", href: "#work" },
 ] as const;
 
 export const FOOTER_LINKS = [
-  { label: "Solutions", href: "#solutions" },
-  { label: "Projects", href: "#projects" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "About", href: "#why" },
+  { label: "Workflow", href: "#workflow" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Work", href: "#work" },
   { label: "Contact", href: "#demo" },
 ] as const;
 

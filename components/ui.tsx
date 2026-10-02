@@ -98,8 +98,8 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 py-24 md:px-8 md:py-36", className)}>
-      <div className="mx-auto w-full max-w-[1200px]">{children}</div>
+    <section id={id} className={cn("relative px-5 py-16 md:px-8 md:py-24", className)}>
+      <div className="mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
 }
@@ -108,45 +108,27 @@ export function SectionHeading({
   eyebrow,
   title,
   sub,
-  align = "left",
   className,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   sub?: React.ReactNode;
-  align?: "left" | "center";
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "max-w-3xl",
-        align === "center" && "mx-auto text-center",
-        className
-      )}
-    >
+    <div className={cn("max-w-2xl", className)}>
       <Reveal>
-        <span
-          className={cn(
-            "label inline-flex items-center gap-2 text-accent",
-            align === "center" && "justify-center"
-          )}
-        >
-          <span className="h-px w-6 bg-accent/60" />
+        <span className="label inline-flex items-center gap-2.5 text-accent">
+          <span className="h-px w-6 bg-accent/70" />
           {eyebrow}
         </span>
       </Reveal>
       <Reveal delay={0.07}>
-        <h2
-          className="mt-5 text-[clamp(2.25rem,5.6vw,3.75rem)] leading-[1.05] tracking-[-0.03em] text-text"
-          style={{ fontWeight: 650 }}
-        >
-          {title}
-        </h2>
+        <h2 className="display mt-4 text-[clamp(2.4rem,5.2vw,4rem)] text-text">{title}</h2>
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>
-          <p className="mt-6 text-lg leading-relaxed text-muted md:text-xl">{sub}</p>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted md:text-lg">{sub}</p>
         </Reveal>
       )}
     </div>
@@ -162,14 +144,14 @@ export function Tag({
 }) {
   const tones = {
     accent: "border-accent/25 bg-accent/10 text-accent",
-    muted: "border-border bg-surface-2 text-muted",
+    muted: "border-border bg-transparent text-muted",
     success: "border-success/25 bg-success/10 text-success",
     warning: "border-warning/25 bg-warning/10 text-warning",
   };
   return (
     <span
       className={cn(
-        "label inline-flex items-center rounded-md border px-2 py-1 text-[11px] leading-none",
+        "label inline-flex items-center rounded-full border px-2.5 py-1.5 text-[10px] leading-none",
         tones[tone]
       )}
     >
@@ -225,10 +207,10 @@ export function SpotlightCard({
   return (
     <motion.div
       onMouseMove={onMove}
-      whileHover={lift ? { y: -4 } : undefined}
+      whileHover={lift ? { y: -3 } : undefined}
       transition={{ duration: 0.3, ease: EASE }}
       className={cn(
-        "spotlight rounded-2xl border border-border bg-surface transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-[0_18px_50px_-24px_rgba(94,231,247,0.35)]",
+        "spotlight rounded-2xl border border-border bg-surface transition-[border-color] duration-300 hover:border-accent/45",
         className
       )}
       {...rest}
@@ -265,10 +247,10 @@ export function Button({
 }: BtnProps) {
   const base = cn(
     "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-300 active:scale-[0.97] cursor-pointer",
-    size === "md" ? "h-11 px-5 text-[15px]" : "h-14 px-8 text-base",
+    size === "md" ? "h-10 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
-      ? "shimmer-btn text-[#04161b] shadow-[0_8px_30px_-8px_rgba(94,231,247,0.55)] hover:shadow-[0_12px_40px_-6px_rgba(94,231,247,0.75)]"
-      : "border border-border bg-surface/60 text-text hover:border-accent/50 hover:bg-surface-2",
+      ? "bg-accent text-[#1a0a03] hover:bg-accent-2 hover:shadow-[0_10px_34px_-10px_rgba(233,104,45,0.8)]"
+      : "border border-border-bright text-text hover:border-accent/60 hover:text-accent",
     className
   );
   const inner = (

@@ -1,18 +1,12 @@
-import DemoCTA from "@/components/DemoCTA";
+import Capabilities from "@/components/Capabilities";
 import DemoModal from "@/components/DemoModal";
-import FlowSystem from "@/components/FlowSystem";
+import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import Industries from "@/components/Industries";
 import Navbar from "@/components/Navbar";
-import ProblemSection from "@/components/ProblemSection";
-import Process from "@/components/Process";
-import ProductShowcase from "@/components/ProductShowcase";
-import Projects from "@/components/Projects";
-import Solutions from "@/components/Solutions";
-import TrustStrip from "@/components/TrustStrip";
-import WhyFlowHQ from "@/components/WhyFlowHQ";
+import ProductPreview from "@/components/ProductPreview";
+import Work from "@/components/Work";
+import Workflow from "@/components/Workflow";
 import { ScrollProgress } from "@/components/ui";
 
 export default function Home() {
@@ -22,17 +16,11 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <TrustStrip />
-        <ProblemSection />
-        <FlowSystem />
-        <Solutions />
-        <Projects />
-        <ProductShowcase />
-        <HowItWorks />
-        <Industries />
-        <WhyFlowHQ />
-        <Process />
-        <DemoCTA />
+        <Workflow />
+        <Capabilities />
+        <Work />
+        <ProductPreview />
+        <FinalCTA />
       </main>
       <Footer />
       <DemoModal />
