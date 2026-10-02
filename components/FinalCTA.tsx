@@ -13,7 +13,7 @@ export default function FinalCTA() {
 
   return (
     <section id="demo" className="section-edge relative overflow-hidden bg-[#1a110b] px-5 py-28 md:px-8 md:py-[200px]">
-      <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-70" />
+      <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
       <div aria-hidden className="anim-glow pointer-events-none absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[rgba(234,106,47,0.14)] blur-[120px]" />
       <div className="relative mx-auto grid max-w-[1140px] items-end gap-12 lg:grid-cols-[1.45fr_0.55fr] lg:gap-16">
         <Reveal>

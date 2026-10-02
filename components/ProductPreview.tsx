@@ -61,7 +61,7 @@ export default function ProductPreview() {
   ];
 
   return (
-    <Section id="product" space="lg" className="overflow-x-clip bg-[#150e0a]">
+    <Section id="product" space="lg" grid="soft" className="overflow-x-clip bg-[#150e0a]">
       <SectionHeading
         eyebrow="The control center"
         title="Everything important, in one place."

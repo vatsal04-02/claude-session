@@ -12,7 +12,7 @@ const STEPS = [
 
 export default function Process() {
   return (
-    <Section id="process" className="warm-a bg-[#160f0b]">
+    <Section id="process" grid="soft" className="warm-a bg-[#160f0b]">
       <SectionHeading size="sm" eyebrow="Process" title="How we build it." />
       <ol className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 lg:mt-14 lg:grid-cols-4 lg:gap-x-8">
         {STEPS.map(([name, body], i) => (

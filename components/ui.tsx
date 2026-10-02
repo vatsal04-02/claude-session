@@ -94,20 +94,25 @@ const SPACE = {
   xl: "py-28 md:py-[180px]",
 } as const;
 
+const GRID = { strong: 1, mid: 0.75, soft: 0.5 } as const;
+
 export function Section({
   id,
   className,
   space = "md",
+  grid = "mid",
   children,
 }: {
   id?: string;
   className?: string;
   space?: keyof typeof SPACE;
+  grid?: keyof typeof GRID;
   children: React.ReactNode;
 }) {
   return (
     <section id={id} className={cn("section-edge relative px-5 md:px-8", SPACE[space], className)}>
-      <div className="mx-auto w-full max-w-[1140px]">{children}</div>
+      <div aria-hidden className="grid-layer" style={{ "--grid-o": GRID[grid] } as React.CSSProperties} />
+      <div className="relative mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
 }

@@ -52,7 +52,7 @@ const SERVICES = [
 export default function Services() {
   const { open } = useDemo();
   return (
-    <Section id="services" className="warm-a bg-[#140e0a]">
+    <Section id="services" grid="strong" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <SectionHeading eyebrow="Services" title={<>Systems that do the <Highlight>repeat work.</Highlight></>} />
         <Reveal delay={0.12}>
