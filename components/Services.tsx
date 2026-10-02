@@ -4,6 +4,7 @@ import { cn } from "@/lib/cn";
 import { useDemo } from "@/lib/demo-context";
 import {
   FlowChain,
+  Highlight,
   Reveal,
   Section,
   SectionHeading,
@@ -51,9 +52,9 @@ const SERVICES = [
 export default function Services() {
   const { open } = useDemo();
   return (
-    <Section id="services" className="bg-[#120d09]">
+    <Section id="services" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="Services" title={<>Systems that do the <em>repeat work.</em></>} />
+        <SectionHeading eyebrow="Services" title={<>Systems that do the <Highlight>repeat work.</Highlight></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
             We build the automation layer around the way your business already operates.

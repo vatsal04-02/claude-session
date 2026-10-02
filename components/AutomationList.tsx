@@ -17,7 +17,7 @@ const ITEMS = [
 /* A plain trigger → outcome list; a thin orange line sweeps each row as it enters. */
 export default function AutomationList() {
   return (
-    <Section id="automations" space="lg" className="">
+    <Section id="automations" space="lg" className="warm-b">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading
@@ -29,7 +29,7 @@ export default function AutomationList() {
 
         <ol>
           {ITEMS.map(([trigger, outcome], i) => (
-            <li key={trigger} className="relative border-t border-border py-4 last:border-b">
+            <li key={trigger} tabIndex={0} className="group relative cursor-default border-t border-border py-4 outline-none last:border-b">
               <motion.span
                 aria-hidden
                 initial={{ scaleX: 0 }}
@@ -39,9 +39,9 @@ export default function AutomationList() {
                 className="absolute -top-px left-0 h-px w-full origin-left bg-accent/50"
               />
               <div className="flex items-baseline justify-between gap-6">
-                <span className="text-[17px] text-text">{trigger}</span>
-                <span className="text-right text-[15px] text-muted">
-                  <span aria-hidden className="mr-2 text-accent">→</span>
+                <span className="text-[17px] text-text/70 transition-colors duration-300 group-hover:text-text group-focus-visible:text-text">{trigger}</span>
+                <span className="text-right text-[15px] text-muted transition-colors duration-300 group-hover:text-accent-2 group-focus-visible:text-accent-2">
+                  <span aria-hidden className="mr-2 inline-block -translate-x-1 text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">→</span>
                   {outcome}
                 </span>
               </div>

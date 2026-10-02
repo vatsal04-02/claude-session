@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { EASE, Reveal, Section, SectionHeading, SpotlightCard, Stagger, StaggerItem } from "./ui";
+import { EASE, Highlight, Reveal, Section, SectionHeading, SpotlightCard, Stagger, StaggerItem } from "./ui";
 
 const BLOCKS = [
   { name: "AI", body: "Understands enquiries and business context." },
@@ -14,12 +14,12 @@ const STEPS = ["Capture", "Understand", "Manage", "Automate", "Act"];
 /* One primary Workflows block, four supporting blocks wired into it. */
 export default function WhatWeDo() {
   return (
-    <Section id="systems" className="bg-[#130d09]">
+    <Section id="systems" className="bg-[#160f0b]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="What FlowHQ does" title={<>What we actually <em>build.</em></>} />
+        <SectionHeading eyebrow="What FlowHQ does" title={<>What FlowHQ <Highlight>builds.</Highlight></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            We turn repetitive business processes into connected systems. A CRM is just one block.
+            We turn repetitive business processes into <Highlight delay={0.2}>connected</Highlight> systems. A CRM is just one block.
           </p>
         </Reveal>
       </div>

@@ -137,7 +137,7 @@ export function SectionHeading({
         <h2
           className={cn(
             "display mt-4 text-balance text-text",
-            size === "md" ? "text-[clamp(2.25rem,4.6vw,3.75rem)]" : "text-[clamp(2rem,3.6vw,3rem)]"
+            size === "md" ? "text-[clamp(2.25rem,4.4vw,3.5rem)]" : "text-[clamp(1.9rem,3.4vw,2.75rem)]"
           )}
         >
           {title}
@@ -342,6 +342,31 @@ export const SWIPE_ROW =
 export const SWIPE_ITEM = "w-[84%] shrink-0 snap-start md:h-full md:w-auto";
 export function SwipeHint({ children }: { children: React.ReactNode }) {
   return <p className="label mt-3 text-[10px] text-subtle md:hidden">{children} →</p>;
+}
+
+/** Signature motion: the word fades to orange, a thin line sweeps under it, a soft glow settles. */
+export function Highlight({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const on = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
+  return (
+    <span ref={ref} className="relative inline-block whitespace-nowrap">
+      <motion.span
+        className="inline-block"
+        initial={{ color: "#f2e9df", textShadow: "0 0 0 rgba(234,106,47,0)" }}
+        animate={on ? { color: "#ea6a2f", textShadow: "0 0 0.45em rgba(234,106,47,0.35)" } : undefined}
+        transition={{ duration: 0.6, ease: "easeOut", delay }}
+      >
+        {children}
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute -bottom-[0.06em] left-0 h-[0.07em] min-h-[2px] w-full origin-left rounded-full bg-accent"
+        initial={{ scaleX: 0 }}
+        animate={on ? { scaleX: 1 } : undefined}
+        transition={{ duration: 0.6, ease: "easeOut", delay: delay + 0.25 }}
+      />
+    </span>
+  );
 }
 
 /** A short chip sequence ("Lead → Contact → Pipeline") that lights up once on reveal. */

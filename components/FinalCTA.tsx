@@ -2,7 +2,7 @@
 
 import { useDemo } from "@/lib/demo-context";
 import { whatsappHref } from "@/lib/site";
-import { Button, Reveal } from "./ui";
+import { Button, Highlight, Reveal } from "./ui";
 
 export default function FinalCTA() {
   const { open } = useDemo();
@@ -12,14 +12,16 @@ export default function FinalCTA() {
     : ({ href: "#demo", onClick: (e: React.MouseEvent) => (e.preventDefault(), open()) } as const);
 
   return (
-    <section id="demo" className="section-edge relative overflow-hidden bg-[#160d08] px-5 py-28 md:px-8 md:py-[200px]">
+    <section id="demo" className="section-edge relative overflow-hidden bg-[#1a110b] px-5 py-28 md:px-8 md:py-[200px]">
       <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-70" />
-      <div aria-hidden className="anim-glow pointer-events-none absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[rgba(170,80,35,0.14)] blur-[120px]" />
+      <div aria-hidden className="anim-glow pointer-events-none absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[rgba(234,106,47,0.14)] blur-[120px]" />
       <div className="relative mx-auto grid max-w-[1140px] items-end gap-12 lg:grid-cols-[1.45fr_0.55fr] lg:gap-16">
         <Reveal>
-          <h2 className="display text-[clamp(2.5rem,5.6vw,4.6rem)]">
+          <h2 className="display text-[clamp(2.4rem,5vw,4.25rem)]">
             Tell us what your team does manually.
-            <em className="mt-3 block text-[0.55em] leading-[1.1]">We&apos;ll show you what can be automated.</em>
+            <span className="mt-4 block text-[0.48em] font-semibold leading-[1.2] text-accent">
+              We&apos;ll show you what can be <Highlight>automated.</Highlight>
+            </span>
           </h2>
         </Reveal>
         <div>

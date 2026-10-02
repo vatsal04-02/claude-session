@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { TriangleAlert } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { EASE, Reveal, Section, SectionHeading } from "./ui";
+import { EASE, Highlight, Reveal, Section, SectionHeading } from "./ui";
 
 const WITHOUT = ["Website", "WhatsApp", "Spreadsheet", "Calendar", "Manual follow-up", "Missed context"];
 const WITH = ["Website", "AI", "CRM", "Automation", "Communication", "Human action"];
@@ -17,14 +17,14 @@ const POINTS = [
 
 export default function WhyFlowHQ() {
   return (
-    <Section id="why" className="bg-[#130d09]">
+    <Section id="why" className="warm-b bg-[#160f0b]">
       <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20">
         <div>
           <SectionHeading
             eyebrow="Why FlowHQ"
             title={
               <>
-                Not another tool. A system <em>built around your business.</em>
+                Not another tool. A <Highlight>system</Highlight> built around your business.
               </>
             }
             sub="Most businesses don't need more software. They need their existing tools and workflows to work together."

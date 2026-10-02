@@ -2,16 +2,16 @@
 
 /* FlowHQ — warm black + orange, editorial */
 @theme {
-  --color-bg: #100b08;
-  --color-bg-soft: #130d09;
-  --color-surface: #17110d;
-  --color-surface-2: #1d1611;
+  --color-bg: #120c09;
+  --color-bg-soft: #160f0b;
+  --color-surface: #1b130f;
+  --color-surface-2: #211710;
   --color-border: rgba(245, 220, 200, 0.12);
   --color-border-bright: rgba(245, 220, 200, 0.22);
   --color-text: #f2e9df;
-  --color-muted: #b5aaa0;
-  --color-subtle: #756c63;
-  --color-accent: #e96b2f;
+  --color-muted: #b9aea3;
+  --color-subtle: #786f67;
+  --color-accent: #ea6a2f;
   --color-accent-2: #f17a3b;
   --color-success: #8fc98a;
   --color-warning: #e8b45a;
@@ -58,17 +58,16 @@ body {
   border-radius: 6px;
 }
 
-/* serif display headings: Instrument Serif only ships weight 400 */
+/* display type: bold modern sans */
 .display {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.02;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
 .display em {
-  font-style: italic;
+  font-style: normal;
   color: var(--color-accent);
-  padding-right: 0.06em;
 }
 
 .label {
@@ -81,8 +80,8 @@ body {
 /* technical paper texture: warm brown, faint, strongest behind the visual, fading at the edges */
 .grid-bg {
   background-image:
-    linear-gradient(to right, rgba(153, 92, 56, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(153, 92, 56, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(185, 105, 60, 0.065) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(185, 105, 60, 0.065) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, rgba(0, 0, 0, 0.95) 0%, transparent 72%);
   -webkit-mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, rgba(0, 0, 0, 0.95) 0%, transparent 72%);
@@ -91,9 +90,9 @@ body {
 /* hero atmosphere: layer 1 (warmth). Layer 2 is .grid-bg, layer 3 the localised glows. */
 .hero-atmos {
   background:
-    radial-gradient(circle at 72% 22%, rgba(120, 55, 25, 0.14), transparent 34%),
-    radial-gradient(circle at 28% 18%, rgba(92, 42, 20, 0.1), transparent 30%),
-    linear-gradient(180deg, #120c09 0%, #0f0a07 55%, #100b08 100%);
+    radial-gradient(circle at 78% 18%, rgba(234, 106, 47, 0.1), transparent 36%),
+    radial-gradient(circle at 18% 45%, rgba(130, 60, 30, 0.08), transparent 34%),
+    linear-gradient(180deg, #150e0a 0%, #120c09 60%, #120c09 100%);
 }
 
 /* soft vignette: the edges of the viewport sit slightly darker than the centre */
@@ -103,7 +102,7 @@ body::before {
   inset: 0;
   z-index: 30;
   pointer-events: none;
-  background: radial-gradient(ellipse 120% 100% at 50% 42%, transparent 58%, rgba(0, 0, 0, 0.28) 100%);
+  background: radial-gradient(ellipse 120% 100% at 50% 42%, transparent 60%, rgba(0, 0, 0, 0.18) 100%);
 }
 
 /* section transition: a hairline that fades out at both ends + a soft shadow falling from the seam */
@@ -216,10 +215,9 @@ body::before {
 .item-title {
   font-family: var(--font-sans);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
-  color: var(--color-text);
 }
 
 /* the active workflow card breathes: glow only, no scale or movement */
@@ -228,3 +226,11 @@ body::before {
   50% { box-shadow: 0 0 22px rgba(233, 107, 47, 0.22), inset 0 0 14px rgba(233, 107, 47, 0.08); }
 }
 .soft-pulse { animation: soft-pulse 3.2s ease-in-out infinite; }
+
+/* very soft warm light behind mid-page sections */
+.warm-a { background-image: radial-gradient(circle at 86% 18%, rgba(234, 106, 47, 0.05), transparent 38%); }
+.warm-b { background-image: radial-gradient(circle at 10% 60%, rgba(130, 60, 30, 0.08), transparent 36%); }
+
+/* hovering a card brightens its workflow line */
+.group:hover .flow-chip { color: var(--color-text); }
+.group:hover .flow-arrow { color: var(--color-accent); }

@@ -7,9 +7,9 @@ import { EASE, Reveal, Section } from "./ui";
 
 const STAGES = [
   ["Capture", "Website, forms, WhatsApp and calls enter the system."],
-  ["Understand", "AI reads the intent and context."],
-  ["Manage", "The CRM keeps the customer and next action."],
-  ["Automate", "Follow-ups and reminders run automatically."],
+  ["Understand", "AI reads intent and context."],
+  ["Manage", "CRM keeps the customer and next action."],
+  ["Automate", "Follow-ups, reminders and tasks run automatically."],
   ["Act", "The right person or system takes the next step."],
 ] as const;
 
@@ -44,7 +44,7 @@ function Stage({ i, active, onActive }: { i: number; active: boolean; onActive: 
       >
         <div className="flex items-baseline gap-3">
           <span className={cn("label transition-colors", active ? "text-accent" : "text-subtle")}>0{i + 1}</span>
-          <h3 className="item-title text-[24px]">{name}</h3>
+          <h3 className={cn("item-title text-[26px] font-bold transition-[color,text-shadow] duration-500", active ? "[text-shadow:0_0_26px_rgba(234,106,47,0.28)]" : "text-muted")}>{name}</h3>
         </div>
         <p className="mt-2 max-w-[44ch] text-[16px] leading-[1.7] text-muted">{line}</p>
       </motion.div>

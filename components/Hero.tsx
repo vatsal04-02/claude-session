@@ -5,14 +5,14 @@ import { Database, Globe, Sparkles, UserCheck, UserPlus, Workflow, type LucideIc
 import { useEffect, useRef, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
-import { Button, EASE, StatusDot } from "./ui";
+import { Button, EASE, Highlight, StatusDot } from "./ui";
 
 const NODES = [
   { name: "Form Submit", tag: "TRIGGER", log: "New enquiry · requested a callback" },
-  { name: "Enrich", tag: "LOOKUP", log: "Source: website form" },
+  { name: "Enrich", tag: "LOOKUP", log: "Source: website" },
   { name: "AI Agent", tag: "REASON", log: "AI understood intent" },
-  { name: "Guardrail", tag: "CHECK", log: "Approved template · checks passed" },
-  { name: "CRM + Send", tag: "ACT", log: "Contact saved · follow-up created" },
+  { name: "Next Action", tag: "DECIDE", log: "Next action created" },
+  { name: "CRM + Send", tag: "ACT", log: "CRM updated" },
 ];
 
 const STEP_MS = 1300;
@@ -45,15 +45,15 @@ export default function Hero() {
       <div aria-hidden className="grid-bg pointer-events-none absolute inset-0" />
       <div
         aria-hidden
-        className="anim-glow pointer-events-none absolute -right-24 top-16 h-[520px] w-[520px] rounded-full bg-[rgba(170,80,35,0.14)] blur-[140px]"
+        className="anim-glow pointer-events-none absolute -right-24 top-16 h-[520px] w-[520px] rounded-full bg-[rgba(234,106,47,0.11)] blur-[140px]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-32 top-[8%] h-[420px] w-[420px] rounded-full bg-[rgba(130,60,25,0.1)] blur-[130px]"
+        className="pointer-events-none absolute -left-32 top-[8%] h-[420px] w-[420px] rounded-full bg-[rgba(130,60,30,0.09)] blur-[130px]"
       />
 
       <div className="relative mx-auto max-w-[1140px]">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.18fr_0.82fr] lg:gap-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
           <div>
             <motion.span
               {...rise(0.05)}
@@ -65,20 +65,23 @@ export default function Hero() {
               <span className="hidden text-accent/80 sm:inline">Systems that run the repeat work</span>
             </motion.span>
 
-            <h1 className="display mt-5 text-[clamp(2.6rem,5.9vw,4.9rem)] leading-[1.03] text-text">
+            <h1 className="display mt-5 text-[clamp(2.6rem,5.6vw,4.5rem)] text-text" style={{ fontWeight: 780, lineHeight: 1.02 }}>
               <motion.span {...rise(0.15)} className="block">
                 Your business has
               </motion.span>
               <motion.span {...rise(0.25)} className="block">
                 enough tools.
               </motion.span>
-              <motion.span {...rise(0.38)} className="block">
-                It needs a <em>system.</em>
+              <motion.span {...rise(0.38)} className="mt-3 block">
+                It needs a
+              </motion.span>
+              <motion.span {...rise(0.45)} className="block">
+                <Highlight delay={1}>system.</Highlight>
               </motion.span>
             </h1>
 
             <motion.p {...rise(0.5)} className="mt-7 max-w-[520px] text-balance text-[19px] font-medium leading-[1.5] text-text">
-              AI systems that capture, understand, and move work forward.
+              AI systems that capture, understand, and move work <Highlight delay={1.5}>forward.</Highlight>
             </motion.p>
             <motion.p {...rise(0.58)} className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.75] text-muted/80">
               FlowHQ designs and builds AI-powered business systems that capture leads, automate follow-ups and
@@ -211,7 +214,7 @@ function LiveRun() {
   const fill = tick < 0 ? 0 : active / (n - 1);
 
   return (
-    <div className="rounded-2xl border border-border bg-[#17110d] p-5 shadow-[inset_0_1px_0_rgba(255,225,200,0.06),inset_0_0_70px_rgba(150,70,30,0.07),0_30px_60px_-30px_rgba(0,0,0,0.8)] transition-colors duration-300 hover:border-border-bright">
+    <div className="rounded-2xl border border-border bg-surface p-5 shadow-[inset_0_1px_0_rgba(255,225,200,0.06),inset_0_0_70px_rgba(150,70,30,0.07),0_30px_60px_-30px_rgba(0,0,0,0.8)] transition-colors duration-300 hover:border-border-bright">
       <div className="mb-3 flex items-center justify-between">
         <span className="label text-subtle">Workflow · new enquiry</span>
         <span className="label flex items-center gap-2 text-muted">

@@ -39,7 +39,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: EASE }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300",
-          scrolled || menu ? "border-border bg-[rgba(16,11,8,0.72)] backdrop-blur-md" : "border-border/0 bg-transparent"
+          scrolled || menu ? "border-border bg-[rgba(18,12,9,0.72)] backdrop-blur-md" : "border-border/0 bg-transparent"
         )}
       >
         <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 lg:grid lg:grid-cols-[1fr_auto_1fr] md:px-8">
@@ -92,7 +92,7 @@ export default function Navbar() {
             >
               {NAV_LINKS.map((l) => (
                 <li key={l.href} className="border-t border-border">
-                  <a href={l.href} onClick={() => setMenu(false)} className="block py-3.5 font-serif text-2xl">
+                  <a href={l.href} onClick={() => setMenu(false)} className="block py-3.5 text-xl font-semibold">
                     {l.label}
                   </a>
                 </li>

@@ -19,8 +19,9 @@ export default function Work() {
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <SectionHeading size="sm" eyebrow="Selected systems" title="How the pieces come together." />
         <Reveal delay={0.12}>
-          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted">
-            Illustrative workflows, not client case studies.
+          <span className="label text-accent">Illustrative workflow</span>
+          <p className="mt-2 max-w-[30rem] text-[16px] leading-[1.75] text-muted">
+            Examples of how the pieces connect, not client case studies.
           </p>
         </Reveal>
       </div>
