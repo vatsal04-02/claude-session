@@ -2,11 +2,11 @@
 
 import { Section, SectionHeading, Stagger, StaggerItem } from "./ui";
 
-/* Replace public/screenshot-1.png … screenshot-3.png with real captures. */
+/* Screenshots live in public/screenshot-1.webp … screenshot-3.webp. */
 const SHOTS = [
-  { src: "screenshot-1.png", title: "Pipeline", rest: "every lead, one board", alt: "FlowHQ CRM pipeline board" },
-  { src: "screenshot-2.png", title: "WhatsApp inbox", rest: "chats and follow-ups", alt: "FlowHQ WhatsApp inbox" },
-  { src: "screenshot-3.png", title: "Dashboard", rest: "your numbers at a glance.", alt: "FlowHQ dashboard" },
+  { src: "screenshot-1.webp", title: "Pipeline", rest: "every lead, one board", alt: "FlowHQ CRM pipeline board" },
+  { src: "screenshot-2.webp", title: "WhatsApp inbox", rest: "chats and follow-ups", alt: "FlowHQ WhatsApp inbox" },
+  { src: "screenshot-3.webp", title: "Dashboard", rest: "your numbers at a glance.", alt: "FlowHQ dashboard" },
 ];
 
 export default function ProductScreens() {
@@ -22,7 +22,7 @@ export default function ProductScreens() {
           <StaggerItem key={s.src}>
             <figure>
               <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_30px_70px_-40px_rgba(0,0,0,0.9)]">
-                <img src={s.src} alt={s.alt} loading="lazy" className="aspect-[16/10] w-full object-cover" />
+                <img src={s.src} alt={s.alt} loading="lazy" className="aspect-[3/2] w-full object-cover" />
               </div>
               <figcaption className="mt-4 text-[15px] leading-[1.6] text-muted">
                 <span className="font-medium text-text">{s.title}</span> — {s.rest}

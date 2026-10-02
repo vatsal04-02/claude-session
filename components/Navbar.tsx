@@ -47,7 +47,7 @@ export default function Navbar() {
             <Logo />
           </a>
 
-          <ul className="hidden items-center gap-7 lg:flex">
+          <ul className="hidden items-center gap-5 xl:gap-7 lg:flex">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <a
