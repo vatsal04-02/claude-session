@@ -88,17 +88,25 @@ export function StaggerItem({
 /* Section scaffolding                                                 */
 /* ------------------------------------------------------------------ */
 
+const SPACE = {
+  md: "py-20 md:py-[120px]",
+  lg: "py-24 md:py-[150px]",
+  xl: "py-28 md:py-[180px]",
+} as const;
+
 export function Section({
   id,
   className,
+  space = "md",
   children,
 }: {
   id?: string;
   className?: string;
+  space?: keyof typeof SPACE;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 py-8 md:px-8 md:py-10", className)}>
+    <section id={id} className={cn("relative px-5 md:px-8", SPACE[space], className)}>
       <div className="mx-auto w-full max-w-[1140px]">{children}</div>
     </section>
   );
@@ -118,7 +126,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn("max-w-2xl", className)}>
+    <div className={cn("max-w-3xl", className)}>
       <Reveal>
         <span className="label inline-flex items-center gap-2.5 text-accent">
           <span className="h-px w-6 bg-accent/70" />
@@ -128,8 +136,8 @@ export function SectionHeading({
       <Reveal delay={0.07}>
         <h2
           className={cn(
-            "display mt-4 text-text",
-            size === "md" ? "text-[clamp(2.1rem,4.2vw,3.25rem)]" : "text-[clamp(1.8rem,3.1vw,2.5rem)]"
+            "display mt-4 text-balance text-text",
+            size === "md" ? "text-[clamp(2.25rem,4.6vw,3.75rem)]" : "text-[clamp(2rem,3.6vw,3rem)]"
           )}
         >
           {title}
@@ -137,7 +145,7 @@ export function SectionHeading({
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>
-          <div className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted md:text-[17px]">{sub}</div>
+          <div className="mt-5 max-w-[34rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">{sub}</div>
         </Reveal>
       )}
     </div>
@@ -355,12 +363,12 @@ export function FlowChain({
       data-run={run}
       aria-label={steps.join(", then ")}
       style={{ "--cycle": `${cycle}s` } as React.CSSProperties}
-      className={cn("flow-chain flex flex-wrap items-center gap-y-1.5", className)}
+      className={cn("flow-chain flex flex-wrap items-center gap-y-2", className)}
     >
       {steps.map((s, i) => (
         <li key={s} className="flex items-center">
           <span
-            className="flow-chip rounded-full border border-border px-2.5 py-1 text-[12px] leading-none text-muted"
+            className="flow-chip text-[13px] leading-none text-muted"
             style={{ animationDelay: `${0.5 + i * step}s` }}
           >
             {s}
@@ -368,7 +376,7 @@ export function FlowChain({
           {i < steps.length - 1 && (
             <span
               aria-hidden
-              className="flow-arrow mx-1 text-[12px] text-border-bright"
+              className="flow-arrow mx-2 text-[12px] text-border-bright"
               style={{ animationDelay: `${0.5 + i * step + 0.25}s` }}
             >
               →

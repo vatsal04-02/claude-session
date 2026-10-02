@@ -18,7 +18,7 @@ const POINTS = [
 export default function WhyFlowHQ() {
   return (
     <Section id="why" className="border-t border-border">
-      <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-16">
+      <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20">
         <div>
           <SectionHeading
             eyebrow="Why FlowHQ"
@@ -29,7 +29,7 @@ export default function WhyFlowHQ() {
             }
             sub="Most businesses don't need more software. They need their existing tools and workflows to work together."
           />
-          <ul className="mt-5 hidden space-y-2 sm:block">
+          <ul className="mt-8 hidden space-y-3 sm:block">
             {POINTS.map((p, i) => (
               <motion.li
                 key={p}
@@ -37,9 +37,9 @@ export default function WhyFlowHQ() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.25 + i * 0.1, duration: 0.5, ease: EASE }}
-                className="flex items-center gap-3 text-[15px] text-text"
+                className="text-[16px] text-muted"
               >
-                <span className="h-px w-5 bg-accent" /> {p}
+                {p}
               </motion.li>
             ))}
           </ul>
@@ -59,7 +59,7 @@ export default function WhyFlowHQ() {
 function Column({ label, items, broken }: { label: string; items: string[]; broken?: boolean }) {
   const last = items.length - 1;
   return (
-    <div className={cn("px-3 pb-5 pt-4 md:px-6", !broken && "border-l border-border bg-accent/[0.04]")}>
+    <div className={cn("px-3 pb-7 pt-6 md:px-8", !broken && "border-l border-border bg-accent/[0.04]")}>
       <div className={cn("label mb-5 text-center text-[10px]", broken ? "text-subtle" : "text-accent")}>{label}</div>
       <ol className="flex flex-col items-center">
         {items.map((it, i) => (
@@ -71,7 +71,7 @@ function Column({ label, items, broken }: { label: string; items: string[]; brok
               transition={{ delay: (broken ? 0.1 : 0.5) + i * 0.12, duration: 0.5, ease: EASE }}
               style={broken ? { x: JITTER[i] } : undefined}
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-[13px]",
+                "inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-[13px]",
                 broken
                   ? i === last
                     ? "border-dashed border-danger/60 text-danger"

@@ -1,49 +1,21 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { motion, useInView, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { EASE, Reveal, Section, Tag } from "./ui";
+import { EASE, Reveal, Section } from "./ui";
 
 const STAGES = [
-  {
-    name: "Capture",
-    line: "Website, forms, WhatsApp, calls and other enquiries enter the system.",
-    chips: ["Website", "WhatsApp", "Forms", "Calls"],
-  },
-  {
-    name: "Understand",
-    line: "AI extracts intent, context and useful information.",
-    chips: ["Intent", "Context", "Priority"],
-  },
-  {
-    name: "Manage",
-    line: "The CRM stores the customer, owner and next action.",
-    chips: ["CRM", "Owner", "Next action"],
-  },
-  {
-    name: "Automate",
-    line: "Follow-ups, tasks, reminders and notifications run automatically.",
-    chips: ["Follow-ups", "Tasks", "Reminders", "Alerts"],
-  },
-  {
-    name: "Act",
-    line: "The right person, tool or workflow takes the next step.",
-    chips: ["Person", "Tool", "Workflow"],
-  },
-];
+  ["Capture", "Website, forms, WhatsApp and calls enter the system."],
+  ["Understand", "AI reads the intent and context."],
+  ["Manage", "The CRM keeps the customer and next action."],
+  ["Automate", "Follow-ups and reminders run automatically."],
+  ["Act", "The right person or system takes the next step."],
+] as const;
 
-function Stage({
-  i,
-  active,
-  onActive,
-}: {
-  i: number;
-  active: boolean;
-  onActive: (i: number) => void;
-}) {
+function Stage({ i, active, onActive }: { i: number; active: boolean; onActive: (i: number) => void }) {
   const ref = useRef<HTMLLIElement>(null);
-  const s = STAGES[i];
+  const [name, line] = STAGES[i];
   // the stage that crosses the middle of the viewport becomes active
   const centred = useInView(ref, { margin: "-42% 0px -42% 0px" });
   useEffect(() => {
@@ -51,7 +23,7 @@ function Stage({
   }, [centred, i, onActive]);
 
   return (
-    <li ref={ref} className="relative flex gap-5 py-3.5 md:gap-7 md:py-[14px]">
+    <li ref={ref} className="relative flex gap-6 py-6 md:gap-8 md:py-7">
       <span className="relative z-10 mt-2 grid h-[17px] w-[17px] shrink-0 place-items-center">
         {active && <span aria-hidden className="pulse-dot absolute h-3 w-3 rounded-full text-accent" />}
         <span
@@ -68,20 +40,13 @@ function Stage({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.7, ease: EASE }}
-        className={cn("flex-1 transition-opacity duration-500", active ? "opacity-100" : "opacity-55")}
+        className={cn("flex-1 transition-opacity duration-500", active ? "opacity-100" : "opacity-50")}
       >
         <div className="flex items-baseline gap-3">
           <span className={cn("label transition-colors", active ? "text-accent" : "text-subtle")}>0{i + 1}</span>
-          <h3 className="display text-[30px] md:text-[36px]">{s.name}</h3>
+          <h3 className="item-title text-[24px]">{name}</h3>
         </div>
-        <p className="mt-2 max-w-[58ch] text-[15.5px] leading-snug text-muted">{s.line}</p>
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
-          {s.chips.map((c) => (
-            <Tag key={c} tone={active ? "accent" : "muted"}>
-              {c}
-            </Tag>
-          ))}
-        </div>
+        <p className="mt-2 max-w-[44ch] text-[16px] leading-[1.7] text-muted">{line}</p>
       </motion.div>
     </li>
   );
@@ -95,51 +60,28 @@ export default function Workflow() {
   const line = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
   return (
-    <Section id="workflow" className="border-t border-border">
-      <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+    <Section id="workflow" space="lg" className="border-t border-border bg-bg-soft">
+      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         {/* left: sticky */}
-        <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="lg:sticky lg:top-32 lg:self-start">
           <Reveal>
             <span className="label inline-flex items-center gap-2.5 text-accent">
               <span className="h-px w-6 bg-accent/70" /> Workflow
             </span>
           </Reveal>
           <Reveal delay={0.07}>
-            <h2 className="display mt-4 text-[clamp(2.4rem,4.8vw,3.9rem)]">
-              How the work flows.
-            </h2>
+            <h2 className="display mt-4 text-[clamp(2.25rem,4.6vw,3.75rem)]">How the work flows.</h2>
           </Reveal>
           <Reveal delay={0.14}>
-            <p className="mt-4 max-w-sm text-[16px] leading-relaxed text-muted md:text-[17px]">
-              Every system we build follows the same five steps, from the first enquiry to the next action.
+            <p className="mt-5 max-w-[26rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
+              Every system we build follows the same five steps.
             </p>
           </Reveal>
-
-          <div className="mt-7 hidden items-center gap-4 rounded-xl border border-border bg-surface/70 px-5 py-4 lg:flex">
-            <span className="label text-subtle">Now</span>
-            <div className="relative h-8 flex-1 overflow-hidden">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={active}
-                  initial={{ y: 18, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -18, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: EASE }}
-                  className="absolute inset-0 font-serif text-[26px] leading-8"
-                >
-                  {STAGES[active].name}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <span className="label text-accent">
-              0{active + 1} / 0{STAGES.length}
-            </span>
-          </div>
         </div>
 
-        {/* right: stages + timeline */}
+        {/* right: timeline */}
         <ol ref={listRef} className="relative">
-          <div aria-hidden className="absolute bottom-8 left-[8px] top-8 w-px bg-border">
+          <div aria-hidden className="absolute bottom-10 left-[8px] top-10 w-px bg-border">
             <motion.div style={{ scaleY: reduce ? 1 : line }} className="absolute inset-0 origin-top bg-accent" />
           </div>
           {STAGES.map((_, i) => (

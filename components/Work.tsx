@@ -5,7 +5,7 @@ import { FlowChain, Reveal, Section, SectionHeading, Stagger, StaggerItem, Tag }
 type Status = "Prototype" | "In Progress" | "Live";
 
 /* Illustrative workflows, not client case studies.
-   Set `status` only when it is accurate; until then each reads "Illustrative workflow". */
+   Add `status` only when it is accurate; a badge then appears on that row. */
 const SYSTEMS: { name: string; flow: string[]; status?: Status }[] = [
   { name: "Lead Management", flow: ["Website", "Lead", "AI", "Assignment", "Follow-up"] },
   { name: "Customer Communication", flow: ["WhatsApp", "AI Context", "Human Handoff", "Follow-up"] },
@@ -16,28 +16,21 @@ const SYSTEMS: { name: string; flow: string[]; status?: Status }[] = [
 export default function Work() {
   return (
     <Section id="work" className="border-t border-border">
-      <div className="grid items-end gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+      <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <SectionHeading size="sm" eyebrow="Selected systems" title="How the pieces come together." />
         <Reveal delay={0.12}>
-          <p className="max-w-md text-[15px] leading-relaxed text-muted">
-            Examples of systems assembled from our services. Not client case studies.
+          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted">
+            Illustrative workflows, not client case studies.
           </p>
         </Reveal>
       </div>
 
-      <Stagger className="mt-6 grid gap-x-10 md:grid-cols-2">
-        {SYSTEMS.map((s, i) => (
-          <StaggerItem key={s.name} className="group border-t border-border py-4 md:py-5">
+      <Stagger className="mt-10 grid gap-x-16 md:mt-12 md:grid-cols-2">
+        {SYSTEMS.map((s) => (
+          <StaggerItem key={s.name} className="border-t border-border py-7">
             <div className="flex items-center justify-between gap-3">
-              <div className="flex items-baseline gap-3">
-                <span className="label text-accent">0{i + 1}</span>
-                <h3 className="font-serif text-[24px] leading-none transition-colors group-hover:text-accent">
-                  {s.name}
-                </h3>
-              </div>
-              <Tag tone={s.status === "Live" ? "success" : s.status ? "warning" : "muted"}>
-                {s.status ?? "Illustrative workflow"}
-              </Tag>
+              <h3 className="item-title">{s.name}</h3>
+              {s.status && <Tag tone={s.status === "Live" ? "success" : "warning"}>{s.status}</Tag>}
             </div>
             <FlowChain steps={s.flow} className="mt-4" />
           </StaggerItem>

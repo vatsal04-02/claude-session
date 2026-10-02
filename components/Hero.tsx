@@ -37,7 +37,7 @@ const SYSTEM: { icon: LucideIcon; name: string; sub: string }[] = [
 export default function Hero() {
   const { open } = useDemo();
   return (
-    <section id="top" className="relative overflow-hidden px-5 pb-10 pt-24 md:px-8 md:pb-10 md:pt-24">
+    <section id="top" className="relative overflow-hidden px-5 pb-20 pt-28 md:px-8 md:pb-[120px] md:pt-32">
       <div aria-hidden className="grid-bg pointer-events-none absolute inset-0" />
       <div
         aria-hidden
@@ -63,16 +63,11 @@ export default function Hero() {
               </motion.span>
             </h1>
 
-            <motion.p {...rise(0.5)} className="mt-6 max-w-[35rem] text-[17px] leading-relaxed text-muted">
-              FlowHQ designs and builds AI-powered business systems that capture leads, automate
-              follow-ups, connect your tools and keep your team moving.
+            <motion.p {...rise(0.5)} className="mt-7 max-w-[34rem] text-[17px] leading-[1.75] text-muted">
+              FlowHQ designs and builds AI-powered business systems that capture leads, automate follow-ups and connect the tools your team already uses.
             </motion.p>
 
-            <motion.p {...rise(0.58)} className="label mt-5 text-accent/80">
-              AI Systems · Automation · CRM · Integrations
-            </motion.p>
-
-            <motion.div {...rise(0.66)} className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <motion.div {...rise(0.66)} className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
               <Button size="lg" onClick={open}>
                 Book a Free Demo
               </Button>
@@ -116,7 +111,7 @@ function SystemStrip() {
   }, [reduce]);
 
   return (
-    <motion.div {...rise(0.85)} className="mt-9 md:mt-10">
+    <motion.div {...rise(0.85)} className="mt-16 md:mt-20">
       <div className="label mb-4 text-subtle">One connected system</div>
       <ol ref={ref} className="relative grid grid-cols-3 gap-y-6 lg:grid-cols-6">
         {SYSTEM.map((node, i) => {
@@ -146,9 +141,6 @@ function SystemStrip() {
                 <node.icon className={cn("h-4 w-4 transition-colors duration-500", lit ? "text-accent" : "text-subtle")} strokeWidth={1.8} />
                 {node.name}
               </div>
-              <p className={cn("mt-1 text-[13px] leading-snug transition-colors duration-500", lit ? "text-muted" : "text-subtle")}>
-                {node.sub}
-              </p>
             </li>
           );
         })}
@@ -244,9 +236,6 @@ function LiveRun() {
                     </AnimatePresence>
                   </div>
                 </div>
-                <span className={cn("label shrink-0 text-[10px]", st === "idle" ? "text-subtle" : "text-accent")}>
-                  {node.tag}
-                </span>
               </div>
             </motion.li>
           );

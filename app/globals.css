@@ -150,9 +150,9 @@ body {
 /* ---------- flow diagrams ---------- */
 /* chips in a FlowChain light up in sequence once when scrolled into view */
 @keyframes chip-run {
-  0%, 100% { border-color: var(--color-border); color: var(--color-muted); background-color: transparent; }
-  5%, 17% { border-color: rgba(234, 106, 45, 0.8); color: var(--color-text); background-color: rgba(234, 106, 45, 0.14); }
-  28% { border-color: var(--color-border); color: var(--color-muted); background-color: transparent; }
+  0%, 100% { color: var(--color-muted); }
+  5%, 17% { color: var(--color-accent); }
+  28% { color: var(--color-muted); }
 }
 @keyframes arrow-run {
   0%, 100% { color: var(--color-border-bright); }
@@ -176,3 +176,13 @@ body {
   100% { transform: translateX(50px); opacity: 0; }
 }
 .drip-x { animation: drip-x 2.8s ease-in infinite; animation-delay: var(--d, 0s); }
+
+/* type scale: item titles are quiet sans, not serif */
+.item-title {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}

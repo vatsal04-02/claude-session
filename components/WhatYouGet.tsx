@@ -7,8 +7,8 @@ const ITEMS = ["Website / Lead Capture", "CRM", "AI Layer", "Automation", "Integ
 
 export default function WhatYouGet() {
   return (
-    <Section id="get" className="border-t border-border">
-      <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <Section id="get" className="border-t border-border bg-bg-soft">
+      <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
           size="sm"
           eyebrow="Implementation partner"
@@ -23,9 +23,9 @@ export default function WhatYouGet() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-30px" }}
               transition={{ duration: 0.55, ease: EASE, delay: i * 0.07 }}
-              className="flex items-baseline gap-3 border-t border-border py-3 md:gap-4 md:py-3.5"
+              className="flex items-baseline gap-3 border-t border-border py-4 md:gap-4 md:py-5"
             >
-              <span className="label text-accent">0{i + 1}</span>
+              <span className="label text-subtle">0{i + 1}</span>
               <span className="text-[15px] leading-snug text-text md:text-[17px]">{it}</span>
             </motion.li>
           ))}
