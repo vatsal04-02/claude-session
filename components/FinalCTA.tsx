@@ -1,16 +1,11 @@
 "use client";
 
 import { useDemo } from "@/lib/demo-context";
-import { whatsappHref } from "@/lib/site";
+import { WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
 import { Button, Highlight, Reveal } from "./ui";
 
 export default function FinalCTA() {
   const { open } = useDemo();
-  // Without a configured WhatsApp number the button opens the demo form instead of a dead link.
-  const wa = whatsappHref
-    ? ({ href: whatsappHref, target: "_blank", rel: "noopener noreferrer" } as const)
-    : ({ href: "#demo", onClick: (e: React.MouseEvent) => (e.preventDefault(), open()) } as const);
-
   return (
     <section id="demo" className="section-edge relative overflow-hidden bg-[#1a110b] px-5 py-24 md:px-8 md:py-[150px]">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.5 } as React.CSSProperties} />
@@ -34,7 +29,7 @@ export default function FinalCTA() {
             <Button size="lg" onClick={open}>
               Book a Free Demo
             </Button>
-            <Button size="lg" variant="ghost" arrow={null} {...wa}>
+            <Button size="lg" variant="whatsapp" {...waLink(WHATSAPP_MESSAGES.general)}>
               WhatsApp Us
             </Button>
           </Reveal>

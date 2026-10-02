@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
 import { AUTOMATION_OPTIONS, BUSINESS_TYPES } from "@/lib/site";
 import { cn } from "@/lib/cn";
+import { WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
 import { Button, EASE } from "./ui";
 
 const TIMES = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
@@ -116,26 +117,47 @@ export default function DemoModal() {
     return Object.keys(e).length === 0;
   };
 
+  const submitting = useRef(false); // synchronous guard: a double click can never send twice
+
   const submit = async (ev: React.FormEvent) => {
     ev.preventDefault();
+    if (submitting.current) return;
     if (!validate()) {
       panelRef.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
       return;
     }
+    submitting.current = true;
     setStatus("sending");
     setServerError("");
+    const requirement = [
+      `Business type: ${form.businessType}`,
+      form.automate.length ? `Wants: ${form.automate.join(", ")}` : "",
+      form.details.trim() ? `Notes: ${form.details.trim()}` : "",
+    ]
+      .filter(Boolean)
+      .join(" | ");
     try {
-      const res = await fetch("/api/demo", {
+      const res = await fetch("/api/demo-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: form.name,
+          businessName: form.business,
+          phone: form.phone,
+          email: form.email,
+          requirement,
+          preferredDate: form.date,
+          preferredTime: form.time,
+        }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error(data.error || "Something went wrong.");
+      if (!res.ok || !data.ok) throw new Error("save failed");
       setStatus("done");
-    } catch (err) {
-      setServerError(err instanceof Error ? err.message : "Something went wrong.");
+    } catch {
+      setServerError("We couldn't submit your request right now. Please try again or contact us on WhatsApp.");
       setStatus("error");
+    } finally {
+      submitting.current = false;
     }
   };
 
@@ -186,14 +208,16 @@ export default function DemoModal() {
                   <Check className="h-8 w-8" strokeWidth={3} />
                 </motion.div>
                 <h2 id={titleId} className="display mt-8 text-4xl">
-                  You&apos;re booked. We&apos;ll be in touch shortly.
+                  You&apos;re on the list.
                 </h2>
                 <p className="mx-auto mt-3 max-w-sm text-muted">
-                  Thanks, {form.name.split(" ")[0]}. We&apos;ll confirm your demo
-                  {form.date ? ` for ${form.date}` : ""}
-                  {form.time ? ` at ${form.time}` : ""} on {form.phone ? "WhatsApp or email" : "email"}.
+                  Thanks — we&apos;ve received your demo request. We&apos;ll get in touch shortly.
                 </p>
-                <div className="mt-8">
+                <p className="label mt-8 text-subtle">Prefer WhatsApp?</p>
+                <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
+                  <Button variant="whatsapp" {...waLink(WHATSAPP_MESSAGES.submitted)}>
+                    WhatsApp Us
+                  </Button>
                   <Button variant="ghost" onClick={close} arrow={null}>
                     Close
                   </Button>
@@ -332,9 +356,12 @@ export default function DemoModal() {
                 </div>
 
                 {status === "error" && (
-                  <p role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
-                    {serverError}
-                  </p>
+                  <div role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+                    <p>{serverError}</p>
+                    <Button variant="whatsapp" className="mt-3" {...waLink(WHATSAPP_MESSAGES.general)}>
+                      WhatsApp FlowHQ
+                    </Button>
+                  </div>
                 )}
 
                 <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -342,11 +369,11 @@ export default function DemoModal() {
                   <Button
                     type="submit"
                     size="lg"
-                    disabled={status === "sending"}
+                    disabled={status === "sending"} aria-busy={status === "sending"}
                     arrow={status === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : undefined}
                     className="disabled:opacity-80"
                   >
-                    {status === "sending" ? "Booking…" : "Book my demo"}
+                    {status === "sending" ? "Submitting…" : "Book my demo"}
                   </Button>
                 </div>
               </form>

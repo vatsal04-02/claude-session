@@ -247,7 +247,7 @@ export function SpotlightCard({
 /* ------------------------------------------------------------------ */
 
 type BtnProps = {
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "whatsapp";
   size?: "md" | "lg";
   arrow?: React.ReactNode;
   arrowMove?: "x" | "y";
@@ -272,6 +272,8 @@ export function Button({
     size === "md" ? "h-10 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
       ? "bg-accent text-[#1a0a03] hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-[0_12px_30px_-10px_rgba(233,107,47,0.7)]"
+      : variant === "whatsapp"
+      ? "border border-[#25D366]/40 bg-[#25D366]/[0.05] text-text hover:-translate-y-0.5 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366]"
       : "border border-border-bright text-text hover:border-accent/60 hover:text-accent",
     className
   );
