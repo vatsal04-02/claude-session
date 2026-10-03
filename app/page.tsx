@@ -33,7 +33,6 @@ export default function Home() {
         <LiveDemoChat />
         <RoiCalculator />
         <ProductScreens />
-        <Faq />
         <AutomationList />
         <WhyFlowHQ />
         <ProductPreview />
@@ -41,6 +40,7 @@ export default function Home() {
         <Work />
         <Process />
         <FinalCTA />
+        <Faq />
       </main>
       <Footer />
       <DemoModal />

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { Plus } from "lucide-react";
+import { ArrowUpRight, Plus } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, SectionHeading } from "./ui";
@@ -59,6 +59,16 @@ export default function Faq() {
               );
             })}
           </ul>
+          <p className="mt-6">
+            <a
+              href="https://docs.google.com/spreadsheets/d/1uXn63T6lQTlO8dJawYFLaTHecwtr1mt7GpaulEdvEj8/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[14px] text-muted underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/60"
+            >
+              View detailed FAQ sheet <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </p>
         </Reveal>
       </div>
     </Section>
