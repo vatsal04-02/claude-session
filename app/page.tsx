@@ -3,7 +3,6 @@ import Faq from "@/components/Faq";
 import IndustryTabs from "@/components/IndustryTabs";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import ProductScreens from "@/components/ProductScreens";
-import RoiCalculator from "@/components/RoiCalculator";
 import DemoModal from "@/components/DemoModal";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
@@ -31,7 +30,6 @@ export default function Home() {
         <Services />
         <IndustryTabs />
         <LiveDemoChat />
-        <RoiCalculator />
         <ProductScreens />
         <AutomationList />
         <WhyFlowHQ />

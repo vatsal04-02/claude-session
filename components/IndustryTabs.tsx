@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, SectionHeading } from "./ui";
+import RoiCalculator from "./RoiCalculator";
 
 const INDUSTRIES = [
   {
@@ -145,6 +146,8 @@ export default function IndustryTabs() {
           </AnimatePresence>
         </div>
       </Reveal>
+
+      <RoiCalculator />
     </Section>
   );
 }

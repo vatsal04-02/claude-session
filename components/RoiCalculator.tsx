@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Counter, Reveal, Section, SectionHeading } from "./ui";
+import { Counter, Reveal } from "./ui";
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
 
@@ -15,14 +15,18 @@ export default function RoiCalculator() {
   const leaking = enq * 4 * (ignored / 100) * avgValue;
 
   return (
-    <Section id="roi" className="bg-[#160f0b]">
-      <SectionHeading
-        eyebrow="Revenue leak"
-        title="How much are you leaking?"
-        sub="Drag the sliders. Watch the number. (Estimate — your real number comes from the free audit.)"
-      />
+    <div id="roi" className="mt-16 border-t border-border pt-14 md:mt-20 md:pt-16">
+      <Reveal>
+        <span className="label inline-flex items-center gap-2.5 text-accent">
+          <span className="h-px w-6 bg-accent/70" /> Revenue leak
+        </span>
+        <h3 className="display mt-4 text-[clamp(1.75rem,3.2vw,2.5rem)] text-text">How much are you leaking?</h3>
+        <p className="mt-4 max-w-[34rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
+          Drag the sliders. Watch the number. (Estimate — your real number comes from the free audit.)
+        </p>
+      </Reveal>
 
-      <Reveal className="mt-12 grid gap-5 md:mt-14 lg:grid-cols-[1fr_1fr]">
+      <Reveal className="mt-10 grid gap-5 lg:grid-cols-[1fr_1fr]">
         <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 md:p-8">
           <div>
             <div className="flex items-baseline justify-between gap-4">
@@ -88,6 +92,6 @@ export default function RoiCalculator() {
           <span className="sr-only" aria-live="polite">Estimated revenue leaking every month: {inr(leaking)}</span>
         </div>
       </Reveal>
-    </Section>
+    </div>
   );
 }
