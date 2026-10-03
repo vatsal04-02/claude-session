@@ -5,7 +5,7 @@ import { Check, Loader2, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
-import { AUTOMATION_OPTIONS, BUSINESS_TYPES } from "@/lib/site";
+import { AUTOMATION_OPTIONS, BUSINESS_TYPES, GOOGLE_SHEET_URL } from "@/lib/site";
 import { cn } from "@/lib/cn";
 import { WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
 import { Button, EASE } from "./ui";
@@ -129,32 +129,35 @@ export default function DemoModal() {
     submitting.current = true;
     setStatus("sending");
     setServerError("");
-    const requirement = [
-      `Business type: ${form.businessType}`,
+    // The sheet has one free-text "Message" column, so the remaining form fields are folded into it.
+    const message = [
+      form.business.trim() ? `Business: ${form.business.trim()}` : "",
+      form.email.trim() ? `Email: ${form.email.trim()}` : "",
       form.automate.length ? `Wants: ${form.automate.join(", ")}` : "",
       form.details.trim() ? `Notes: ${form.details.trim()}` : "",
+      form.date || form.time ? `Preferred: ${[form.date, form.time].filter(Boolean).join(" ")}` : "",
     ]
       .filter(Boolean)
       .join(" | ");
     try {
-      const res = await fetch("/api/demo-lead", {
+      // text/plain keeps this a "simple" request, so the browser doesn't send a CORS preflight
+      // (Apps Script web apps don't answer one). The body is still JSON.
+      const res = await fetch(GOOGLE_SHEET_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           name: form.name,
-          businessName: form.business,
           phone: form.phone,
-          email: form.email,
-          requirement,
-          preferredDate: form.date,
-          preferredTime: form.time,
+          businessType: form.businessType,
+          message,
+          source: "FlowHQ website",
         }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error("save failed");
       setStatus("done");
     } catch {
-      setServerError("We couldn't submit your request right now. Please try again or contact us on WhatsApp.");
+      setServerError("Something went wrong — please reach us on WhatsApp instead.");
       setStatus("error");
     } finally {
       submitting.current = false;
@@ -211,7 +214,7 @@ export default function DemoModal() {
                   You&apos;re on the list.
                 </h2>
                 <p className="mx-auto mt-3 max-w-sm text-muted">
-                  Thanks — we&apos;ve received your demo request. We&apos;ll get in touch shortly.
+                  Thanks! We&apos;ll reach out soon.
                 </p>
                 <p className="label mt-8 text-subtle">Prefer WhatsApp?</p>
                 <div className="mt-3 flex flex-wrap items-center justify-center gap-3">

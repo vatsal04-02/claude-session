@@ -1,76 +1,44 @@
 # Google Sheets lead capture
 
-Flow: **Demo form → `POST /api/demo-lead` → Google Apps Script Web App → Google Sheet** (one row per lead).
-The browser never talks to Google; only the server route does.
+The "Get My Free Demo" form posts JSON straight to a Google Apps Script Web app, which appends one row per submission.
+The Web app URL lives in `lib/site.ts` as `GOOGLE_SHEET_URL`.
 
-## 1. Create the sheet
-Create a Google Sheet (any name). On the first tab, put these headers in row 1, columns A–J:
+Sheet headers (row 1, A–F): `Timestamp | Name | Phone | Business Type | Message | Source`
 
-| A | B | C | D | E | F | G | H | I | J |
-|---|---|---|---|---|---|---|---|---|---|
-| Timestamp | Name | Business Name | Phone / WhatsApp | Email | Requirement | Preferred Date | Preferred Time | Source | Status |
+Posted body: `{ name, phone, businessType, message, source: "FlowHQ website" }` (sent as `text/plain` to avoid a CORS preflight).
+`message` also carries business name, email, selected options, notes and preferred date/time.
 
-## 2. Add the webhook
-Open **Extensions → Apps Script**, replace the contents of `Code.gs` with:
+## Apps Script (Extensions → Apps Script)
 
 ```js
+const SHEET_NAME = "Sheet1";
+
 function doPost(e) {
-  var lock = LockService.getScriptLock();
+  const lock = LockService.getScriptLock();
   try {
     lock.waitLock(10000);
-    var d = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-
-    // stop values such as "=SUM(...)" being treated as formulas
-    var safe = function (v) {
-      v = v == null ? "" : String(v);
+    const data = JSON.parse(e.postData.contents);
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    const safe = (v) => {
+      v = v == null ? "" : String(v).slice(0, 2000);
       return /^[=+\-@]/.test(v) ? "'" + v : v;
     };
-
-    sheet.appendRow([
-      d.submittedAt || new Date().toISOString(), // Timestamp
-      safe(d.name),                              // Name
-      safe(d.businessName),                      // Business Name
-      "",                                        // Phone (set as text below)
-      safe(d.email),                             // Email
-      safe(d.requirement),                       // Requirement
-      safe(d.preferredDate),                     // Preferred Date
-      safe(d.preferredTime),                     // Preferred Time
-      safe(d.source),                            // Source
-      "New"                                      // Status
-    ]);
-    // keep "+91…" as text instead of letting Sheets turn it into a number
-    sheet.getRange(sheet.getLastRow(), 4).setNumberFormat("@").setValue(String(d.phone || ""));
-
-    return ContentService.createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    sheet.appendRow([new Date(), safe(data.name), "", safe(data.businessType), safe(data.message), safe(data.source)]);
+    sheet.getRange(sheet.getLastRow(), 3).setNumberFormat("@").setValue(String(data.phone || ""));
+    return json({ ok: true });
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return json({ ok: false, error: String(err) });
   } finally {
     lock.releaseLock();
   }
 }
+
+function doGet() { return json({ ok: true, status: "FlowHQ lead webhook is running" }); }
+function json(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 ```
 
-## 3. Deploy as a Web App
-1. **Deploy → New deployment → type: Web app**
-2. *Execute as:* **Me**
-3. *Who has access:* **Anyone**
-4. **Deploy**, authorize when asked, and copy the **Web app URL** (ends in `/exec`).
+Deploy → New deployment → Web app → Execute as **Me** → Who has access **Anyone**. After editing the script use
+Deploy → Manage deployments → Edit → New version (the URL stays the same).
 
-After changing the script later, use **Deploy → Manage deployments → Edit → New version** (the URL stays the same).
-
-## 4. Connect the site
-Create `.env.local` (never committed) next to `package.json`:
-
-```
-DEMO_WEBHOOK_URL=https://script.google.com/macros/s/XXXXXXXX/exec
-```
-
-Restart the dev server (`npm run dev`) or redeploy. On Vercel/Netlify, add `DEMO_WEBHOOK_URL` in the project's environment variables.
-
-## Notes
-- If `DEMO_WEBHOOK_URL` is missing or the script fails, the form shows an error with a WhatsApp fallback. It never shows success without a saved row.
-- The server stamps `submittedAt` (UTC ISO) and sets `source = "FlowHQ Website"`; the script sets `Status = "New"`.
-- Treat the Web app URL as a secret: anyone who has it can add rows.
+The Web app URL is visible in the site's JavaScript, so treat the sheet as publicly writable and don't share the URL.

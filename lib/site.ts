@@ -1,3 +1,7 @@
+/** Google Apps Script Web app that appends each demo request to the leads sheet. */
+export const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbxXh891ABs0zi0SaKTQAq34Kxr-L_kSJbQwWs3b7pVupbg7uWNV5WFv5VxHqt-dFU3FLA/exec";
+
 export const NAV_LINKS = [
   { label: "What We Build", href: "#systems" },
   { label: "How It Works", href: "#workflow" },
