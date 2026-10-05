@@ -7,11 +7,12 @@ import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, SectionHeading } from "./ui";
 
 const FAQS = [
-  ["Will WhatsApp ban my number?", "No. We use the official WhatsApp Business API, messages go only to people who opted in, and everything runs inside Meta's rules."],
-  ["Does it replace my staff?", "No. It handles the repetitive work — replies, reminders, follow-ups. Your team steps in exactly where humans win."],
-  ["Do you support Hindi?", "Yes. Hindi, English and Hinglish — whatever your customers speak."],
-  ["What does it cost?", "Every project is scoped and quoted upfront after a free audit. WhatsApp message charges are pay-as-you-go at Meta's official rates — you see the cost before anything is sent."],
-  ["How long does setup take?", "Most systems are live in 7–14 days."],
+  ["How much does it cost?", "Every business is different. The free audit ends with a fixed quote for your setup — no hidden fees, no forced retainers. You approve the number before anything starts."],
+  ["How long does setup take?", "Most systems go live within a few weeks. Your free audit includes an exact timeline for your business — connecting your tools, building the automations, and one onboarding call."],
+  ["Is the WhatsApp automation legal?", "Yes. We use the official WhatsApp Business API, messages go only to customers who opted in, and everything runs inside Meta's rules. No spam, no bans."],
+  ["What do you need from me to start?", "Access to the tools you already use, a walkthrough of the work you want automated, and one hour for an onboarding call. We handle everything else."],
+  ["What happens after launch?", "We monitor the system, tune the AI from real usage, and send you a monthly report. Support is on WhatsApp — replies within a day."],
+  ["Who is this NOT for?", "If your work is already fully handled and nothing eats your team's day, you don't need us. We're also not a fit for enterprise custom builds."],
 ] as const;
 
 export default function Faq() {
