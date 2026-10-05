@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import { useDemo } from "@/lib/demo-context";
 import {
   FlowChain,
   Highlight,
@@ -50,7 +49,6 @@ const SERVICES = [
 ];
 
 export default function Services() {
-  const { open } = useDemo();
   return (
     <Section id="services" grid="strong" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
@@ -86,14 +84,13 @@ export default function Services() {
       <Reveal delay={0.1} className="mt-8 md:mt-10">
         <p className="max-w-[40rem] text-[16px] leading-[1.75] text-muted">
           Connects with WhatsApp, email, calendar, forms, payments and your CRM.{" "}
-          <button
-            type="button"
-            onClick={open}
+          <a
+            href="#audit"
             className="group inline-flex cursor-pointer items-center gap-1.5 text-text underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent"
           >
             Something else? Tell us what to automate
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
+          </a>
         </p>
       </Reveal>
     </Section>

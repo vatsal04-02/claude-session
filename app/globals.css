@@ -245,3 +245,8 @@ body::before {
     linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   mask-composite: intersect;
 }
+
+/* the fixed mobile CTA bar (below lg) must never cover the end of the page */
+@media (max-width: 1023px) {
+  body { padding-bottom: 84px; }
+}

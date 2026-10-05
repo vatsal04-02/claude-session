@@ -4,13 +4,11 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/site";
-import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
 import Logo from "./Logo";
 import { Button, EASE } from "./ui";
 
 export default function Navbar() {
-  const { open, isOpen } = useDemo();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -65,9 +63,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 lg:justify-self-end">
             <div className="hidden lg:block">
-              <Button onClick={open}>
-                Get My Free Demo
-              </Button>
+              <Button href="#audit">Get My Free Audit</Button>
             </div>
             <button
               type="button"
@@ -104,7 +100,7 @@ export default function Navbar() {
 
       {/* sticky bottom CTA, phones only */}
       <AnimatePresence>
-        {!isOpen && (
+        {(
           <motion.div
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -112,8 +108,8 @@ export default function Navbar() {
             transition={{ delay: 1, duration: 0.5, ease: EASE }}
             className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/90 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden"
           >
-            <Button onClick={open} className="w-full">
-              Get My Free Demo
+            <Button href="#audit" className="w-full">
+              Get My Free Audit
             </Button>
           </motion.div>
         )}

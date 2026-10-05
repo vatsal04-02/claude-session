@@ -2,18 +2,16 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
-import { useDemo } from "@/lib/demo-context";
+import { WHATSAPP_MESSAGES, getWhatsAppUrl } from "@/lib/whatsapp";
 import { EASE } from "./ui";
 
-// PLACEHOLDER number: replace 919999999999 with the real WhatsApp number.
-const FLOAT_URL = `https://wa.me/919999999999?text=${encodeURIComponent("Hi FlowHQ, I want the free audit.")}`;
+const FLOAT_URL = getWhatsAppUrl(WHATSAPP_MESSAGES.general);
 
-/** Sticky WhatsApp button, bottom-right. Sits above the mobile CTA bar and hides while the demo modal is open. */
+/** Sticky WhatsApp button, bottom-right. Sits above the mobile CTA bar. */
 export default function WhatsAppFloat() {
-  const { isOpen } = useDemo();
   return (
     <AnimatePresence>
-      {!isOpen && (
+      {(
         <motion.a
           href={FLOAT_URL}
           target="_blank"

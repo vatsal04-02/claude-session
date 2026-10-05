@@ -2,7 +2,6 @@
 
 import { MotionConfig, useReducedMotion } from "motion/react";
 import { ReactLenis } from "lenis/react";
-import { DemoProvider } from "@/lib/demo-context";
 
 /**
  * - MotionConfig(reducedMotion="user") makes every motion component honour the OS setting.
@@ -13,7 +12,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   const tree = (
     <MotionConfig reducedMotion="user">
-      <DemoProvider>{children}</DemoProvider>
+      {children}
     </MotionConfig>
   );
 

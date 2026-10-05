@@ -1,12 +1,12 @@
 # Google Sheets lead capture
 
-The "Get My Free Demo" form posts JSON straight to a Google Apps Script Web app, which appends one row per submission.
+The "Get My Free Audit" form posts JSON straight to a Google Apps Script Web app, which appends one row per submission.
 The Web app URL lives in `lib/site.ts` as `GOOGLE_SHEET_URL`.
 
 Sheet headers (row 1, A–F): `Timestamp | Name | Phone | Business Type | Message | Source`
 
 Posted body: `{ name, phone, businessType, message, source: "FlowHQ website" }` (sent as `text/plain` to avoid a CORS preflight).
-`message` also carries business name, email, selected options, notes and preferred date/time.
+`message` is the free-text message from the audit form.
 
 ## Apps Script (Extensions → Apps Script)
 

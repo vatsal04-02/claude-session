@@ -5,7 +5,7 @@ import { StatusDot } from "./ui";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border px-5 pb-24 pt-9 md:px-8 md:pb-10">
+    <footer className="border-t border-border px-5 pt-9 md:px-8 lg:pb-10">
       <div className="mx-auto flex max-w-[1140px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <div>
           <a href="#top" aria-label="FlowHQ home">

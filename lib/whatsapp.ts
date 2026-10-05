@@ -6,8 +6,8 @@ export function getWhatsAppUrl(message: string) {
 }
 
 export const WHATSAPP_MESSAGES = {
-  general: "Hi FlowHQ, I want to learn more about your AI automation services.",
-  submitted: "Hi FlowHQ, I just submitted a demo request on your website.",
+  general: "Hi FlowHQ, I want the free audit.",
+  submitted: "Hi FlowHQ, I just requested the free audit on your website.",
 } as const;
 
 /** Props to spread on an <a>/Button so the chat opens in a new tab. */

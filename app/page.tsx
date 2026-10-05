@@ -3,7 +3,6 @@ import Faq from "@/components/Faq";
 import IndustryTabs from "@/components/IndustryTabs";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import ProductScreens from "@/components/ProductScreens";
-import DemoModal from "@/components/DemoModal";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
@@ -43,7 +42,6 @@ export default function Home() {
         <Faq />
       </main>
       <Footer />
-      <DemoModal />
     </>
   );
 }
