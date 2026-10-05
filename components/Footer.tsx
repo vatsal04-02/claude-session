@@ -1,5 +1,5 @@
 import { FOOTER_LINKS } from "@/lib/site";
-import { WHATSAPP_NUMBER, WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
+import { WA_LINK } from "@/lib/whatsapp";
 import Logo from "./Logo";
 import { StatusDot } from "./ui";
 
@@ -24,7 +24,7 @@ export default function Footer() {
               </li>
             ))}
             <li>
-              <a {...waLink(WHATSAPP_MESSAGES.general)} className="text-[#25D366] transition-opacity hover:opacity-80">
+              <a {...WA_LINK} className="text-[#25D366] transition-opacity hover:opacity-80">
                 WhatsApp
               </a>
             </li>
@@ -38,7 +38,7 @@ export default function Footer() {
           <div>[EMAIL]</div>
           <div>
             WhatsApp:{" "}
-            <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent">
+            <a {...WA_LINK} className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent">
               [WHATSAPP NUMBER]
             </a>
           </div>

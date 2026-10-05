@@ -1,10 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { WHATSAPP_MESSAGES, getWhatsAppUrl } from "@/lib/whatsapp";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import { EASE } from "./ui";
-
-const FLOAT_URL = getWhatsAppUrl(WHATSAPP_MESSAGES.general);
 
 /** Sticky WhatsApp button, bottom-right. Sits above the mobile CTA bar. */
 export default function WhatsAppFloat() {
@@ -12,7 +10,7 @@ export default function WhatsAppFloat() {
     <AnimatePresence>
       {(
         <motion.a
-          href={FLOAT_URL}
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat with FlowHQ on WhatsApp"

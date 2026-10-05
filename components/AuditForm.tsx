@@ -4,7 +4,7 @@ import { Check, Loader2 } from "lucide-react";
 import { useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { GOOGLE_SHEET_URL } from "@/lib/site";
-import { WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
+import { WA_LINK } from "@/lib/whatsapp";
 import { Button } from "./ui";
 
 const inputCls =
@@ -68,7 +68,7 @@ export default function AuditForm() {
         <p className="mt-6 text-[22px] font-semibold tracking-tight">Thanks! We&apos;ll reach out soon.</p>
         <p className="mt-6 text-[14px] text-muted">
           Prefer WhatsApp?{" "}
-          <a {...waLink(WHATSAPP_MESSAGES.submitted)} className={waText}>
+          <a {...WA_LINK} className={waText}>
             WhatsApp us
           </a>
         </p>
@@ -125,7 +125,7 @@ export default function AuditForm() {
       {status === "error" && (
         <div role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
           <p>Something went wrong — please reach us on WhatsApp instead.</p>
-          <a {...waLink(WHATSAPP_MESSAGES.general)} className={cn(waText, "mt-2 inline-block")}>
+          <a {...WA_LINK} className={cn(waText, "mt-2 inline-block")}>
             WhatsApp FlowHQ
           </a>
         </div>
@@ -143,7 +143,7 @@ export default function AuditForm() {
       </Button>
       <p className="mt-4 text-center text-[13px] text-subtle">
         Prefer WhatsApp?{" "}
-        <a {...waLink(WHATSAPP_MESSAGES.general)} className={waText}>
+        <a {...WA_LINK} className={waText}>
           Message us
         </a>
       </p>
