@@ -6,11 +6,11 @@ import { cn } from "@/lib/cn";
 import { Button, EASE, Highlight, StatusDot } from "./ui";
 
 const NODES = [
-  { name: "Form Submit", tag: "TRIGGER", log: "New enquiry · requested a callback" },
-  { name: "Enrich", tag: "LOOKUP", log: "Source: website" },
-  { name: "AI Agent", tag: "REASON", log: "AI understood intent" },
-  { name: "Next Action", tag: "DECIDE", log: "Next action created" },
-  { name: "CRM + Send", tag: "ACT", log: "CRM updated" },
+  { name: "Form filled", log: "New enquiry · requested a callback" },
+  { name: "Understand", log: "Source: website" },
+  { name: "AI", log: "AI understood what they want" },
+  { name: "Next step", log: "Next step created" },
+  { name: "CRM + Send", log: "CRM updated" },
 ];
 
 const STEP_MS = 1300;
@@ -97,7 +97,7 @@ export default function Hero() {
   );
 }
 
-/* One workflow run: Form Submit → Enrich → AI Agent → Guardrail → CRM + Send */
+/* One workflow run: Form filled → Understand → AI → Next step → CRM + Send */
 function LiveRun() {
   const reduce = useReducedMotion();
   const n = NODES.length;
@@ -195,8 +195,8 @@ function LiveRun() {
       <ul className="mt-4 space-y-1 border-t border-border pt-3 font-mono text-[10.5px] leading-[1.6] text-subtle">
         {[
           ["09:41:33", "enquiry captured", 0],
-          ["09:41:35", "intent understood", 2],
-          ["09:41:36", "next action created", 4],
+          ["09:41:35", "understood what they want", 2],
+          ["09:41:36", "next step created", 4],
         ].map(([t, msg, at]) => (
           <li key={t as string} className={cn("flex gap-3 transition-opacity duration-700", tick >= (at as number) ? "opacity-100" : "opacity-0")}>
             <span className="text-subtle/80">{t}</span>

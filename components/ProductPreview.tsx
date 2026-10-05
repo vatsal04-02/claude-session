@@ -138,7 +138,7 @@ export default function ProductPreview() {
                   >
                     <div className="item-title text-[24px]">{lead.name}</div>
                     <div className="text-sm text-muted">{lead.service}</div>
-                    <div className="mt-1 text-[13px] text-subtle">{lead.intent} intent · {lead.source}</div>
+                    <div className="mt-1 text-[13px] text-subtle">{lead.intent} interest · {lead.source}</div>
 
                     <div className="mt-5">
                       <div className="label mb-1.5 flex items-center gap-2 text-[10px] text-accent">
@@ -148,7 +148,7 @@ export default function ProductPreview() {
                     </div>
 
                     <div className="mt-4 rounded-lg border border-border bg-bg/50 px-4 py-3">
-                      <div className="label text-[10px] text-subtle">Next action</div>
+                      <div className="label text-[10px] text-subtle">Next step</div>
                       <div className="mt-0.5 text-[15px]">{lead.next}</div>
                     </div>
 
