@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Providers from "@/components/Providers";
+import Intro, { INTRO_SCRIPT } from "@/components/Intro";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "@fontsource/instrument-serif/latin-400.css";
 import "./globals.css";
@@ -38,8 +39,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+      </head>
       <body>
+        <Intro />
         <Providers>
           {children}
           <WhatsAppFloat />

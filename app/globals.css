@@ -250,3 +250,74 @@ body::before {
 @media (max-width: 1023px) {
   body { padding-bottom: 84px; }
 }
+
+/* ---------- Phase 3 motion ---------- */
+/* cards: lift (motion) + a soft shadow that fades in (opacity only) */
+.card-lift::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.85), 0 10px 30px -18px rgba(234, 106, 47, 0.28);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.card-lift:hover::after { opacity: 1; }
+.card-lift { isolation: isolate; }
+
+/* hero ambient orbs, 14s drift */
+@keyframes orb-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(70px, 50px, 0) scale(1.12); }
+}
+@keyframes orb-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(-60px, -45px, 0) scale(0.92); }
+}
+.orb-a { animation: orb-a 14s ease-in-out infinite; }
+.orb-b { animation: orb-b 14s ease-in-out infinite; }
+
+/* page-load brand intro */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #000;
+  animation: intro-out 0.3s ease 0.85s forwards;
+}
+html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
+@keyframes intro-out { to { opacity: 0; visibility: hidden; } }
+.intro-f path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: intro-draw 0.4s ease-out 0.05s forwards;
+}
+@keyframes intro-draw { to { stroke-dashoffset: 0; } }
+.intro-l {
+  opacity: 0;
+  animation: intro-type 0.01s steps(1) forwards;
+  animation-delay: calc(0.4s + var(--i) * 0.06s);
+}
+@keyframes intro-type { to { opacity: 1; } }
+html[data-intro="off"] .intro { display: none; }
+
+/* cinematic film grain */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
+  .orb-a, .orb-b { animation: none; }
+}

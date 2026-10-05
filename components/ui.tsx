@@ -229,10 +229,10 @@ export function SpotlightCard({
   return (
     <motion.div
       onMouseMove={onMove}
-      whileHover={lift ? { y: -3 } : undefined}
-      transition={{ duration: 0.3, ease: EASE }}
+      whileHover={lift ? { y: -4 } : undefined}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       className={cn(
-        "spotlight rounded-2xl border border-border bg-surface transition-[border-color] duration-300 hover:border-accent/45",
+        "spotlight card-lift rounded-2xl border border-border bg-surface transition-[border-color] duration-300 hover:border-accent/45",
         className
       )}
       {...rest}
@@ -311,10 +311,13 @@ export function Button({
 export function Magnetic({
   children,
   strength = 0.25,
+  max = Infinity,
   className,
 }: {
   children: React.ReactNode;
   strength?: number;
+  /** cap on the pull, in px */
+  max?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -330,8 +333,9 @@ export function Magnetic({
       onPointerMove={(e) => {
         if (reduce || e.pointerType !== "mouse" || !ref.current) return;
         const r = ref.current.getBoundingClientRect();
-        x.set((e.clientX - (r.left + r.width / 2)) * strength);
-        y.set((e.clientY - (r.top + r.height / 2)) * strength);
+        const pull = (d: number) => Math.max(-max, Math.min(max, d * strength));
+        x.set(pull(e.clientX - (r.left + r.width / 2)));
+        y.set(pull(e.clientY - (r.top + r.height / 2)));
       }}
       onPointerLeave={() => {
         x.set(0);

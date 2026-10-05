@@ -40,10 +40,10 @@ export default function WhatWeBuild() {
       <Stagger className={cn("mt-12 md:mt-14", SWIPE_ROW, "md:grid-cols-2 md:gap-5 lg:grid-cols-3")}>
         {SYSTEMS.map((s) => (
           <StaggerItem key={s.name} className={SWIPE_ITEM}>
-            <SpotlightCard className="group relative flex h-full flex-col overflow-hidden p-7 md:p-8">
+            <SpotlightCard className="group relative flex h-full flex-col p-7 md:p-8">
               <span
                 aria-hidden
-                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-accent via-accent/50 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+                className="absolute inset-x-5 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-accent via-accent/50 to-transparent transition-transform duration-500 group-hover:scale-x-100"
               />
               <span className="grid h-10 w-10 place-items-center rounded-xl border border-accent/30 bg-accent/10 text-accent">
                 <s.icon className="h-[18px] w-[18px]" strokeWidth={1.9} />

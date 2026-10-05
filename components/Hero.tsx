@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { Button, EASE, Highlight, StatusDot } from "./ui";
+import { Button, EASE, Highlight, Magnetic, StatusDot } from "./ui";
 
 const NODES = [
   { name: "Form filled", log: "New enquiry · requested a callback" },
@@ -74,20 +74,29 @@ export default function Hero() {
             </motion.p>
 
             <motion.div {...rise(0.7)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
-              <Button size="lg" href="#audit">
-                Get My Free Audit
-              </Button>
-              <a
-                href="#workflow"
-                className="group inline-flex min-h-11 items-center gap-2 text-[15px] text-text underline decoration-transparent underline-offset-[6px] transition-colors hover:text-accent hover:decoration-accent/60"
-              >
-                See How It Works
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
+              <Magnetic strength={0.2} max={6}>
+                <Button size="lg" href="#audit">
+                  Get My Free Audit
+                </Button>
+              </Magnetic>
+              <Magnetic strength={0.2} max={6}>
+                <a
+                  href="#workflow"
+                  className="group inline-flex min-h-11 items-center gap-2 text-[15px] text-text underline decoration-transparent underline-offset-[6px] transition-colors hover:text-accent hover:decoration-accent/60"
+                >
+                  See How It Works
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
+              </Magnetic>
             </motion.div>
           </div>
 
-          <motion.div {...rise(0.5)} className="md:max-w-[540px] lg:max-w-none">
+          <motion.div {...rise(0.5)} className="relative isolate md:max-w-[540px] lg:max-w-none">
+            {/* ambient light behind the workflow card: two blurred orbs drifting on a 14s loop */}
+            <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10">
+              <span className="orb-a absolute left-[4%] top-[2%] h-[300px] w-[300px] rounded-full bg-[rgba(234,106,47,0.26)] blur-[90px]" />
+              <span className="orb-b absolute bottom-[0%] right-[2%] h-[260px] w-[260px] rounded-full bg-[rgba(45,150,150,0.16)] blur-[90px]" />
+            </div>
             <LiveRun />
           </motion.div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Loader2 } from "lucide-react";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { GOOGLE_SHEET_URL } from "@/lib/site";
 import { WA_LINK } from "@/lib/whatsapp";
@@ -9,6 +9,9 @@ import { Button } from "./ui";
 
 const inputCls =
   "w-full rounded-xl border border-border bg-bg/60 px-4 py-3 text-[15px] text-text placeholder:text-subtle transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25";
+
+/** Fired by the problem cards: { message, focus } pre-fills (and optionally focuses) the Message field. */
+export const PREFILL_EVENT = "flowhq:prefill";
 
 const waText = "text-[14px] text-[#25D366] underline decoration-[#25D366]/40 underline-offset-4 transition-opacity hover:opacity-80";
 
@@ -19,6 +22,17 @@ export default function AuditForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const sending = useRef(false); // synchronous guard against double submits
   const uid = useId();
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const onPrefill = (ev: Event) => {
+      const { message, focus } = (ev as CustomEvent<{ message: string; focus?: boolean }>).detail;
+      setF((p) => ({ ...p, message }));
+      if (focus) setTimeout(() => messageRef.current?.focus({ preventScroll: true }), 0);
+    };
+    window.addEventListener(PREFILL_EVENT, onPrefill);
+    return () => window.removeEventListener(PREFILL_EVENT, onPrefill);
+  }, []);
 
   const set = (k: keyof typeof f, v: string) => {
     setF((p) => ({ ...p, [k]: v }));
@@ -114,6 +128,7 @@ export default function AuditForm() {
           </label>
           <textarea
             id={`${uid}-message`}
+            ref={messageRef}
             rows={3}
             value={f.message}
             onChange={(ev) => set("message", ev.target.value)}

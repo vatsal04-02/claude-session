@@ -6,34 +6,42 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, SectionHeading, StatusDot } from "./ui";
 
-type Msg = { id: number; kind: "you" | "bot" | "confirm" | "follow"; text: string };
+type Kind = "event" | "bot" | "you" | "done";
+type Step = { kind: Kind; text: string };
+type Msg = Step & { id: number };
 
-const SCRIPTS: Record<string, { answer: string; confirm: string; follow: string }> = {
-  "Do you have a slot tomorrow?": {
-    answer: "Yes! Tomorrow we have 11:00 AM, 3:30 PM and 5:00 PM free. Which suits you?",
-    confirm: "Booked · Tomorrow, 3:30 PM · Confirmation sent",
-    follow: "Quick reminder: your appointment is tomorrow at 3:30 PM. Reply 1 to confirm or 2 to reschedule.",
-  },
-  "What are your prices?": {
-    answer: "Happy to help! I've sent our price list. Want a free consultation so we can suggest the right option?",
-    confirm: "Price list sent · Lead saved to the CRM",
-    follow: "Hi again! Any questions on the prices? I can hold a consultation slot for you today.",
-  },
-  "I need to reschedule my appointment.": {
-    answer: "No problem. I can move you to Thursday 10:00 AM or Friday 4:00 PM. Which one?",
-    confirm: "Rescheduled · Thursday, 10:00 AM · Old slot released",
-    follow: "All set! We'll remind you on Thursday morning. See you then.",
-  },
+/* Scripted, illustrative sequences — one per scenario. Nothing plays until a chip is tapped. */
+const SCENARIOS: Record<string, Step[]> = {
+  "Missed enquiry": [
+    { kind: "event", text: "Missed call · after hours" },
+    { kind: "bot", text: "Sorry we missed your call! How can we help? Reply here and we'll get back to you first thing." },
+    { kind: "you", text: "I wanted to ask about availability this week." },
+    { kind: "done", text: "Lead saved · Assigned to your team · Callback task created" },
+    { kind: "bot", text: "Good morning! Following up on your enquiry — would a call at 11 AM work for you?" },
+  ],
+  "No-show risk": [
+    { kind: "event", text: "Appointment tomorrow, 4:00 PM · not yet confirmed" },
+    { kind: "bot", text: "Hi! A reminder that your appointment is tomorrow at 4:00 PM. Reply 1 to confirm or 2 to reschedule." },
+    { kind: "you", text: "2" },
+    { kind: "bot", text: "No problem — would Thursday 11:00 AM or Friday 5:00 PM suit you better?" },
+    { kind: "done", text: "Rescheduled · Old slot released for someone else" },
+  ],
+  "Silent past customer": [
+    { kind: "event", text: "Past customer · no visit or reply in a while" },
+    { kind: "bot", text: "Hi! It's been a while — we'd love to see you again. Want me to hold a slot for you this week?" },
+    { kind: "you", text: "Yes, Saturday morning if possible." },
+    { kind: "done", text: "Slot held · Saturday, 10:00 AM · Team notified" },
+  ],
 };
-const PRESETS = Object.keys(SCRIPTS);
-const GREETING: Msg = { id: 0, kind: "bot", text: "Hi, thanks for messaging! How can I help you today?" };
+const CHIPS = Object.keys(SCENARIOS);
 
 export default function LiveDemoChat() {
   const reduce = useReducedMotion();
-  const [msgs, setMsgs] = useState<Msg[]>([GREETING]);
+  const [scenario, setScenario] = useState<string | null>(null);
+  const [msgs, setMsgs] = useState<Msg[]>([]);
   const [typing, setTyping] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [played, setPlayed] = useState(false);
+  const [finished, setFinished] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const nextId = useRef(1);
@@ -43,36 +51,44 @@ export default function LiveDemoChat() {
   // keep the newest message in view inside the chat only (never scrolls the page)
   useEffect(() => {
     box.current?.scrollTo({ top: box.current.scrollHeight, behavior: reduce ? "auto" : "smooth" });
-  }, [msgs, typing, reduce]);
+  }, [msgs, typing, finished, reduce]);
 
-  const add = (kind: Msg["kind"], text: string) =>
-    setMsgs((m) => [...m, { id: nextId.current++, kind, text }]);
+  const clear = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    setMsgs([]);
+    setTyping(false);
+    setBusy(false);
+    setFinished(false);
+  };
 
-  const play = (q: string) => {
+  const play = (name: string) => {
     if (busy) return;
-    const s = SCRIPTS[q];
-    const d = (ms: number) => (reduce ? 0 : ms);
+    clear();
+    setScenario(name);
     setBusy(true);
-    setPlayed(true);
-    add("you", q);
-    const at = (fn: () => void, ms: number) => timers.current.push(setTimeout(fn, ms));
-    at(() => setTyping(true), d(500));
+    const at = (fn: () => void, ms: number) => timers.current.push(setTimeout(fn, reduce ? 0 : ms));
+    let t = 250;
+    for (const step of SCENARIOS[name]) {
+      if (step.kind === "bot") {
+        at(() => setTyping(true), t);
+        t += 850;
+      }
+      at(() => {
+        setTyping(false);
+        setMsgs((m) => [...m, { ...step, id: nextId.current++ }]);
+      }, t);
+      t += step.kind === "you" ? 900 : 1100;
+    }
     at(() => {
-      setTyping(false);
-      add("bot", s.answer);
-    }, d(1500));
-    at(() => add("confirm", s.confirm), d(2700));
-    at(() => add("follow", s.follow), d(4200));
-    at(() => setBusy(false), d(4300));
+      setBusy(false);
+      setFinished(true);
+    }, t - 500);
   };
 
   const reset = () => {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    setMsgs([GREETING]);
-    setTyping(false);
-    setBusy(false);
-    setPlayed(false);
+    clear();
+    setScenario(null);
   };
 
   return (
@@ -81,7 +97,7 @@ export default function LiveDemoChat() {
         <SectionHeading
           eyebrow="Try it"
           title="Try it in 30 seconds."
-          sub="Play the customer. Watch the system work. (Sample only — no real messages sent.)"
+          sub="Pick a scenario. Watch the system work. (Sample only — no real messages sent.)"
         />
 
         <Reveal y={28}>
@@ -94,15 +110,38 @@ export default function LiveDemoChat() {
                   <StatusDot tone="accent" /> Online
                 </div>
               </div>
-              {played && (
+              {scenario && (
                 <button
                   type="button"
                   onClick={reset}
-                  className="ml-auto inline-flex cursor-pointer items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-accent"
+                  className="ml-auto inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-accent"
                 >
                   <RotateCcw className="h-3.5 w-3.5" /> Start over
                 </button>
               )}
+            </div>
+
+            <div className="border-b border-border p-4">
+              <div className="label mb-3 text-[10px] text-subtle">Pick a scenario</div>
+              <div role="group" aria-label="Scenarios" className="flex flex-wrap gap-2">
+                {CHIPS.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    disabled={busy}
+                    aria-pressed={scenario === c}
+                    onClick={() => play(c)}
+                    className={cn(
+                      "min-h-11 cursor-pointer rounded-full border px-4 text-[14px] transition-colors disabled:cursor-not-allowed",
+                      scenario === c
+                        ? "border-accent bg-accent/15 text-text"
+                        : "border-border text-text hover:border-accent/60 hover:text-accent disabled:opacity-45 disabled:hover:border-border disabled:hover:text-text"
+                    )}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div
@@ -113,6 +152,11 @@ export default function LiveDemoChat() {
               aria-label="Sample conversation"
               className="no-scrollbar flex h-[380px] flex-col gap-2.5 overflow-y-auto bg-bg/60 p-4"
             >
+              {!scenario && (
+                <p className="m-auto max-w-[26ch] text-center text-[14.5px] leading-[1.6] text-subtle">
+                  Tap a scenario above to watch the system handle it.
+                </p>
+              )}
               <AnimatePresence initial={false}>
                 {msgs.map((m) => (
                   <motion.div
@@ -123,16 +167,14 @@ export default function LiveDemoChat() {
                     transition={{ duration: 0.35, ease: EASE }}
                     className={cn(
                       "max-w-[85%] text-[14.5px] leading-[1.5]",
-                      m.kind === "you" &&
-                        "ml-auto rounded-2xl rounded-br-md border border-accent/30 bg-accent/15 px-4 py-2.5 text-text",
-                      (m.kind === "bot" || m.kind === "follow") &&
-                        "rounded-2xl rounded-bl-md border border-border bg-surface-2 px-4 py-2.5 text-text",
-                      m.kind === "confirm" &&
+                      m.kind === "event" && "label mx-auto max-w-full rounded-full border border-border px-3 py-1.5 text-center text-[10px] text-muted",
+                      m.kind === "you" && "ml-auto rounded-2xl rounded-br-md border border-accent/30 bg-accent/15 px-4 py-2.5 text-text",
+                      m.kind === "bot" && "rounded-2xl rounded-bl-md border border-border bg-surface-2 px-4 py-2.5 text-text",
+                      m.kind === "done" &&
                         "flex max-w-full items-center gap-2.5 rounded-xl border border-accent/40 bg-accent/[0.08] px-4 py-2.5 text-[13.5px] text-accent-2"
                     )}
                   >
-                    {m.kind === "follow" && <div className="label mb-1 text-[10px] text-accent">Follow-up</div>}
-                    {m.kind === "confirm" && <Check className="h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />}
+                    {m.kind === "done" && <Check className="h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />}
                     {m.text}
                   </motion.div>
                 ))}
@@ -155,24 +197,20 @@ export default function LiveDemoChat() {
                     ))}
                   </motion.div>
                 )}
-              </AnimatePresence>
-            </div>
-
-            <div className="border-t border-border p-4">
-              <div className="label mb-3 text-[10px] text-subtle">Tap a customer message</div>
-              <div className="flex flex-col gap-2">
-                {PRESETS.map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    disabled={busy}
-                    onClick={() => play(p)}
-                    className="cursor-pointer rounded-full border border-border px-4 py-2.5 text-left text-[14.5px] text-text transition-colors hover:border-accent/60 hover:text-accent disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:border-border disabled:hover:text-text"
+                {finished && (
+                  <motion.a
+                    key="cta"
+                    href="#audit"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="group mx-auto mt-2 inline-flex min-h-11 items-center gap-2 text-[15px] font-medium text-accent"
                   >
-                    {p}
-                  </button>
-                ))}
-              </div>
+                    See this for your business
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </motion.a>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </Reveal>
