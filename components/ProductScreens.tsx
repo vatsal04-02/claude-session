@@ -15,8 +15,11 @@ export default function ProductScreens() {
       <SectionHeading
         eyebrow="The product"
         title="This is what your screen looks like."
-        sub="The actual FlowHQ CRM — leads, pipeline, WhatsApp inbox, bookings."
+        sub="Preview of the FlowHQ CRM — leads, pipeline, WhatsApp inbox, bookings."
       />
+      <span className="label mt-6 inline-flex items-center gap-2 text-accent" style={{ fontSize: 10.5, letterSpacing: "0.14em" }}>
+        <span className="h-1.5 w-1.5 rounded-full bg-accent" /> Concept preview
+      </span>
       <Stagger className="mt-12 grid gap-5 md:mt-14 md:grid-cols-3">
         {SHOTS.map((s) => (
           <StaggerItem key={s.src}>
