@@ -1,6 +1,6 @@
 import AutomationList from "@/components/AutomationList";
 import Faq from "@/components/Faq";
-import IndustryTabs from "@/components/IndustryTabs";
+import ProblemCards from "@/components/ProblemCards";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import ProductScreens from "@/components/ProductScreens";
 import FinalCTA from "@/components/FinalCTA";
@@ -29,7 +29,7 @@ export default function Home() {
         <WhatWeDo />
         <Workflow />
         <Services />
-        <IndustryTabs />
+        <ProblemCards />
         <LiveDemoChat />
         <ProductScreens />
         <AutomationList />
