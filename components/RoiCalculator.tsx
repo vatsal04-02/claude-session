@@ -93,7 +93,7 @@ export default function RoiCalculator() {
           <span className="sr-only" aria-live="polite">Estimated revenue leaking every month: {inr(leaking)}</span>
           <a
             href="#audit"
-            className="group mt-6 inline-flex items-center gap-2 self-start text-[15px] text-text underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/60"
+            className="group mt-3 inline-flex min-h-11 items-center gap-2 self-start text-[15px] text-text underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/60"
           >
             Find your real number
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

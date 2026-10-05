@@ -269,7 +269,7 @@ export function Button({
 }: BtnProps) {
   const base = cn(
     "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-300 active:scale-[0.97] cursor-pointer",
-    size === "md" ? "h-10 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
+    size === "md" ? "h-11 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
       ? "bg-accent text-[#1a0a03] hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-[0_12px_30px_-10px_rgba(233,107,47,0.7)]"
       : variant === "whatsapp"

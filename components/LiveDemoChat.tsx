@@ -79,9 +79,9 @@ export default function LiveDemoChat() {
     <Section id="try-it" className="bg-[#140e0a]">
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
-          eyebrow="Live demo"
+          eyebrow="Try it"
           title="Try it in 30 seconds."
-          sub="Play the customer. Watch the system work. (Demo — no real messages sent.)"
+          sub="Play the customer. Watch the system work. (Sample only — no real messages sent.)"
         />
 
         <Reveal y={28}>
@@ -110,7 +110,7 @@ export default function LiveDemoChat() {
               data-lenis-prevent
               role="log"
               aria-live="polite"
-              aria-label="Demo conversation"
+              aria-label="Sample conversation"
               className="no-scrollbar flex h-[380px] flex-col gap-2.5 overflow-y-auto bg-bg/60 p-4"
             >
               <AnimatePresence initial={false}>

@@ -41,7 +41,7 @@ export default function Navbar() {
         )}
       >
         <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 lg:grid lg:grid-cols-[1fr_auto_1fr] md:px-8">
-          <a href="#top" aria-label="FlowHQ home" className="lg:justify-self-start" onClick={() => setMenu(false)}>
+          <a href="#top" aria-label="FlowHQ home" className="inline-flex min-h-11 items-center lg:justify-self-start" onClick={() => setMenu(false)}>
             <Logo />
           </a>
 
@@ -70,7 +70,7 @@ export default function Navbar() {
               aria-label={menu ? "Close menu" : "Open menu"}
               aria-expanded={menu}
               onClick={() => setMenu((m) => !m)}
-              className="grid h-9 w-9 place-items-center rounded-full border border-border text-text lg:hidden"
+              className="grid h-11 w-11 place-items-center rounded-full border border-border text-text lg:hidden"
             >
               {menu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>

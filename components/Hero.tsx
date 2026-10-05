@@ -79,7 +79,7 @@ export default function Hero() {
               </Button>
               <a
                 href="#workflow"
-                className="group inline-flex items-center gap-2 text-[15px] text-text underline decoration-transparent underline-offset-[6px] transition-colors hover:text-accent hover:decoration-accent/60"
+                className="group inline-flex min-h-11 items-center gap-2 text-[15px] text-text underline decoration-transparent underline-offset-[6px] transition-colors hover:text-accent hover:decoration-accent/60"
               >
                 See How It Works
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
