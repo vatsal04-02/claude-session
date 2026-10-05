@@ -1,5 +1,6 @@
 "use client";
 
+import { CalendarCheck, Database, MessageCircle, RotateCcw, Sparkles, Zap, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import {
   Highlight,
@@ -14,38 +15,21 @@ import {
   SwipeHint,
 } from "./ui";
 
-const SERVICES = [
-  {
-    name: "AI CRM Systems",
-    body: "Every lead, chat and booking — on one screen.",
-  },
-  {
-    name: "Lead Automation",
-    body: "Every enquiry answered in seconds, assigned, and followed up.",
-  },
-  {
-    name: "WhatsApp Automation",
-    body: "Chats that book, remind and follow up — on autopilot.",
-  },
-  {
-    name: "Booking Automation",
-    body: "Bookings that confirm themselves. No-shows that chase themselves.",
-  },
-  {
-    name: "Revenue Recovery",
-    body: "We find the money hiding in your missed calls and dead leads.",
-  },
-  {
-    name: "AI Business Assistants",
-    body: "An assistant trained on your business — not a generic chatbot.",
-  },
+/* "What FlowHQ does" + "Services", merged: AI, CRM, automation and integrations are folded into the specific systems. */
+const SYSTEMS: { name: string; body: string; icon: LucideIcon }[] = [
+  { icon: Database, name: "AI CRM Systems", body: "Every lead, chat and booking — on one screen." },
+  { icon: Zap, name: "Lead Automation", body: "Every enquiry answered in seconds, assigned, and followed up." },
+  { icon: MessageCircle, name: "WhatsApp Automation", body: "Chats that book, remind and follow up — on autopilot." },
+  { icon: CalendarCheck, name: "Booking Automation", body: "Bookings that confirm themselves. No-shows that chase themselves." },
+  { icon: RotateCcw, name: "Revenue Recovery", body: "We find the money hiding in your missed calls and dead leads." },
+  { icon: Sparkles, name: "AI Business Assistants", body: "An assistant trained on your business — not a generic chatbot." },
 ];
 
-export default function Services() {
+export default function WhatWeBuild() {
   return (
-    <Section id="services" grid="strong" className="warm-a bg-[#140e0a]">
+    <Section id="systems" grid="strong" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="Services" title={<>We automate the work that <Highlight>eats your day.</Highlight></>} />
+        <SectionHeading eyebrow="What we build" title={<>We automate the work that <Highlight>eats your day.</Highlight></>} />
         <Reveal delay={0.12}>
           <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
             We build the automation layer around the way your business already operates.
@@ -54,24 +38,23 @@ export default function Services() {
       </div>
 
       <Stagger className={cn("mt-12 md:mt-14", SWIPE_ROW, "md:grid-cols-2 md:gap-5 lg:grid-cols-3")}>
-        {SERVICES.map((s, i) => (
+        {SYSTEMS.map((s) => (
           <StaggerItem key={s.name} className={SWIPE_ITEM}>
             <SpotlightCard className="group relative flex h-full flex-col overflow-hidden p-7 md:p-8">
               <span
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-accent via-accent/50 to-transparent transition-transform duration-500 group-hover:scale-x-100"
               />
-              <span className="label flex items-center gap-2 text-subtle">
-                <span className="h-1.5 w-1.5 rounded-full bg-border-bright transition-colors duration-300 group-hover:bg-accent" />
-                0{i + 1}
+              <span className="grid h-10 w-10 place-items-center rounded-xl border border-accent/30 bg-accent/10 text-accent">
+                <s.icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
               </span>
-              <h3 className="item-title mt-4">{s.name}</h3>
+              <h3 className="item-title mt-5">{s.name}</h3>
               <p className="mt-2 max-w-[34ch] text-[16px] leading-[1.7] text-muted">{s.body}</p>
             </SpotlightCard>
           </StaggerItem>
         ))}
       </Stagger>
-      <SwipeHint>Swipe · 6 services</SwipeHint>
+      <SwipeHint>Swipe · 6 systems</SwipeHint>
 
       <Reveal delay={0.1} className="mt-8 md:mt-10">
         <p className="max-w-[40rem] text-[16px] leading-[1.75] text-muted">

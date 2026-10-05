@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import RoiCalculator from "./RoiCalculator";
 import { Section, SectionHeading, SpotlightCard, Stagger, StaggerItem } from "./ui";
 
 const PROBLEMS = [
@@ -30,7 +29,7 @@ const PROBLEMS = [
 
 export default function ProblemCards() {
   return (
-    <Section id="automate" className="bg-[#160f0b]">
+    <Section id="problems" className="bg-[#160f0b]">
       <SectionHeading
         eyebrow="Problems we solve"
         title="What we automate"
@@ -67,8 +66,6 @@ export default function ProblemCards() {
           );
         })}
       </Stagger>
-
-      <RoiCalculator />
     </Section>
   );
 }

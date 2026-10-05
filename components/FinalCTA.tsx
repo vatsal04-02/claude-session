@@ -5,6 +5,7 @@ import AuditForm from "./AuditForm";
 import { Highlight, Reveal } from "./ui";
 
 const GET = ["We map the work eating your team's day", "A fixed quote with no surprises", "An automation plan for your business"];
+const REASSURE = ["Works with the tools you already use", "Built around how your team operates", "People stay in control where it matters"];
 
 /** The audit section: every "Get My Free Audit" button on the site scrolls here. */
 export default function FinalCTA() {
@@ -29,6 +30,14 @@ export default function FinalCTA() {
             <p className="mt-6 max-w-[30rem] text-[17px] leading-[1.75] text-muted">
               Get a free audit and we&apos;ll map a workflow around your business.
             </p>
+            <ul className="mt-3 space-y-1">
+              {REASSURE.map((r) => (
+                <li key={r} className="flex items-center gap-2.5 text-[14px] text-subtle">
+                  <span aria-hidden className="h-1 w-1 rounded-full bg-accent/70" />
+                  {r}
+                </li>
+              ))}
+            </ul>
             <ul className="mt-6 space-y-3">
               {GET.map((g) => (
                 <li key={g} className="flex items-start gap-3 text-[16px] leading-[1.5] text-text">
@@ -43,6 +52,7 @@ export default function FinalCTA() {
         </div>
         <Reveal delay={0.15}>
           <AuditForm />
+          <p className="mt-4 text-center text-[13.5px] text-subtle">How we work: we map → design → build → launch with you.</p>
         </Reveal>
       </div>
     </section>

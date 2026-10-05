@@ -5,16 +5,9 @@ export const GOOGLE_SHEET_URL =
 export const NAV_LINKS = [
   { label: "What We Build", href: "#systems" },
   { label: "How It Works", href: "#workflow" },
-  { label: "Services", href: "#services" },
-  { label: "What We Automate", href: "#automate" },
   { label: "Try It", href: "#try-it" },
-  { label: "About", href: "#why" },
   { label: "FAQ", href: "#faq" },
 ] as const;
 
-export const FOOTER_LINKS = [
-  { label: "What We Build", href: "#systems" },
-  { label: "How It Works", href: "#workflow" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#audit" },
-] as const;
+/** The founder section's code is kept; flip this on once a real name, photo and bio exist. */
+export const SHOW_FOUNDER = false;

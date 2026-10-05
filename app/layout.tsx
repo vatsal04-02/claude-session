@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Providers from "@/components/Providers";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import "@fontsource/instrument-serif/latin-400.css";
 import "./globals.css";
 
 const SITE_URL = "https://claude-session-iota.vercel.app";

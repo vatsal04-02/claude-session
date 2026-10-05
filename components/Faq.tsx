@@ -11,7 +11,6 @@ const FAQS = [
   ["How long does setup take?", "Most systems go live within a few weeks. Your free audit includes an exact timeline for your business — connecting your tools, building the automations, and one onboarding call."],
   ["Is the WhatsApp automation legal?", "Yes. We use the official WhatsApp Business API, messages go only to customers who opted in, and everything runs inside Meta's rules. No spam, no bans."],
   ["What do you need from me to start?", "Access to the tools you already use, a walkthrough of the work you want automated, and one hour for an onboarding call. We handle everything else."],
-  ["What happens after launch?", "We monitor the system, tune the AI from real usage, and send you a monthly report. Support is on WhatsApp — replies within a day."],
   ["Who is this NOT for?", "If your work is already fully handled and nothing eats your team's day, you don't need us. We're also not a fit for enterprise custom builds."],
 ] as const;
 

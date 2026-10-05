@@ -1,21 +1,17 @@
 import Faq from "@/components/Faq";
-import ProblemCards from "@/components/ProblemCards";
-import LiveDemoChat from "@/components/LiveDemoChat";
-import ProductScreens from "@/components/ProductScreens";
 import FinalCTA from "@/components/FinalCTA";
-import Founder from "@/components/Founder";
 import Footer from "@/components/Footer";
+import Founder from "@/components/Founder";
 import Hero from "@/components/Hero";
+import LiveDemoChat from "@/components/LiveDemoChat";
 import Manifesto from "@/components/Manifesto";
 import Navbar from "@/components/Navbar";
-import Process from "@/components/Process";
-import ProductPreview from "@/components/ProductPreview";
-import Services from "@/components/Services";
-import WhatWeDo from "@/components/WhatWeDo";
-import WhatYouGet from "@/components/WhatYouGet";
-import WhyFlowHQ from "@/components/WhyFlowHQ";
+import ProblemCards from "@/components/ProblemCards";
+import RoiCalculator from "@/components/RoiCalculator";
+import WhatWeBuild from "@/components/WhatWeBuild";
 import Workflow from "@/components/Workflow";
 import { ScrollProgress } from "@/components/ui";
+import { SHOW_FOUNDER } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -25,18 +21,13 @@ export default function Home() {
       <main>
         <Hero />
         <Manifesto />
-        <WhatWeDo />
-        <Workflow />
-        <Services />
         <ProblemCards />
+        <WhatWeBuild />
+        <Workflow />
+        <RoiCalculator />
         <LiveDemoChat />
-        <ProductScreens />
-        <WhyFlowHQ />
-        <ProductPreview />
-        <WhatYouGet />
-        <Process />
         <FinalCTA />
-        <Founder />
+        {SHOW_FOUNDER && <Founder />}
         <Faq />
       </main>
       <Footer />
