@@ -1,4 +1,3 @@
-import AutomationList from "@/components/AutomationList";
 import Faq from "@/components/Faq";
 import ProblemCards from "@/components/ProblemCards";
 import LiveDemoChat from "@/components/LiveDemoChat";
@@ -14,7 +13,6 @@ import Services from "@/components/Services";
 import WhatWeDo from "@/components/WhatWeDo";
 import WhatYouGet from "@/components/WhatYouGet";
 import WhyFlowHQ from "@/components/WhyFlowHQ";
-import Work from "@/components/Work";
 import Workflow from "@/components/Workflow";
 import { ScrollProgress } from "@/components/ui";
 
@@ -32,11 +30,9 @@ export default function Home() {
         <ProblemCards />
         <LiveDemoChat />
         <ProductScreens />
-        <AutomationList />
         <WhyFlowHQ />
         <ProductPreview />
         <WhatYouGet />
-        <Work />
         <Process />
         <FinalCTA />
         <Faq />

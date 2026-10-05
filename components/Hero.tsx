@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { Database, Globe, Sparkles, UserCheck, UserPlus, Workflow, type LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { Button, EASE, Highlight, StatusDot } from "./ui";
@@ -23,15 +22,6 @@ function rise(delay: number) {
     transition: { duration: 0.9, ease: EASE, delay },
   };
 }
-
-const SYSTEM: { icon: LucideIcon; name: string; sub: string }[] = [
-  { icon: Globe, name: "Website", sub: "Forms, calls, chats" },
-  { icon: UserPlus, name: "Lead", sub: "Captured and owned" },
-  { icon: Sparkles, name: "AI", sub: "Reads the intent" },
-  { icon: Database, name: "CRM", sub: "Keeps the record" },
-  { icon: Workflow, name: "Automation", sub: "Moves work forward" },
-  { icon: UserCheck, name: "Customer", sub: "Booked and informed" },
-];
 
 export default function Hero() {
   return (
@@ -102,81 +92,8 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <SystemStrip />
       </div>
     </section>
-  );
-}
-
-/* Thin system rail: Website → Lead → AI → CRM → Automation → Customer.
-   A ~8s loop: the active node glows orange, finished ones go muted orange, upcoming stay grey,
-   and a small light travels the line. Pauses while off-screen; static when motion is reduced. */
-const RAIL_STEP_MS = 1150;
-
-function SystemStrip() {
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const onScreen = useInView(ref);
-  const n = SYSTEM.length;
-  const [tick, setTick] = useState(0); // 0..n-1 active node, n = all finished
-
-  useEffect(() => {
-    if (reduce) return setTick(n);
-    if (!onScreen) return;
-    const id = setTimeout(() => setTick((t) => (t >= n ? 0 : t + 1)), RAIL_STEP_MS);
-    return () => clearTimeout(id);
-  }, [tick, reduce, onScreen, n]);
-
-  return (
-    <motion.div ref={ref} {...rise(0.85)} className="mt-16 md:mt-20">
-      <div className="label mb-4 text-subtle">One connected system</div>
-      <ol className="relative grid grid-cols-3 gap-y-6 lg:grid-cols-6">
-        <motion.span
-          aria-hidden
-          className="pointer-events-none absolute top-0 hidden h-[3px] w-14 -translate-x-full -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent to-accent-2 shadow-[0_0_12px_rgba(233,107,47,0.9)] lg:block"
-          initial={false}
-          animate={{ left: `${(Math.min(tick, n) / n) * 100}%`, opacity: tick >= n ? 0 : 1 }}
-          transition={{ left: { duration: tick === 0 ? 0 : RAIL_STEP_MS / 1000 - 0.1, ease: "easeInOut" }, opacity: { duration: 0.3 } }}
-        />
-        {SYSTEM.map((node, i) => {
-          const state = i < tick ? "done" : i === tick ? "active" : "next";
-          return (
-            <li
-              key={node.name}
-              className={cn(
-                "relative border-t pr-3 pt-5 transition-colors duration-700",
-                state === "done" ? "border-accent/40" : "border-border"
-              )}
-            >
-              <span
-                aria-hidden
-                className={cn(
-                  "absolute -top-[6px] left-0 h-3 w-3 rounded-full border-2 transition-all duration-700",
-                  state === "active" && "border-accent bg-accent shadow-[0_0_0_5px_rgba(233,107,47,0.16),0_0_16px_rgba(233,107,47,0.55)]",
-                  state === "done" && "border-accent/60 bg-accent/55",
-                  state === "next" && "border-border-bright bg-bg"
-                )}
-              />
-              <div
-                className={cn(
-                  "flex items-center gap-2 text-[15px] font-medium transition-colors duration-700",
-                  state === "active" ? "text-text" : state === "done" ? "text-muted" : "text-subtle"
-                )}
-              >
-                <node.icon
-                  className={cn(
-                    "h-4 w-4 transition-colors duration-700",
-                    state === "active" ? "text-accent" : state === "done" ? "text-accent/60" : "text-subtle"
-                  )}
-                  strokeWidth={1.8}
-                />
-                {node.name}
-              </div>
-            </li>
-          );
-        })}
-      </ol>
-    </motion.div>
   );
 }
 

@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/cn";
 import {
-  FlowChain,
   Highlight,
   Reveal,
   Section,
@@ -19,32 +18,26 @@ const SERVICES = [
   {
     name: "AI CRM Systems",
     body: "Every lead, chat and booking — on one screen.",
-    flow: ["Lead", "Contact", "Pipeline", "Action"],
   },
   {
     name: "Lead Automation",
     body: "Every enquiry answered in seconds, assigned, and followed up.",
-    flow: ["Form", "AI", "Assign", "Follow-up"],
   },
   {
     name: "WhatsApp Automation",
     body: "Chats that book, remind and follow up — on autopilot.",
-    flow: ["Message", "Context", "Handoff", "Follow-up"],
   },
   {
     name: "Booking Automation",
     body: "Bookings that confirm themselves. No-shows that chase themselves.",
-    flow: ["Booking", "Confirm", "Reminder", "Outcome"],
   },
   {
     name: "Revenue Recovery",
     body: "We find the money hiding in your missed calls and dead leads.",
-    flow: ["Missed", "Detect", "Follow-up", "Recover"],
   },
   {
     name: "AI Business Assistants",
     body: "An assistant trained on your business — not a generic chatbot.",
-    flow: ["Question", "Context", "AI", "Human"],
   },
 ];
 
@@ -74,7 +67,6 @@ export default function Services() {
               </span>
               <h3 className="item-title mt-4">{s.name}</h3>
               <p className="mt-2 max-w-[34ch] text-[16px] leading-[1.7] text-muted">{s.body}</p>
-              <FlowChain steps={s.flow} className="mt-auto pt-6" />
             </SpotlightCard>
           </StaggerItem>
         ))}

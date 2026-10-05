@@ -16,6 +16,5 @@ export const FOOTER_LINKS = [
   { label: "What We Build", href: "#systems" },
   { label: "How It Works", href: "#workflow" },
   { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
   { label: "Contact", href: "#audit" },
 ] as const;

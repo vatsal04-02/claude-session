@@ -11,7 +11,6 @@ const BLOCKS: { name: string; body: string; icon: LucideIcon }[] = [
   { icon: Zap, name: "Automation", body: "Follow-ups, reminders and nudges — without anyone having to remember." },
   { icon: Plug, name: "Integrations", body: "WhatsApp, calls, calendar, email — plugged into how your team already works." },
 ];
-const STEPS = ["Capture", "Understand", "Manage", "Automate", "Act"];
 
 /* Gradient-bordered card: lifts and glows on hover. */
 function GlowCard({ children, strong, className }: { children: React.ReactNode; strong?: boolean; className?: string }) {
@@ -68,22 +67,6 @@ export default function WhatWeDo() {
                 <p className="mt-3 max-w-[28ch] text-[16px] leading-[1.7] text-muted">
                   Every enquiry, chat, booking and follow-up — one connected flow.
                 </p>
-                <ol className="relative mt-8 flex flex-wrap gap-x-5 gap-y-2 lg:block lg:space-y-2.5">
-                  <span aria-hidden className="absolute bottom-2 left-[3px] top-2 hidden w-px bg-gradient-to-b from-accent/70 via-accent/40 to-accent/70 lg:block" />
-                  {STEPS.map((s, i) => (
-                    <motion.li
-                      key={s}
-                      initial={{ opacity: 0, x: -8 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: EASE }}
-                      className="relative flex items-center gap-3 text-[15px] text-text"
-                    >
-                      <span className="h-[7px] w-[7px] rounded-full bg-accent shadow-[0_0_10px_rgba(234,106,47,0.8)]" />
-                      {s}
-                    </motion.li>
-                  ))}
-                </ol>
               </div>
             </GlowCard>
             {/* pipeline: Workflows feeds the trunk that runs to the four blocks */}
