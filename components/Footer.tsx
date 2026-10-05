@@ -1,5 +1,5 @@
 import { FOOTER_LINKS } from "@/lib/site";
-import { WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
+import { WHATSAPP_NUMBER, WHATSAPP_MESSAGES, waLink } from "@/lib/whatsapp";
 import Logo from "./Logo";
 import { StatusDot } from "./ui";
 
@@ -30,6 +30,19 @@ export default function Footer() {
             </li>
           </ul>
         </nav>
+      </div>
+      <div className="mx-auto mt-8 max-w-[1140px]">
+        <address className="inline-block rounded-xl border border-dashed border-accent/60 bg-accent/[0.06] px-5 py-4 text-[14.5px] not-italic leading-[1.8] text-text">
+          <div>[FOUNDER NAME], Founder</div>
+          <div>Lucknow, India</div>
+          <div>[EMAIL]</div>
+          <div>
+            WhatsApp:{" "}
+            <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-accent">
+              [WHATSAPP NUMBER]
+            </a>
+          </div>
+        </address>
       </div>
       <div className="mx-auto mt-8 flex max-w-[1140px] flex-wrap items-center justify-between gap-4 border-t border-border pt-5 text-[13px] text-subtle">
         <span>© 2026 FlowHQ</span>

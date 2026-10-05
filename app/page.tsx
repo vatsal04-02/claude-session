@@ -3,6 +3,7 @@ import ProblemCards from "@/components/ProblemCards";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import ProductScreens from "@/components/ProductScreens";
 import FinalCTA from "@/components/FinalCTA";
+import Founder from "@/components/Founder";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Manifesto from "@/components/Manifesto";
@@ -35,6 +36,7 @@ export default function Home() {
         <WhatYouGet />
         <Process />
         <FinalCTA />
+        <Founder />
         <Faq />
       </main>
       <Footer />
