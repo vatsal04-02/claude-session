@@ -7,6 +7,7 @@ import DemoModal from "@/components/DemoModal";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
+import Manifesto from "@/components/Manifesto";
 import Navbar from "@/components/Navbar";
 import Process from "@/components/Process";
 import ProductPreview from "@/components/ProductPreview";
@@ -25,6 +26,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Manifesto />
         <WhatWeDo />
         <Workflow />
         <Services />

@@ -3,7 +3,6 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { Database, Globe, Sparkles, UserCheck, UserPlus, Workflow, type LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
 import { Button, EASE, Highlight, StatusDot } from "./ui";
 
@@ -35,7 +34,6 @@ const SYSTEM: { icon: LucideIcon; name: string; sub: string }[] = [
 ];
 
 export default function Hero() {
-  const { open } = useDemo();
   return (
     <section
       id="top"
@@ -60,9 +58,7 @@ export default function Hero() {
               className="label inline-flex items-center gap-3 text-accent-2"
               style={{ letterSpacing: "0.18em" }}
             >
-              <span className="h-px w-6 bg-accent" /> AI Automation Studio
-              <span aria-hidden className="hidden text-accent/50 sm:inline">·</span>
-              <span className="hidden text-accent/80 sm:inline">Systems that run the repeat work</span>
+              <span className="h-px w-6 bg-accent" /> Custom automation systems for local businesses
             </motion.span>
 
             <h1 className="display mt-5 text-[clamp(2.6rem,5.6vw,4.5rem)] text-text" style={{ fontWeight: 780, lineHeight: 1.02 }}>
@@ -80,19 +76,16 @@ export default function Hero() {
               </motion.span>
             </h1>
 
-            <motion.p {...rise(0.5)} className="mt-7 max-w-[520px] text-balance text-[19px] font-medium leading-[1.5] text-text">
-              We build AI systems that catch every enquiry, reply in seconds, and turn chats into <Highlight delay={1.5}>customers.</Highlight>
-            </motion.p>
-            <motion.p {...rise(0.58)} className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.75] text-muted/80">
-              FlowHQ builds AI-powered systems that capture every lead, automate the follow-ups your team forgets, and plug into the tools you already use.
+            <motion.p {...rise(0.5)} className="mt-7 max-w-[540px] text-balance text-[19px] font-medium leading-[1.5] text-text">
+              We build AI systems that kill repetitive work — missed follow-ups, manual data entry, chaotic processes. You bring the problem, we install the system.
             </motion.p>
             <motion.p {...rise(0.64)} className="label mt-5 text-subtle" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
               AI Systems · Automation · CRM · Integrations
             </motion.p>
 
             <motion.div {...rise(0.7)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
-              <Button size="lg" onClick={open}>
-                Get My Free Demo
+              <Button size="lg" href="#audit">
+                Get My Free Audit
               </Button>
               <a
                 href="#workflow"
