@@ -223,3 +223,16 @@ curl -sI https://yourdomain.com     | grep -iE "HTTP/|strict-transport"
 | Form says "Thanks" but no row appears | Script writes to another sheet, or the sheet tab was renamed | Check `SHEET_NAME` in the script matches your tab name (default `Sheet1`) |
 | WhatsApp opens the wrong person | The number placeholder in `lib/whatsapp.ts` | Set `WHATSAPP_NUMBER` (country code + number, digits only, e.g. `91XXXXXXXXXX`), then rebuild and upload |
 | Facebook/WhatsApp share shows an old preview | Their preview cache | Re-scrape at https://developers.facebook.com/tools/debug/ (WhatsApp uses the same cache) |
+
+---
+
+## Adding the founders video (when it's ready)
+
+The founder section already has a 16:9 slot for it. Until the video exists, the slot shows "Founders video · coming soon".
+
+1. Export the video as **MP4 (H.264 video + AAC audio)**. Phones and every major browser play that. Keep it under ~20 MB if you can.
+2. Save it as **`public/founders.mp4`**.
+3. In `components/Founder.tsx`, change `ready: false` to **`ready: true`** (the line `const FOUNDERS_VIDEO = { src: "/founders.mp4", ready: false };`).
+4. Rebuild and upload (Step 3: `npm run build`, zip `out/`, upload).
+
+It plays only when clicked, with sound, and doesn't loop.

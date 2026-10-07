@@ -340,15 +340,5 @@ body::after {
   .flip:hover .flip-inner { transform: rotateY(180deg); }
 }
 
-/* founder photos: subtle brand duotone (warm tint over a slightly desaturated photo) */
-.founder-photo img { filter: grayscale(0.35) sepia(0.18) contrast(1.04); }
-.founder-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(160deg, rgba(234, 106, 47, 0.22), rgba(18, 12, 9, 0.35));
-  mix-blend-mode: soft-light;
-}
-@keyframes founder-flash { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
-.founder-flash { animation: founder-flash 0.7s ease forwards; }
+/* founder photos: vibrant colour, zoomed in around the face (origin set per photo) */
+.founder-photo img { filter: saturate(1.25) contrast(1.05); transform: scale(1.2); }
