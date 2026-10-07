@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import Manifesto from "@/components/Manifesto";
 import Navbar from "@/components/Navbar";
+import PipelineVideo from "@/components/PipelineVideo";
 import ProblemCards from "@/components/ProblemCards";
 import RoiCalculator from "@/components/RoiCalculator";
 import WhatWeBuild from "@/components/WhatWeBuild";
@@ -24,6 +25,7 @@ export default function Home() {
         <ProblemCards />
         <WhatWeBuild />
         <Workflow />
+        <PipelineVideo />
         <RoiCalculator />
         <LiveDemoChat />
         <FinalCTA />
