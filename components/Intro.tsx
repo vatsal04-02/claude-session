@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/cn";
+import LogoMark from "./LogoMark";
 
 /** Runs before paint (in <head>): the intro plays once per session, never for reduced-motion users,
     and any click, key, wheel or touch skips it — even before hydration. */
@@ -26,13 +28,11 @@ export default function Intro() {
         if (e.target === e.currentTarget) setGone(true);
       }}
     >
-      <div className="flex items-center gap-[0.06em] text-[clamp(2.5rem,7vw,4.25rem)] font-bold leading-none tracking-[-0.02em] text-text">
-        <svg viewBox="0 0 36 48" className="intro-f h-[0.9em] w-[0.68em]" fill="none">
-          <path d="M6 45V5h26M6 24h20" pathLength={100} stroke="var(--color-accent)" strokeWidth="7" strokeLinecap="square" />
-        </svg>
+      <div className="font-logo flex items-center gap-[0.05em] text-[clamp(2.5rem,7vw,4.25rem)] font-bold leading-none tracking-[-0.01em]">
+        <LogoMark draw gradientId="flowhq-intro" className="h-[1.75em] w-auto" />
         <span className="flex whitespace-pre">
           {LETTERS.map((l, i) => (
-            <span key={i} className="intro-l" style={{ "--i": i } as React.CSSProperties}>
+            <span key={i} className={cn("intro-l", i < 3 ? "text-[#F8E9C9]" : "text-[#FF6510]")} style={{ "--i": i } as React.CSSProperties}>
               {l}
             </span>
           ))}

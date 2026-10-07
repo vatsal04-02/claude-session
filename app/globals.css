@@ -20,6 +20,7 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
   --font-serif: "Instrument Serif", "Times New Roman", serif;
+  --font-logo: "Poppins", var(--font-geist-sans), sans-serif;
 }
 
 html {
@@ -291,11 +292,22 @@ body::before {
 }
 html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
 @keyframes intro-out { to { opacity: 0; visibility: hidden; } }
-.intro-f path {
+.intro .mark-strokes path {
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
   animation: intro-draw 0.4s ease-out 0.05s forwards;
 }
+.intro .mark-strokes path + path { animation-delay: 0.2s; animation-duration: 0.25s; }
+.intro .mark-dots circle {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: intro-dot 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.intro .mark-dots circle:nth-child(1) { animation-delay: 0.38s; }
+.intro .mark-dots circle:nth-child(2) { animation-delay: 0.42s; }
+.intro .mark-dots circle:nth-child(3) { animation-delay: 0.3s; }
+@keyframes intro-dot { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
 @keyframes intro-draw { to { stroke-dashoffset: 0; } }
 .intro-l {
   opacity: 0;
