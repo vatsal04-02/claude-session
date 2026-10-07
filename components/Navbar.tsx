@@ -56,9 +56,8 @@ export default function Navbar({ base = "" }: { base?: "" | "/" }) {
           )}
           data-raised={raised}
         >
-          {/* glass: a lighter layer at the top of the page; a denser, blurrier one fades in once scrolled */}
-          <span aria-hidden className="nav-glass nav-glass-base" />
-          <span aria-hidden className="nav-glass nav-glass-raised" />
+          {/* one frosted-glass layer: backdrop-filter blurs the page passing behind it; lighter at the top, denser once scrolled */}
+          <span aria-hidden className="nav-glass" />
           <span aria-hidden className="nav-glow" />
 
           <nav
@@ -133,9 +132,9 @@ export default function Navbar({ base = "" }: { base?: "" | "/" }) {
               exit={{ opacity: 0, y: -6, scale: 0.985 }}
               transition={{ duration: 0.22, ease: EASE }}
               className="nav-float pointer-events-auto relative mx-auto mt-2 w-full max-w-[1180px] origin-top lg:hidden"
+              data-raised="true"
             >
-              <span aria-hidden className="nav-glass nav-glass-base" />
-              <span aria-hidden className="nav-glass nav-glass-raised opacity-100" />
+              <span aria-hidden className="nav-glass" />
               <ul className="relative p-2">
                 {NAV_LINKS.map((l) => {
                   const on = active === l.href.slice(1);
