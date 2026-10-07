@@ -9,6 +9,7 @@ import Navbar from "@/components/Navbar";
 import PipelineVideo from "@/components/PipelineVideo";
 import ProblemCards from "@/components/ProblemCards";
 import RoiCalculator from "@/components/RoiCalculator";
+import WhyTrust from "@/components/WhyTrust";
 import Workflow from "@/components/Workflow";
 import { ScrollProgress } from "@/components/ui";
 import { SHOW_FOUNDER } from "@/lib/site";
@@ -28,6 +29,7 @@ export default function Home() {
         <LiveDemoChat />
         <FinalCTA />
         {SHOW_FOUNDER && <Founder />}
+        <WhyTrust />
         <Faq />
       </main>
       <Footer />
