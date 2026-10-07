@@ -9,7 +9,7 @@ import { Reveal, Section, SectionHeading } from "./ui";
 const FOUNDERS = [
   // face: where the face sits in the photo (x% y%) — the crop zooms in around it
   { name: "Prachi Pathak", photo: "/founder-prachi.webp", w: 900, h: 1196, face: "58% 40%", number: FOUNDER_NUMBERS.prachi },
-  { name: "Vatsal Tripathi", photo: "/founder-vatsal.webp", w: 900, h: 1200, face: "50% 38%", number: FOUNDER_NUMBERS.vatsal },
+  { name: "Vatsal Tripathi", photo: "/founder-vatsal.webp", w: 900, h: 1200, face: "54% 32%", number: FOUNDER_NUMBERS.vatsal },
 ] as const;
 
 const POINTS = ["Every system personally built", "No SaaS lock-in — you own it", "You talk to the builder, not a rep"];
