@@ -129,7 +129,7 @@ export default function Founder() {
           <SectionHeading
             eyebrow="Built in Lucknow"
             title="Meet the people who build your system."
-            sub="We're Prachi Pathak and Vatsal Tripathi. We build automation systems for businesses losing hours to manual follow-up — every workflow, WhatsApp flow, and dashboard on this page was built by us, on infrastructure our clients own. No sales team, no juniors, no outsourcing."
+            sub="We're Prachi Pathak and Vatsal Tripathi. We build automation systems for businesses losing hours to repetitive work — every workflow, WhatsApp flow, and dashboard on this page was built by us, on infrastructure our clients own. No sales team, no juniors, no outsourcing."
           />
           <Reveal delay={0.2}>
             <ul className="mt-7 space-y-3">

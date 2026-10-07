@@ -17,7 +17,7 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           </a>
           <p className="label mt-2 text-accent" style={{ letterSpacing: "0.18em" }}>Built To Automate.</p>
           <p className="mt-4 max-w-[30ch] text-[14px] leading-[1.6] text-muted">
-            AI automation agency in Lucknow, building automation systems for businesses across India.
+            Custom AI + automation systems that put your business on autopilot. Lucknow, working across India.
           </p>
         </div>
 

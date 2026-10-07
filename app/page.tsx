@@ -18,11 +18,11 @@ import { faqPage, JsonLd } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "FlowHQ | AI Automation Agency for Businesses in India",
+  title: "FlowHQ | Custom AI & Automation Systems for Businesses in India",
   description:
-    "FlowHQ is an AI automation agency in Lucknow building workflow, WhatsApp and CRM automation for businesses across India. Get a free 2-minute visibility audit.",
+    "FlowHQ builds custom AI and automation systems that handle repetitive work, connect your tools and put your business on autopilot. Based in Lucknow, working across India. Free audit.",
   path: "/",
-  socialTitle: "FlowHQ — AI automation agency. We install growth engines.",
+  socialTitle: "FlowHQ — Put your business on autopilot.",
 });
 
 export default function Home() {

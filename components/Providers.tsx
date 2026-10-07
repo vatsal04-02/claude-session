@@ -1,34 +1,11 @@
 "use client";
 
-import { MotionConfig, useReducedMotion } from "motion/react";
-import { ReactLenis } from "lenis/react";
+import { MotionConfig } from "motion/react";
 
 /**
- * - MotionConfig(reducedMotion="user") makes every motion component honour the OS setting.
- * - Lenis gives the page its smooth, inertial scroll (skipped entirely for reduced-motion users).
+ * MotionConfig(reducedMotion="user") makes every motion component honour the OS setting.
+ * Scrolling is the browser's own (no scroll-jacking): animations react to scroll, never control it.
  */
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const reduce = useReducedMotion();
-
-  const tree = (
-    <MotionConfig reducedMotion="user">
-      {children}
-    </MotionConfig>
-  );
-
-  if (reduce) return tree;
-
-  return (
-    <ReactLenis
-      root
-      options={{
-        lerp: 0.09,
-        wheelMultiplier: 0.95,
-        smoothWheel: true,
-        anchors: true,
-      }}
-    >
-      {tree}
-    </ReactLenis>
-  );
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

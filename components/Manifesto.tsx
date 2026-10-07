@@ -19,7 +19,7 @@ export default function Manifesto() {
         style={reduce ? undefined : { scale, opacity }}
         className="font-serif mx-auto max-w-[20ch] text-balance text-[clamp(2.6rem,7vw,6rem)] leading-[1.02] tracking-[-0.01em] text-text"
       >
-        We don&apos;t sell marketing. We install <Highlight>growth engines.</Highlight>
+        Less manual work. More room to <Highlight>grow.</Highlight>
       </motion.p>
       <p className="label mt-6 text-subtle" style={{ letterSpacing: "0.24em" }}>
         Built To Automate.

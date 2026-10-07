@@ -14,7 +14,7 @@ import { OG_IMAGE, SITE_NAME } from "@/lib/seo";
 /* Site-wide defaults. Every page sets its own title, description and canonical via lib/seo.ts. */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "FlowHQ | AI Automation Agency for Businesses in India", template: "%s | FlowHQ" },
+  title: { default: "FlowHQ | Custom AI & Automation Systems for Businesses in India", template: "%s | FlowHQ" },
   applicationName: "FlowHQ",
   openGraph: { siteName: SITE_NAME, locale: "en_IN", type: "website", images: [OG_IMAGE] },
   twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },

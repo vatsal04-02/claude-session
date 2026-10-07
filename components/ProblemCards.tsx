@@ -9,32 +9,32 @@ import { Section, SectionHeading, Stagger, StaggerItem } from "./ui";
 /* Front = the problem, back = the system that fixes it. Every back links to the audit and pre-fills its Message field. */
 const PROBLEMS = [
   {
-    title: "Leads going cold",
-    line: "Enquiries dying in someone's inbox.",
-    fix: "Lead Automation",
-    fixLine: "Every enquiry answered in seconds, with follow-ups that never forget.",
+    title: "Manual data entry",
+    line: "Copying the same details from one place to another.",
+    fix: "Data automation",
+    fixLine: "Forms, emails and documents read by AI and entered into the right system — nobody types it twice.",
   },
   {
-    title: "No-shows and empty slots",
-    line: "Calendar gaps costing you daily.",
-    fix: "Booking Automation",
-    fixLine: "Bookings that confirm themselves. No-shows that chase themselves.",
+    title: "Tools that don't talk",
+    line: "WhatsApp, email, sheets and CRM, all separate.",
+    fix: "Connected systems",
+    fixLine: "Your tools share information automatically. Update it once, and it's updated everywhere.",
   },
   {
-    title: "Manual busywork",
-    line: "Data entry, reports, reconciliations.",
-    fix: "AI CRM Systems",
-    fixLine: "The repetitive work your team hates, handled — every lead, chat and booking on one screen.",
+    title: "Things slipping through",
+    line: "Follow-ups, tasks and reminders forgotten.",
+    fix: "Automated follow-through",
+    fixLine: "Follow-ups, reminders and tasks fire on time, every time — nobody has to remember.",
   },
   {
-    title: "Silent customers",
-    line: "Past customers, gone quiet.",
-    fix: "Revenue Recovery",
-    fixLine: "Review requests, repeat offers, win-back nudges — past customers become revenue again.",
+    title: "Slow replies",
+    line: "Customers waiting hours for an answer.",
+    fix: "AI customer communication",
+    fixLine: "AI answers the common questions instantly and hands the rest to your team with the full context.",
   },
   {
-    title: "Your specific problem",
-    line: "Something else eating your hours?",
+    title: "Your specific process",
+    line: "Something else eating your team's hours?",
     fix: "Custom automation",
     fixLine: "Tell us what your team does manually. We'll map exactly what can be automated.",
     open: true,
@@ -52,7 +52,7 @@ function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
     setFlipped((f) => !f);
   };
   const onLinkClick = () => {
-    const message = open ? "I'm losing business to: " : `I'm losing business to: ${p.title}.`;
+    const message = open ? "I want to automate: " : `I want to automate: ${p.title}.`;
     window.dispatchEvent(new CustomEvent(PREFILL_EVENT, { detail: { message, focus: open } }));
   };
 
@@ -97,9 +97,9 @@ export default function ProblemCards() {
   return (
     <Section id="problems" className="bg-[#150e0a]">
       <SectionHeading
-        eyebrow="Problems we solve"
-        title="Your problem, automated away."
-        sub="Five problems we see in every business. Tap a card to see the system that fixes it."
+        eyebrow="What we automate"
+        title="The work your team shouldn't have to do."
+        sub="Five kinds of repetitive work we see in almost every business. Tap a card to see the system we'd build."
       />
 
       <Stagger className="mt-12 grid gap-4 md:mt-14 md:grid-cols-2 lg:grid-cols-5">

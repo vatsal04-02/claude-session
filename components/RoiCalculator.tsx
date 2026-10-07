@@ -75,12 +75,18 @@ function Coin({ flip }: { flip: boolean }) {
 }
 
 export default function RoiCalculator() {
+  const [hours, setHours] = useState(15);
+  const [rate, setRate] = useState(300);
   const [enq, setEnq] = useState(40);
   const [ignored, setIgnored] = useState(30);
   const [avg, setAvg] = useState(5000);
 
-  // monthly_leak = (enquiries_per_week × 4.33) × (slow_reply_pct ÷ 100) × avg_customer_value
-  const leaking = enq * 4.33 * (ignored / 100) * avg;
+  // manual_work = hours_per_week × 4.33 × cost_per_hour
+  const manual = hours * 4.33 * rate;
+  // missed = (enquiries_per_week × 4.33) × (slow_reply_pct ÷ 100) × avg_customer_value
+  const missed = enq * 4.33 * (ignored / 100) * avg;
+  const leaking = manual + missed;
+  const hoursBack = Math.round(hours * 4.33);
 
   const reduce = useReducedMotion();
   const stage = useRef<HTMLDivElement>(null);
@@ -115,13 +121,39 @@ export default function RoiCalculator() {
     <Section id="calculator" grid="soft" className="overflow-x-clip bg-[#140d09]">
       <Ambient className="-left-48 top-[30%] hidden h-[520px] w-[520px] md:block" />
       <SectionHeading
-        eyebrow="Revenue leak"
-        title="How much are you leaking?"
-        sub="Drag the sliders. Watch the number. (Estimate — your real number comes from the free audit.)"
+        eyebrow="Cost of manual work"
+        title="How much is manual work costing you?"
+        sub="Two costs hide in most businesses: hours spent on repetitive work, and opportunities lost because nobody got to them in time. Drag the sliders. (Estimate — your real number comes from the free audit.)"
       />
 
       <div className="mt-10 grid items-stretch gap-5 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6">
-        <Reveal className="glass space-y-8 rounded-[24px] p-6 md:p-8">
+        <Reveal className="glass space-y-7 rounded-[24px] p-6 md:p-8">
+          <div className="label text-[10.5px] text-accent-2">Manual work</div>
+          <Slider
+            id="roi-hours"
+            label="Team hours on repetitive work, per week"
+            value={hours}
+            min={0}
+            max={80}
+            step={1}
+            display={`${hours} h`}
+            minLabel="0 h"
+            maxLabel="80 h"
+            onChange={setHours}
+          />
+          <Slider
+            id="roi-rate"
+            label="Cost of one hour of staff time"
+            value={rate}
+            min={100}
+            max={2000}
+            step={50}
+            display={inr(rate)}
+            minLabel="₹100"
+            maxLabel="₹2,000"
+            onChange={setRate}
+          />
+          <div className="label border-t border-border pt-6 text-[10.5px] text-accent-2">Missed opportunities</div>
           <Slider id="roi-enq" label="Enquiries per week" value={enq} min={0} max={200} step={1} display={`${enq}`} minLabel="0" maxLabel="200" onChange={setEnq} />
           <Slider
             id="roi-ign"
@@ -162,7 +194,7 @@ export default function RoiCalculator() {
             <Coin flip={!!seen && !reduce} />
           </motion.div>
 
-          <p className="mt-6 text-[15px] leading-[1.6] text-muted md:text-[16px]">Estimated revenue leaking every month</p>
+          <p className="mt-6 text-[15px] leading-[1.6] text-muted md:text-[16px]">Estimated cost every month</p>
           <motion.div
             aria-hidden
             className="display mt-2 max-w-full break-words text-[clamp(3rem,7.5vw,5.6rem)] leading-[1.02] tabular-nums text-text"
@@ -182,9 +214,14 @@ export default function RoiCalculator() {
             animate={revealed ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.5 }}
           >
-            <p className="max-w-[34ch] text-[14.5px] leading-[1.6] text-subtle">
-              Money that walks away because nobody replied in time — every month.
-            </p>
+            <dl className="grid w-full max-w-[340px] grid-cols-[1fr_auto] gap-x-6 gap-y-1.5 text-left text-[14px]">
+              <dt className="text-muted">Manual work</dt>
+              <dd className="text-right tabular-nums text-text">{inr(manual)}</dd>
+              <dt className="text-muted">Missed opportunities</dt>
+              <dd className="text-right tabular-nums text-text">{inr(missed)}</dd>
+              <dt className="border-t border-border pt-1.5 text-muted">Hours your team could get back</dt>
+              <dd className="border-t border-border pt-1.5 text-right tabular-nums text-accent-2">~{hoursBack} h / month</dd>
+            </dl>
             <Button href="#audit">Find your real number</Button>
           </motion.div>
         </div>

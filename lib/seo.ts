@@ -5,7 +5,7 @@ export const OG_IMAGE = {
   url: "/og-image.png",
   width: 1200,
   height: 630,
-  alt: "FlowHQ — We don't sell marketing. We install growth engines.",
+  alt: "FlowHQ — Put your business on autopilot. Custom AI + automation systems.",
 };
 
 /** Per-page metadata: unique title + description, self-referencing canonical, matching OG/Twitter tags. */

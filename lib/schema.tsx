@@ -15,7 +15,7 @@ export const organization = {
   image: `${SITE_URL}/og-image.png`,
   slogan: "Built To Automate.",
   description:
-    "FlowHQ is an AI automation agency in Lucknow, India. We build custom workflow automation, WhatsApp automation, AI agents and CRM systems for businesses.",
+    "FlowHQ builds custom AI and automation systems for businesses: we map repetitive work, connect the tools a business already uses and put its operations on autopilot. Based in Lucknow, India.",
   telephone: phone,
   address: { "@type": "PostalAddress", addressLocality: "Lucknow", addressRegion: "Uttar Pradesh", addressCountry: "IN" },
   areaServed: { "@type": "Country", name: "India" },
