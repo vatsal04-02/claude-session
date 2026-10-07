@@ -316,7 +316,7 @@ body::after {
 }
 
 /* founder photos: vibrant colour, zoomed in around the face (origin set per photo) */
-.founder-photo img { filter: saturate(1.25) contrast(1.05); transform: scale(1.2); }
+.founder-photo img { filter: saturate(1.15) contrast(1.04); transform: scale(1.06); }
 
 /* hero entrance: CSS-only so it starts at first paint, before hydration (keeps LCP fast) */
 @keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }

@@ -60,11 +60,11 @@ export default function Hero() {
         </div>
 
         {/* the hand-off to the rest of the page: work flows down into the live pipeline below */}
-        <div {...rise(1.1)} className="hero-rise mt-20 flex flex-col items-center md:mt-24">
+        <div {...rise(1.1)} className="hero-rise mt-12 flex flex-col items-center md:mt-14">
           <p className="text-balance text-center text-[clamp(1.3rem,2.1vw,1.62rem)] font-semibold leading-[1.25] tracking-[-0.015em] text-text">
             Work in. <span className="text-accent-2">Automation takes over.</span>
           </p>
-          <span aria-hidden className="mt-7 h-16 w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
+          <span aria-hidden className="mt-5 h-10 w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
         </div>
       </div>
     </section>
