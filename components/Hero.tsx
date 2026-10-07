@@ -7,7 +7,7 @@ const rise = (delay: number) => ({ style: { "--rd": `${delay}s` } as React.CSSPr
 
 export default function Hero() {
   return (
-    <section id="top" className="hero-atmos relative overflow-hidden px-5 pb-6 pt-28 md:px-8 md:pb-8 md:pt-32">
+    <section id="top" className="hero-atmos relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-5 pb-12 pt-28 md:px-8 md:pb-14 md:pt-32">
       {/* quiet background: faint dot texture, one warm light, a couple of ambient details */}
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.7 } as React.CSSProperties} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-[38%] h-[640px] w-[900px] -translate-x-1/2 rounded-full bg-[rgba(234,106,47,0.055)] blur-[140px]" />
@@ -16,7 +16,7 @@ export default function Hero() {
       {/* the atmosphere fades into the next section instead of ending on an edge */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#110b08]" />
 
-      <div className="relative mx-auto max-w-[1140px]">
+      <div className="relative mx-auto w-full max-w-[1140px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center text-center">
           {/* one H1: the keyword line (styled as the eyebrow) + the promise */}
           <h1 className="text-text">
@@ -60,11 +60,10 @@ export default function Hero() {
         </div>
 
         {/* the hand-off to the rest of the page: work flows down into the live pipeline below */}
-        <div {...rise(1.1)} className="hero-rise mt-12 flex flex-col items-center md:mt-14">
+        <div {...rise(1.1)} className="hero-rise mt-14 flex flex-col items-center md:mt-16">
           <p className="text-balance text-center text-[clamp(1.3rem,2.1vw,1.62rem)] font-semibold leading-[1.25] tracking-[-0.015em] text-text">
             Work in. <span className="text-accent-2">Automation takes over.</span>
           </p>
-          <span aria-hidden className="mt-5 h-10 w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ const SERVICE_LINKS = [
    The statement is a single major reveal (focus-pull, once); the pipeline is the moving part. */
 export default function Manifesto() {
   return (
-    <section id="pipeline" aria-labelledby="pipeline-title" className="relative overflow-x-clip bg-[#110b08] px-5 pb-8 pt-8 md:px-8 md:pb-14 md:pt-10">
+    <section id="pipeline" aria-labelledby="pipeline-title" className="relative overflow-x-clip bg-[#110b08] px-5 pb-8 pt-6 md:px-8 md:pb-14 md:pt-8">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.35 } as React.CSSProperties} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-[58%] h-[520px] w-[860px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(234,106,47,0.05)] blur-[120px]" />
       <Ambient className="-left-44 top-[46%] hidden h-[440px] w-[440px] lg:block" />
