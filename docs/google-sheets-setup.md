@@ -18,6 +18,11 @@ function doPost(e) {
   try {
     lock.waitLock(10000);
     const data = JSON.parse(e.postData.contents);
+    // server-side check: the browser validates too, but anyone can post to this URL directly
+    const digits = String(data.phone || "").replace(/\D/g, "");
+    if (!String(data.name || "").trim() || digits.length < 8 || digits.length > 15) {
+      return json({ ok: false, error: "invalid" });
+    }
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
     const safe = (v) => {
@@ -41,4 +46,10 @@ function json(o) { return ContentService.createTextOutput(JSON.stringify(o)).set
 Deploy → New deployment → Web app → Execute as **Me** → Who has access **Anyone**. After editing the script use
 Deploy → Manage deployments → Edit → New version (the URL stays the same).
 
-The Web app URL is visible in the site's JavaScript, so treat the sheet as publicly writable and don't share the URL.
+The Web app URL is visible in the site's JavaScript (that is unavoidable for a browser form), so treat the sheet as
+publicly writable. The script above rejects rows without a name and a real-looking phone number, and the website adds an
+invisible honeypot field so simple bots never send anything. It is not a secret and needs no environment variable.
+
+If you change the script, the live site keeps working only if the URL stays the same: always use
+Deploy → Manage deployments → Edit (pencil) → Version: **New version** → Deploy. Creating a *new deployment* gives a new
+URL, which you would then have to paste into `lib/site.ts` (`GOOGLE_SHEET_URL`) and rebuild.

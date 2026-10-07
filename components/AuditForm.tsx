@@ -18,6 +18,7 @@ const waText = "text-[14px] text-[#25D366] underline decoration-[#25D366]/40 und
 /** The single audit action: Name, Phone, Business Type, Message → Google Apps Script → sheet row. */
 export default function AuditForm() {
   const [f, setF] = useState({ name: "", phone: "", businessType: "", message: "" });
+  const [trap, setTrap] = useState(""); // honeypot: invisible to people, bots tend to fill it
   const [err, setErr] = useState<{ name?: string; phone?: string }>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const sending = useRef(false); // synchronous guard against double submits
@@ -47,6 +48,9 @@ export default function AuditForm() {
     if (f.phone.replace(/\D/g, "").length < 8) e.phone = "Enter a valid phone number";
     setErr(e);
     if (Object.keys(e).length) return;
+
+    // a filled honeypot means a bot: show success, send nothing
+    if (trap) return setStatus("done");
 
     sending.current = true;
     setStatus("sending");
@@ -117,7 +121,11 @@ export default function AuditForm() {
   };
 
   return (
-    <form onSubmit={submit} noValidate className="rounded-2xl border border-border bg-surface p-6 md:p-8">
+    <form onSubmit={submit} noValidate className="relative rounded-2xl border border-border bg-surface p-6 md:p-8">
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor={`${uid}-company`}>Company website</label>
+        <input id={`${uid}-company`} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
+      </div>
       <div className="space-y-4">
         {field("name", "Name", { autoComplete: "name" })}
         {field("phone", "Phone", { type: "tel", inputMode: "tel", autoComplete: "tel" })}
