@@ -69,36 +69,27 @@ export default function PipelineVideo() {
   };
 
   return (
-    <Section id="pipeline-video" grid="soft" className="bg-[#0f0907]">
-      <div className="mx-auto max-w-3xl text-center">
-        <Reveal>
-          <span className="label inline-flex items-center gap-2.5 text-accent">
-            <span className="h-px w-6 bg-accent/70" />
-            WATCH IT IN MOTION
-            <span className="h-px w-6 bg-accent/70" />
-          </span>
-        </Reveal>
-        <Reveal delay={0.07}>
-          <h2 className="display mt-4 text-balance text-[clamp(2.25rem,4.4vw,3.5rem)] text-text">The pipeline, live.</h2>
-        </Reveal>
-        <Reveal delay={0.14}>
-          <p className="mx-auto mt-5 max-w-[34rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            A day in your business, with the system on autopilot.
-          </p>
-        </Reveal>
-      </div>
+    <Section id="pipeline-video" grid="soft" className="!pb-10 !pt-10 bg-[#0f0907] md:!pb-14 md:!pt-16">
+      {/* a separate moment after the pipeline diagram: a quiet label, then the system running */}
+      <Reveal className="text-center">
+        <span className="label inline-flex items-center gap-2.5 text-accent">
+          <span className="h-px w-6 bg-accent/70" />
+          Live system
+          <span className="h-px w-6 bg-accent/70" />
+        </span>
+      </Reveal>
 
-      {/* full-bleed on mobile (cancels the section's 20px gutter), centred 960px card from md up */}
-      <Reveal className="relative -mx-5 mt-10 md:mx-auto md:mt-12 md:max-w-[960px]">
+      {/* product showcase: dark glass frame, ~85% of the content width, centred */}
+      <Reveal className="relative mx-auto mt-8 w-full max-w-[960px] md:mt-10 md:w-[86%]">
         <button
           type="button"
           onClick={toggle}
           aria-label={playing ? "Pause video" : "Play video"}
-          className="group relative block aspect-video w-full cursor-pointer overflow-hidden border-y border-accent/30 bg-bg shadow-[0_0_44px_-10px_rgba(234,106,47,0.4)] md:rounded-2xl md:border"
+          className="glass group relative block aspect-video w-full cursor-pointer overflow-hidden rounded-2xl p-1.5 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9),0_0_60px_-24px_rgba(234,106,47,0.35)] md:rounded-[22px] md:p-2"
         >
           <video
             ref={ref}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="h-full w-full rounded-[11px] object-cover md:rounded-[15px]"
             poster={POSTER}
             muted
             loop
@@ -115,7 +106,7 @@ export default function PipelineVideo() {
             <source src={SRC_WEBM} type="video/webm" />
           </video>
           {/* inner hairline so the glow reads as a border */}
-          <span aria-hidden className="pointer-events-none absolute inset-0 md:rounded-2xl md:shadow-[inset_0_0_0_1px_rgba(234,106,47,0.12)]" />
+          <span aria-hidden className="pointer-events-none absolute inset-1.5 rounded-[11px] shadow-[inset_0_0_0_1px_rgba(234,106,47,0.12)] md:inset-2 md:rounded-[15px]" />
 
           {/* centre icon: flashes on toggle, stays while paused */}
           <span
@@ -141,7 +132,7 @@ export default function PipelineVideo() {
           aria-label={muted ? "Turn sound on" : "Mute"}
           aria-pressed={!muted}
           className={cn(
-            "absolute right-3 top-3 z-10 inline-flex h-10 items-center gap-2 rounded-full border bg-bg/75 px-3.5 text-[13px] font-medium text-text backdrop-blur-sm transition-[border-color,color,box-shadow] duration-300 md:right-4 md:top-4 md:h-11 md:px-4 md:text-[14px]",
+            "absolute right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border bg-bg/75 px-3.5 text-[13px] font-medium text-text backdrop-blur-sm transition-[border-color,color,box-shadow] duration-300 md:right-6 md:top-6 md:h-11 md:px-4 md:text-[14px]",
             muted
               ? "border-accent/60 shadow-[0_0_20px_-4px_rgba(234,106,47,0.55)] hover:border-accent"
               : "border-border-bright hover:border-accent/60 hover:text-accent"

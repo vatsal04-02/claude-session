@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import Manifesto from "@/components/Manifesto";
 import Navbar from "@/components/Navbar";
+import PipelineVideo from "@/components/PipelineVideo";
 import ProblemCards from "@/components/ProblemCards";
 import RoiCalculator from "@/components/RoiCalculator";
 import WhyTrust from "@/components/WhyTrust";
@@ -33,6 +34,7 @@ export default function Home() {
       <main id="main">
         <Hero />
         <Manifesto />
+        <PipelineVideo />
         <ProblemCards />
         <Workflow />
         <RoiCalculator />

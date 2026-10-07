@@ -15,7 +15,7 @@ const SERVICE_LINKS = [
    The statement is a single major reveal (focus-pull, once); the pipeline is the moving part. */
 export default function Manifesto() {
   return (
-    <section id="pipeline" aria-labelledby="pipeline-title" className="relative overflow-x-clip bg-[#110b08] px-5 pb-20 pt-16 md:px-8 md:pb-[120px] md:pt-24">
+    <section id="pipeline" aria-labelledby="pipeline-title" className="relative overflow-x-clip bg-[#110b08] px-5 pb-8 pt-16 md:px-8 md:pb-14 md:pt-24">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.35 } as React.CSSProperties} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-[58%] h-[520px] w-[860px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(234,106,47,0.05)] blur-[120px]" />
       <Ambient className="-left-44 top-[46%] hidden h-[440px] w-[440px] lg:block" />
@@ -27,7 +27,7 @@ export default function Manifesto() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "0px 0px -8% 0px" }}
           transition={{ duration: DUR.major, ease: EASE }}
-          className="font-serif mx-auto max-w-[12ch] text-balance text-center text-[clamp(3.4rem,10.5vw,8.6rem)] leading-[0.98] tracking-[-0.02em] text-text md:max-w-none"
+          className="font-serif mx-auto max-w-[14ch] text-balance text-center text-[clamp(2.75rem,6vw,4.5rem)] leading-[1] tracking-[-0.015em] text-text md:max-w-none"
         >
           Less manual work<span className="text-accent">.</span>
         </motion.h2>
@@ -36,7 +36,7 @@ export default function Manifesto() {
           <LivePipeline />
         </div>
 
-        <nav aria-label="Automation services" className="label mt-14 flex flex-wrap justify-center gap-x-4 gap-y-1 text-subtle sm:gap-x-2 md:mt-16">
+        <nav aria-label="Automation services" className="label mt-10 flex flex-wrap justify-center gap-x-4 gap-y-1 text-subtle sm:gap-x-2 md:mt-16">
           {SERVICE_LINKS.map((l, i) => (
             <span key={l.href} className="inline-flex items-center gap-2" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
               {i > 0 && <span aria-hidden className="hidden sm:inline">·</span>}
