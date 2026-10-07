@@ -4,6 +4,8 @@
  *   node video/pipeline/render.mjs              # full render
  *   node video/pipeline/render.mjs --stills     # just PNG stills of key moments (fast check)
  *
+ * render.mjs writes the picture only; then run voiceover.py to add the narration track.
+ *
  * Needs ffmpeg on PATH and Playwright. If Playwright isn't installed in the project, point to it:
  *   PLAYWRIGHT_MODULE=/path/to/node_modules/playwright/index.mjs CHROMIUM_PATH=/path/to/chrome node video/pipeline/render.mjs
  */
