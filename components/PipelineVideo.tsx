@@ -62,7 +62,7 @@ export default function PipelineVideo() {
         </Reveal>
         <Reveal delay={0.14}>
           <p className="mx-auto mt-5 max-w-[34rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            Thirty seconds: enquiry to customer, on autopilot.
+            A day in your business, with the system on autopilot.
           </p>
         </Reveal>
       </div>

@@ -1,0 +1,363 @@
+<!doctype html>
+<!--
+  FlowHQ pipeline video — "a day in your business" (45s, 1920×1080, 30fps).
+  Every animation is a CSS animation with an absolute start time (--d, in seconds).
+  render.mjs pauses them all and seeks to each frame's time, so the output is frame-exact.
+  Preview in a browser: open this file and add ?t=12.5 to see one moment, or ?play to watch it run.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>FlowHQ — a day in your business</title>
+<style>
+  @font-face { font-family: "Geist"; font-weight: 100 900; src: url(../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2) format("woff2"); }
+  @font-face { font-family: "Geist Mono"; font-weight: 100 900; src: url(../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2) format("woff2"); }
+  @font-face { font-family: "Instrument Serif"; src: url(../../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2) format("woff2"); }
+
+  :root {
+    --bg: #120c09; --surface: #1b130f; --surface-2: #211710; --line: rgba(245, 220, 200, 0.12); --line-2: rgba(245, 220, 200, 0.22);
+    --text: #f2e9df; --muted: #b9aea3; --subtle: #968c82; --accent: #ea6a2f; --accent-2: #f17a3b; --ok: #8fc98a; --bad: #e8776b; --wa: #25d366;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+  body { font-family: "Geist", system-ui, sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; }
+
+  .stage { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    background: radial-gradient(circle at 80% 15%, rgba(234,106,47,.14), transparent 40%), radial-gradient(circle at 12% 85%, rgba(130,60,30,.16), transparent 42%), var(--bg); }
+  .grid { position: absolute; inset: 0; opacity: .7;
+    background-image: linear-gradient(rgba(190,105,60,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(190,105,60,.07) 1px, transparent 1px);
+    background-size: 64px 64px; -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 85%); }
+  .glow { position: absolute; width: 900px; height: 900px; border-radius: 50%; background: rgba(234,106,47,.10); filter: blur(160px); right: -200px; top: -250px;
+    animation: drift 45s linear both; animation-delay: 0s; }
+  @keyframes drift { from { transform: translate(0,0) } 50% { transform: translate(-260px, 220px) } to { transform: translate(0, 40px) } }
+
+  /* ---- timing primitives: everything starts at --d seconds ---- */
+  .anim { animation-duration: .7s; animation-timing-function: var(--ease); animation-fill-mode: both; animation-delay: calc(var(--d, 0) * 1s); }
+  .up   { animation-name: up; }   @keyframes up   { from { opacity: 0; transform: translateY(34px) } to { opacity: 1; transform: none } }
+  .pop  { animation-name: pop; }  @keyframes pop  { from { opacity: 0; transform: scale(.86) } to { opacity: 1; transform: none } }
+  .fade { animation-name: fade; } @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+  .left { animation-name: left; } @keyframes left { from { opacity: 0; transform: translateX(-40px) } to { opacity: 1; transform: none } }
+  .right{ animation-name: right;} @keyframes right{ from { opacity: 0; transform: translateX(60px) } to { opacity: 1; transform: none } }
+  .out  { animation-name: out; animation-duration: .45s; animation-timing-function: ease-in; } @keyframes out { from { opacity: 1 } to { opacity: 0 } }
+  .gone { animation-name: gone; animation-duration: .35s; animation-timing-function: ease-in; } @keyframes gone { from { opacity: 1; transform: none } to { opacity: 0; transform: scale(.94) } }
+
+  /* each scene: an outer wrapper fades in, an inner one fades out */
+  .scene { position: absolute; inset: 0; }
+
+  /* ---- shared chrome ---- */
+  .brand { position: absolute; left: 120px; bottom: 72px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 30px; letter-spacing: -.03em; z-index: 5; }
+  .kicker { font-family: "Geist Mono", monospace; font-size: 22px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-2); display: flex; align-items: center; gap: 18px; }
+  .kicker i { display: inline-block; width: 44px; height: 2px; background: var(--accent); }
+  .step { position: absolute; right: 120px; bottom: 72px; display: flex; gap: 12px; z-index: 5; }
+  .step b { width: 54px; height: 6px; border-radius: 3px; background: var(--line-2); }
+  .step b.on { background: var(--accent); }
+
+  /* ---- story scenes layout ---- */
+  .story { position: absolute; inset: 0; padding: 0 120px; display: grid; grid-template-columns: 820px 1fr; gap: 100px; align-items: center; }
+  .story h2 { font-size: 84px; line-height: 1.04; font-weight: 750; letter-spacing: -.035em; margin-top: 30px; }
+  .story h2 em { font-style: normal; color: var(--accent); }
+  .story p.line { font-size: 40px; line-height: 1.35; color: var(--muted); margin-top: 34px; max-width: 760px; }
+  .visual { position: relative; height: 820px; display: grid; place-items: center; }
+
+  .card { background: var(--surface); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 40px 90px -40px rgba(0,0,0,.9); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; font-size: 22px; font-weight: 600; white-space: nowrap; }
+  .chip.ok { background: rgba(234,106,47,.14); border: 1.5px solid rgba(234,106,47,.55); color: var(--accent-2); }
+  .chip.wait { background: transparent; border: 1.5px solid var(--line-2); color: var(--subtle); }
+  .chip.bad { background: rgba(232,119,107,.12); border: 1.5px solid rgba(232,119,107,.55); color: var(--bad); }
+  .stack { position: relative; display: inline-grid; } .stack > * { grid-area: 1 / 1; }
+
+  /* phone */
+  .phone { width: 430px; height: 800px; border-radius: 58px; background: #0b0807; border: 10px solid #2a1f19; padding: 0; overflow: hidden; position: relative; box-shadow: 0 50px 120px -40px rgba(0,0,0,.95), 0 0 80px -30px rgba(234,106,47,.35); }
+  .phone .bar { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 34px; font-size: 22px; font-weight: 600; color: var(--text); }
+  .phone .head { display: flex; align-items: center; gap: 16px; padding: 14px 24px 18px; border-bottom: 1.5px solid var(--line); }
+  .avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: #1a0a03; display: grid; place-items: center; font-weight: 800; font-size: 26px; flex: none; }
+  .phone .head b { font-size: 24px; display: block; } .phone .head small { font-size: 20px; color: var(--muted); }
+  .chat { padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .bubble { max-width: 82%; font-size: 23px; line-height: 1.38; padding: 16px 20px; border-radius: 24px; }
+  .bubble.them { align-self: flex-end; background: rgba(234,106,47,.16); border: 1.5px solid rgba(234,106,47,.35); border-bottom-right-radius: 8px; }
+  .bubble.us { align-self: flex-start; background: var(--surface-2); border: 1.5px solid var(--line); border-bottom-left-radius: 8px; }
+  .bubble .tag { display: block; margin-top: 10px; font-size: 20px; color: var(--accent-2); font-weight: 600; }
+  .typing { align-self: flex-start; display: flex; gap: 8px; padding: 20px 22px; border-radius: 24px; background: var(--surface-2); border: 1.5px solid var(--line); }
+  .typing span { width: 11px; height: 11px; border-radius: 50%; background: var(--muted); animation: blink 1s ease-in-out infinite; }
+  .typing span:nth-child(2) { animation-delay: .18s } .typing span:nth-child(3) { animation-delay: .36s }
+  @keyframes blink { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
+  .moon { position: absolute; top: 40px; right: 40px; }
+  .zzz { position: absolute; left: 30px; top: 70px; font-size: 40px; font-weight: 700; color: var(--subtle); letter-spacing: .1em; }
+
+  /* follow-up list */
+  .list { width: 740px; padding: 34px 34px 26px; }
+  .list .hd { display: flex; align-items: center; gap: 16px; font-size: 26px; font-weight: 700; padding-bottom: 22px; border-bottom: 1.5px solid var(--line); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; border-bottom: 1.5px solid var(--line); }
+  .row:last-child { border-bottom: 0; }
+  .row .who { display: flex; align-items: center; gap: 18px; font-size: 25px; }
+  .dot { width: 46px; height: 46px; border-radius: 50%; background: var(--surface-2); border: 1.5px solid var(--line-2); flex: none; }
+  .nudge { margin-top: 26px; font-size: 23px; line-height: 1.4; color: var(--text); padding: 18px 22px; border-radius: 20px; background: var(--surface-2); border: 1.5px solid var(--line); }
+  .nudge small { display: block; color: var(--accent-2); font-size: 20px; font-weight: 600; margin-bottom: 6px; letter-spacing: .02em; }
+
+  /* calendar */
+  .cal { width: 780px; padding: 30px; }
+  .cal .hd { display: flex; justify-content: space-between; align-items: center; font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+  .cal table { width: 100%; border-collapse: separate; border-spacing: 10px; table-layout: fixed; }
+  .cal th { font-size: 22px; color: var(--muted); font-weight: 600; text-align: center; padding-bottom: 2px; }
+  .cal td.t, .cal th:first-child { font-size: 20px; color: var(--subtle); width: 76px; font-family: "Geist Mono", monospace; }
+  .slot { position: relative; height: 72px; border-radius: 14px; border: 1.5px dashed var(--line-2); }
+  .slot .fill { position: absolute; inset: -1.5px; border-radius: 14px; background: rgba(234,106,47,.2); border: 1.5px solid rgba(234,106,47,.65); display: grid; place-items: center; font-size: 20px; font-weight: 700; color: var(--accent-2); }
+  .slot .fill.bad { background: rgba(232,119,107,.14); border-color: rgba(232,119,107,.7); color: var(--bad); }
+  .cal .legend { display: flex; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+
+  /* win-back */
+  .wb { width: 780px; display: flex; flex-direction: column; gap: 26px; }
+  .msg { padding: 26px 30px; display: flex; gap: 22px; align-items: flex-start; }
+  .msg .ic { width: 60px; height: 60px; border-radius: 18px; background: rgba(234,106,47,.14); border: 1.5px solid rgba(234,106,47,.4); display: grid; place-items: center; flex: none; }
+  .msg b { font-size: 22px; color: var(--accent-2); letter-spacing: .02em; display: block; margin-bottom: 8px; }
+  .msg p { font-size: 26px; line-height: 1.38; }
+  .stars { color: var(--accent); font-size: 30px; letter-spacing: 6px; margin-top: 10px; }
+  .back { display: flex; align-items: center; gap: 20px; padding: 24px 30px; border-color: rgba(143,201,138,.5); }
+  .back p { font-size: 27px; font-weight: 650; }
+
+  /* dashboard */
+  .dash { width: 820px; overflow: hidden; }
+  .dash .top { display: flex; align-items: center; gap: 12px; padding: 20px 26px; border-bottom: 1.5px solid var(--line); font-size: 22px; color: var(--muted); }
+  .dash .top i { width: 14px; height: 14px; border-radius: 50%; background: var(--line-2); display: inline-block; }
+  .dash .top span { margin-left: 14px; font-weight: 600; color: var(--text); }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; }
+  .col h4 { font-size: 22px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .col h4::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .item { border-radius: 16px; background: var(--surface-2); border: 1.5px solid var(--line); padding: 16px; font-size: 21px; line-height: 1.35; margin-bottom: 12px; min-height: 96px; }
+  .item small { display: block; margin-top: 8px; font-size: 19px; color: var(--accent-2); font-weight: 600; }
+
+  /* hook */
+  .hook { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+  .hook h1 { font-size: 104px; line-height: 1.12; font-weight: 780; letter-spacing: -.04em; }
+  .uline { position: relative; display: inline-block; color: var(--accent); }
+  .uline::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 9px; border-radius: 5px; background: var(--accent); transform-origin: left; animation: sweep .7s var(--ease) both; animation-delay: calc(var(--d) * 1s); }
+  @keyframes sweep { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+
+  /* end card */
+  .end { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; }
+  .word { font-size: 46px; font-weight: 800; letter-spacing: -.01em; } .word .f { color: var(--accent); }
+  .end h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 118px; line-height: 1.04; letter-spacing: -.01em; margin-top: 40px; }
+  .audit { margin-top: 54px; font-size: 40px; font-weight: 700; }
+  .wa { margin-top: 30px; display: inline-flex; align-items: center; gap: 16px; height: 88px; padding: 0 44px; border-radius: 999px; background: rgba(37,211,102,.1); border: 2px solid rgba(37,211,102,.75); font-size: 34px; font-weight: 650; box-shadow: 0 0 60px -14px rgba(37,211,102,.55); }
+  .tagline { margin-top: 44px; font-family: "Geist Mono", monospace; font-size: 24px; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-2); }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="grid"></div>
+  <div class="glow"></div>
+
+  <!-- ============ 1 · HOOK (0–5s) ============ -->
+  <div class="scene"><div class="scene anim out" style="--d:4.55">
+    <div class="hook">
+      <h1>
+        <span class="anim up" style="--d:.3; display:block">You're not short on leads.</span>
+        <span class="anim up" style="--d:1.5; display:block">You're short on <span class="uline" style="--d:2.2">follow-up.</span></span>
+      </h1>
+    </div>
+  </div></div>
+
+  <!-- ============ 2 · 11:02 PM (5–11s) ============ -->
+  <div class="scene anim fade" style="--d:5"><div class="scene anim out" style="--d:10.55">
+    <div class="story">
+      <div>
+        <div class="kicker anim left" style="--d:5.1"><i></i>A day in your business</div>
+        <h2 class="anim up" style="--d:5.2"><em>11:02 PM</em> — a customer messages.</h2>
+        <p class="line anim up" style="--d:5.5">The system replies instantly. You're asleep.</p>
+      </div>
+      <div class="visual">
+        <div class="zzz anim fade" style="--d:6.6">z z z</div>
+        <div class="phone anim pop" style="--d:5.35">
+          <div class="bar"><span>11:02 PM</span><span style="opacity:.7">●●●</span></div>
+          <div class="head"><div class="avatar">F</div><div><b>Your business</b><small>WhatsApp</small></div></div>
+          <div class="chat">
+            <div class="bubble them anim up" style="--d:6.2">Hi, are you open tomorrow? I'd like to book.</div>
+            <div class="stack" style="align-self:stretch; justify-items:start; align-items:start">
+              <div class="anim gone" style="--d:7.9"><div class="typing anim fade" style="--d:7.0"><span></span><span></span><span></span></div></div>
+              <div class="bubble us anim up" style="--d:8.0; max-width:82%">Hi! Yes, we're open tomorrow. Want me to book a time for you?<span class="tag">✓ Sent automatically</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step"><b class="on"></b><b></b><b></b><b></b><b></b></div>
+  </div></div>
+
+  <!-- ============ 3 · NEXT MORNING (11–17s) ============ -->
+  <div class="scene anim fade" style="--d:11"><div class="scene anim out" style="--d:16.55">
+    <div class="story">
+      <div>
+        <div class="kicker anim left" style="--d:11.1"><i></i>A day in your business</div>
+        <h2 class="anim up" style="--d:11.2"><em>Next morning</em> — follow-up's done.</h2>
+        <p class="line anim up" style="--d:11.5">Everyone who didn't reply got a nudge. Automatically.</p>
+      </div>
+      <div class="visual">
+        <div class="card list anim pop" style="--d:11.35">
+          <div class="hd"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f17a3b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>8:00 AM · Didn't reply yet</div>
+          <div class="row"><div class="who"><span class="dot"></span>Asked about prices</div><span class="stack"><span class="chip wait anim gone" style="--d:12.6">Waiting</span><span class="chip ok anim pop" style="--d:12.7">✓ Nudge sent</span></span></div>
+          <div class="row"><div class="who"><span class="dot"></span>Missed call</div><span class="stack"><span class="chip wait anim gone" style="--d:13.2">Waiting</span><span class="chip ok anim pop" style="--d:13.3">✓ Nudge sent</span></span></div>
+          <div class="row"><div class="who"><span class="dot"></span>Filled the website form</div><span class="stack"><span class="chip wait anim gone" style="--d:13.8">Waiting</span><span class="chip ok anim pop" style="--d:13.9">✓ Nudge sent</span></span></div>
+          <div class="row"><div class="who"><span class="dot"></span>Asked for a callback</div><span class="stack"><span class="chip wait anim gone" style="--d:14.4">Waiting</span><span class="chip ok anim pop" style="--d:14.5">✓ Nudge sent</span></span></div>
+          <div class="nudge anim up" style="--d:15.0"><small>THE NUDGE</small>Hi! Just checking in — still interested? Reply here and we'll sort it out.</div>
+        </div>
+      </div>
+    </div>
+    <div class="step"><b class="on"></b><b class="on"></b><b></b><b></b><b></b></div>
+  </div></div>
+
+  <!-- ============ 4 · BOOKINGS (17–23s) ============ -->
+  <div class="scene anim fade" style="--d:17"><div class="scene anim out" style="--d:22.55">
+    <div class="story">
+      <div>
+        <div class="kicker anim left" style="--d:17.1"><i></i>A day in your business</div>
+        <h2 class="anim up" style="--d:17.2">Bookings <em>fill themselves.</em></h2>
+        <p class="line anim up" style="--d:17.5">The calendar confirms, reminds, and re&#8209;books no&#8209;shows.</p>
+      </div>
+      <div class="visual">
+        <div class="card cal anim pop" style="--d:17.35">
+          <div class="hd"><span>This week</span><span style="font-size:20px;color:var(--muted);font-weight:500">Your calendar</span></div>
+          <table>
+            <tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>
+            <tr><td class="t">10 AM</td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.0">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.9">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.3">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.5">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.6">Booked</div></div></td></tr>
+            <tr><td class="t">12 PM</td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.2">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.15">Booked</div></div></td>
+              <td><div class="slot"><div class="anim gone" style="--d:21.05; position:absolute; inset:0"><div class="fill bad anim pop" style="--d:19.8">No-show</div></div><div class="fill anim pop" style="--d:21.2; font-size:18px">Re-booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.75">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.35">Booked</div></div></td></tr>
+            <tr><td class="t">3 PM</td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.45">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.65">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.05">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.3">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.9">Booked</div></div></td></tr>
+            <tr><td class="t">5 PM</td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:19.45">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:20.1">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.6">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:20.3">Booked</div></div></td>
+              <td><div class="slot"><div class="fill anim pop" style="--d:18.95">Booked</div></div></td></tr>
+          </table>
+          <div class="legend">
+            <span class="chip ok anim up" style="--d:20.4">✓ Confirmed</span>
+            <span class="chip ok anim up" style="--d:20.7">✓ Reminder sent</span>
+            <span class="chip ok anim up" style="--d:21.4">✓ No-show re-booked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step"><b class="on"></b><b class="on"></b><b class="on"></b><b></b><b></b></div>
+  </div></div>
+
+  <!-- ============ 5 · OLD CUSTOMERS (23–29s) ============ -->
+  <div class="scene anim fade" style="--d:23"><div class="scene anim out" style="--d:28.55">
+    <div class="story">
+      <div>
+        <div class="kicker anim left" style="--d:23.1"><i></i>A day in your business</div>
+        <h2 class="anim up" style="--d:23.2">Old customers <em>come back.</em></h2>
+        <p class="line anim up" style="--d:23.5">Review requests and repeat offers go out on their own.</p>
+      </div>
+      <div class="visual">
+        <div class="wb">
+          <div class="card msg anim right" style="--d:24.0">
+            <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="#ea6a2f"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg></div>
+            <div><b>REVIEW REQUEST</b><p>Thanks for coming in! Could you leave us a quick review?</p><div class="stars">★★★★★</div></div>
+          </div>
+          <div class="card msg anim right" style="--d:25.0">
+            <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ea6a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></div>
+            <div><b>REPEAT OFFER</b><p>We miss you! Want us to save you a slot this week?</p></div>
+          </div>
+          <div class="card back anim up" style="--d:26.4">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8fc98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+            <p>“Yes please!” — <span style="color:var(--ok)">booked again ✓</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b></b></div>
+  </div></div>
+
+  <!-- ============ 6 · ONE SCREEN (29–35s) ============ -->
+  <div class="scene anim fade" style="--d:29"><div class="scene anim out" style="--d:34.55">
+    <div class="story">
+      <div>
+        <div class="kicker anim left" style="--d:29.1"><i></i>A day in your business</div>
+        <h2 class="anim up" style="--d:29.2">You check <em>one screen.</em></h2>
+        <p class="line anim up" style="--d:29.5">Every lead, chat and booking — in one place.</p>
+      </div>
+      <div class="visual">
+        <div class="card dash anim pop" style="--d:29.35">
+          <div class="top"><i></i><i></i><i></i><span>Today</span></div>
+          <div class="cols">
+            <div class="col"><h4>Leads</h4>
+              <div class="item anim up" style="--d:30.0">New enquiry<small>From your website</small></div>
+              <div class="item anim up" style="--d:30.6">Missed call<small>Messaged back</small></div>
+              <div class="item anim up" style="--d:31.2">Asked about prices<small>Nudge sent</small></div>
+            </div>
+            <div class="col"><h4>Chats</h4>
+              <div class="item anim up" style="--d:30.2">“Are you open tomorrow?”<small>Answered</small></div>
+              <div class="item anim up" style="--d:30.8">“Can I change my time?”<small>Moved to Friday</small></div>
+              <div class="item anim up" style="--d:31.4">“Thanks, see you!”<small>All done</small></div>
+            </div>
+            <div class="col"><h4>Bookings</h4>
+              <div class="item anim up" style="--d:30.4">Tomorrow, 11 AM<small>Confirmed</small></div>
+              <div class="item anim up" style="--d:31.0">Friday, 4 PM<small>Reminder sent</small></div>
+              <div class="item anim up" style="--d:31.6">Monday, 10 AM<small>Re-booked</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b></div>
+  </div></div>
+
+  <!-- ============ 7 · END CARD (35–45s) ============ -->
+  <div class="scene anim fade" style="--d:35">
+    <div class="end">
+      <div class="word anim up" style="--d:35.2"><span class="f">F</span>LOW HQ</div>
+      <h1>
+        <span class="anim up" style="--d:35.6; display:block">We don't sell marketing.</span>
+        <span class="anim up" style="--d:36.5; display:block">We install <span class="uline" style="--d:37.3">growth engines.</span></span>
+      </h1>
+      <div class="audit anim up" style="--d:38.3">Free 2-minute visibility audit</div>
+      <div class="wa anim pop" style="--d:38.9">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="#25d366"><path d="M12.04 2a9.9 9.9 0 0 0-8.43 15.1L2 22l5.06-1.6A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3 .95.98-2.93-.2-.31a8.2 8.2 0 1 1 6.72 3.62Zm4.5-6.1c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06a6.7 6.7 0 0 1-1.97-1.22 7.4 7.4 0 0 1-1.36-1.7c-.14-.25-.02-.38.1-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42h-.47c-.16 0-.43.06-.65.31-.23.25-.86.84-.86 2.05 0 1.2.88 2.37 1 2.54.12.16 1.73 2.64 4.2 3.7.59.26 1.05.41 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.66-1.17.2-.57.2-1.07.14-1.17-.06-.1-.23-.16-.48-.29Z"/></svg>
+        <span id="wa-label">Chat on WhatsApp</span>
+      </div>
+      <div class="tagline anim fade" style="--d:39.6">Built To Automate.</div>
+    </div>
+  </div>
+
+  <div class="brand anim fade" style="--d:5.2"><svg width="34" height="34" viewBox="0 0 32 32"><path d="M5 21c5 0 6-10 11-10s6 10 11 10" fill="none" stroke="#EA6A2D" stroke-width="3" stroke-linecap="round"/><circle cx="5" cy="21" r="3" fill="#EA6A2D"/><circle cx="27" cy="21" r="3" fill="#F1EAE1"/></svg>FlowHQ</div>
+</div>
+
+<script>
+  /* WhatsApp number shown on the end card. Leave empty to show the button without digits. */
+  const WHATSAPP_NUMBER = ""; // e.g. "+91 93221 46560"
+  if (WHATSAPP_NUMBER) document.getElementById("wa-label").textContent = "WhatsApp " + WHATSAPP_NUMBER;
+
+  /* brand mark only during the five story scenes */
+  document.querySelector(".brand").style.animation = "none";
+  document.querySelector(".brand").animate(
+    [{ opacity: 0 }, { opacity: 1, offset: 0.02 }, { opacity: 1, offset: 0.97 }, { opacity: 0 }],
+    { duration: 30000, delay: 5000, fill: "both" }
+  );
+
+  /** Seek every animation to time t (seconds). Used by render.mjs for each frame. */
+  window.seek = (t) => {
+    for (const a of document.getAnimations()) { a.pause(); a.currentTime = t * 1000; }
+  };
+  window.DURATION = 45;
+
+  const q = new URLSearchParams(location.search);
+  if (q.has("t")) seek(parseFloat(q.get("t")));
+  else if (!q.has("play")) seek(0);
+</script>
+</body>
+</html>
