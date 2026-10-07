@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { HOME_FAQS as FAQS } from "@/lib/faq";
+import { WA_LINK } from "@/lib/whatsapp";
 import { Reveal, Section, SectionHeading } from "./ui";
 
 
@@ -15,6 +16,13 @@ export default function Faq() {
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading eyebrow="FAQ" title="Fair questions." />
+          <p className="mt-5 max-w-[34ch] text-[15.5px] leading-[1.65] text-muted">
+            Something else on your mind?{" "}
+            <a {...WA_LINK} className="text-accent-2 underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent">
+              Ask us on WhatsApp
+            </a>{" "}
+            — it comes straight to the founders.
+          </p>
         </div>
         <Reveal>
           <ul className="border-b border-border">

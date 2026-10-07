@@ -28,20 +28,20 @@ export default function Hero() {
               className="hero-rise label flex items-center justify-center gap-3 font-normal text-accent-2"
               style={{ letterSpacing: "0.18em", "--rd": "0.05s" } as React.CSSProperties}
             >
-              <span aria-hidden className="h-px w-6 bg-accent" /> AI automation agency for local businesses{" "}
-              <span aria-hidden className="h-px w-6 bg-accent" />
+              <span aria-hidden className="hidden h-px w-6 bg-accent sm:block" /> AI automation agency for local businesses{" "}
+              <span aria-hidden className="hidden h-px w-6 bg-accent sm:block" />
             </span>
             <span className="display mt-6 block text-balance text-[clamp(2.5rem,5.3vw,4.4rem)]" style={{ fontWeight: 780, lineHeight: 1.02 }}>
-              <span {...rise(0.15)} className="hero-rise block">
+              <span {...rise(0)} className="hero-lift block">
                 You&apos;re not short on leads.{" "}
               </span>
-              <span {...rise(0.32)} className="hero-rise mt-2 block text-text/95">
+              <span {...rise(0.08)} className="hero-lift mt-2 block text-text/95">
                 You&apos;re short on <Highlight delay={0.9}>follow-up.</Highlight>
               </span>
             </span>
           </h1>
 
-          <p {...rise(0.5)} className="hero-rise mt-6 max-w-[660px] text-balance text-[17.5px] leading-[1.6] text-muted md:text-[19px]">
+          <p {...rise(0.14)} className="hero-lift mt-6 max-w-[660px] text-balance text-[17.5px] leading-[1.6] text-muted md:text-[19px]">
             More enquiries shouldn&apos;t mean more follow-up work. We build AI agents and workflow automation that reply, follow up and
             book for you — and kill the manual data entry in between.{" "}
             <span className="font-medium text-text">You bring the problem. We install the system.</span>

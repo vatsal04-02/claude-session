@@ -6,7 +6,7 @@ import { Reveal, Section } from "./ui";
 
 const SRC = "/pipeline-video.mp4"; // H.264: Safari, Chrome, Edge, Firefox
 const SRC_WEBM = "/pipeline-video.webm"; // VP9 fallback for browsers built without H.264
-const POSTER = "/pipeline-video-poster.jpg"; // the video's first frame
+const POSTER = "/pipeline-video-poster.webp"; // the video's first frame
 
 /** "Watch it in motion": the 30s pipeline video. Autoplays muted in a loop (browsers block autoplay
     with sound); click to pause/play, and the sound button turns the voiceover on from the start. */

@@ -77,5 +77,6 @@ await ff(["-i", master, "-c:v", "libvpx-vp9", "-crf", "34", "-b:v", "0", "-row-m
   "-pix_fmt", "yuv420p", "-r", String(FPS), "-an", join(OUT, "pipeline-video.webm")]);
 console.log("poster…");
 await ff(["-ss", "2.8", "-i", master, "-frames:v", "1", "-q:v", "3", join(OUT, "pipeline-video-poster.jpg")]);
+await ff(["-ss", "2.8", "-i", master, "-frames:v", "1", "-c:v", "libwebp", "-quality", "78", join(OUT, "pipeline-video-poster.webp")]);
 rmSync(tmp, { recursive: true, force: true });
 console.log("done");

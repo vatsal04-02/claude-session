@@ -76,15 +76,13 @@ function Packet({ text, tone, wide }: { text: string; tone: "in" | "out"; wide: 
   );
 }
 
-function Lane({ wide, active, children }: { wide: boolean; active: boolean; children?: React.ReactNode }) {
+function Lane({ active, children }: { active: boolean; children?: React.ReactNode }) {
   return (
-    <div className={cn("relative shrink-0", wide ? "h-full min-w-[70px] flex-1" : "h-14 w-full")}>
+    <div className="relative h-14 w-full shrink-0 md:h-full md:w-auto md:min-w-[70px] md:flex-1">
+      {/* layout is pure CSS (no layout shift at hydration); only packet travel direction reads the breakpoint */}
       <svg aria-hidden className="absolute inset-0 h-full w-full overflow-visible" preserveAspectRatio="none">
-        {wide ? (
-          <line x1="0" y1="50%" x2="100%" y2="50%" className={cn("flow-dash", active && "flow-dash-on")} />
-        ) : (
-          <line x1="50%" y1="0" x2="50%" y2="100%" className={cn("flow-dash", active && "flow-dash-on")} />
-        )}
+        <line x1="50%" y1="0" x2="50%" y2="100%" className={cn("flow-dash md:hidden", active && "flow-dash-on")} />
+        <line x1="0" y1="50%" x2="100%" y2="50%" className={cn("flow-dash hidden md:inline", active && "flow-dash-on")} />
       </svg>
       <AnimatePresence>{children}</AnimatePresence>
     </div>
@@ -114,11 +112,11 @@ export default function HeroFlow() {
 
       <div aria-hidden className="relative">
         {/* the one line that explains the visual */}
-        <p className="mb-8 text-center text-[clamp(1.05rem,1.7vw,1.35rem)] font-semibold tracking-[-0.01em] text-text md:mb-10">
+        <p className="mb-8 text-balance text-center text-[clamp(1.05rem,1.7vw,1.35rem)] font-semibold tracking-[-0.01em] text-text md:mb-10">
           Messages in. <span className="text-accent-2">AI handles it.</span> Bookings out.
         </p>
 
-        <div className={cn("relative flex items-center", wide ? "h-[420px] flex-row gap-0" : "flex-col")}>
+        <div className="relative flex flex-col items-center md:h-[420px] md:flex-row">
           {/* 1 · PHONE */}
           <div className="flex shrink-0 flex-col items-center">
             <div className="glass relative w-[232px] overflow-hidden rounded-[34px] p-2 md:w-[240px]">
@@ -138,7 +136,7 @@ export default function HeroFlow() {
                     <div className="text-[9.5px] text-subtle">WhatsApp</div>
                   </div>
                 </div>
-                <div className={cn("flex flex-col justify-end gap-2 overflow-hidden px-3 py-3 [mask-image:linear-gradient(to_bottom,transparent,#000_16%)]", wide ? "h-[292px]" : "h-[214px]")}>
+                <div className={cn("flex h-[214px] flex-col justify-end gap-2 overflow-hidden px-3 py-3 [mask-image:linear-gradient(to_bottom,transparent,#000_16%)] md:h-[292px]")}>
                   <AnimatePresence initial={false}>
                     {MESSAGES.map((m, i) => [
                       reached(i, 0) && (
@@ -180,7 +178,7 @@ export default function HeroFlow() {
           </div>
 
           {/* lane: phone → core */}
-          <Lane wide={wide} active={pulsing}>
+          <Lane active={pulsing}>
             {MESSAGES.map((m, i) => at(i, 1) && <Packet key={`pin${i}`} text={m} tone="in" wide={wide} />)}
           </Lane>
 
@@ -223,7 +221,7 @@ export default function HeroFlow() {
           </div>
 
           {/* lane: core → calendar */}
-          <Lane wide={wide} active={pulsing}>
+          <Lane active={pulsing}>
             {REPLIES.map((r, i) => at(i, 3) && <Packet key={`pout${i}`} text={r} tone="out" wide={wide} />)}
           </Lane>
 
