@@ -1,11 +1,14 @@
 """
-Voiceover for the pipeline video: synthesises each narration line with Piper (offline neural TTS),
-places it at its scene's start time, and muxes the mixed track into public/pipeline-video.{mp4,webm}
-without re-encoding the picture.
+Voiceover for the pipeline video: synthesises each narration line with Kokoro (offline neural TTS,
+warm female voice "af_heart"), places it at its scene's start time, and muxes the mixed track into
+public/pipeline-video.{mp4,webm} without re-encoding the picture.
 
-    pip install piper-tts
-    # voice: https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-us-ryan-high.tar.gz
-    python video/pipeline/voiceover.py --voice /path/to/en-us-ryan-high.onnx [--piper /path/to/piper]
+    pip install kokoro-onnx soundfile
+    # model files: https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0
+    #   kokoro-v1.0.onnx + voices-v1.0.bin
+    python video/pipeline/voiceover.py --kokoro-dir /path/to/kokoro-files [--voice af_heart] [--speed 1.0]
+
+    # or Piper:  python video/pipeline/voiceover.py --engine piper --voice /path/to/en-us-ryan-high.onnx
 
 Run it after render.mjs (render.mjs writes silent video; this adds the audio track).
 """
@@ -18,8 +21,8 @@ DURATION = 45.0
 # (start s, latest end s, line) — matches the scene timings in story.html
 LINES = [
     (0.4, 4.6, "You're not short on leads. You're short on follow-up."),
-    (5.4, 10.7, "Eleven oh two, P M. A customer messages you. The system replies instantly, while you're asleep."),
-    (11.4, 16.7, "Next morning, your follow-up is already done. Everyone who didn't reply got a nudge. Automatically."),
+    (5.4, 10.7, "Eleven oh two at night. A customer messages. The system replies instantly. You're asleep."),
+    (11.4, 16.7, "Next morning, follow-up's done. Everyone who didn't reply got a nudge. Automatically."),
     (17.4, 22.7, "Bookings fill themselves. The calendar confirms, reminds, and re-books no-shows."),
     (23.4, 28.7, "Old customers come back. Review requests and repeat offers go out on their own."),
     (29.4, 34.7, "And you check one screen. Every lead, chat and booking, in one place."),
@@ -39,17 +42,29 @@ def duration(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--voice", required=True, help="Piper .onnx voice model")
+    ap.add_argument("--engine", choices=["kokoro", "piper"], default="kokoro")
+    ap.add_argument("--voice", default="af_heart", help="Kokoro voice name, or Piper .onnx model path")
+    ap.add_argument("--kokoro-dir", help="folder with kokoro-v1.0.onnx and voices-v1.0.bin")
+    ap.add_argument("--speed", type=float, default=1.0, help="Kokoro speaking speed")
     ap.add_argument("--piper", default=shutil.which("piper") or "piper", help="piper executable")
-    ap.add_argument("--length-scale", default="1.0", help="speaking pace (>1 slower)")
+    ap.add_argument("--length-scale", default="1.0", help="Piper speaking pace (>1 slower)")
     a = ap.parse_args()
+
+    if a.engine == "kokoro":
+        from kokoro_onnx import Kokoro
+        import soundfile as sf
+        kok = Kokoro(os.path.join(a.kokoro_dir, "kokoro-v1.0.onnx"), os.path.join(a.kokoro_dir, "voices-v1.0.bin"))
 
     tmp = tempfile.mkdtemp(prefix="flowhq-vo-")
     clips = []
     for i, (start, end, text) in enumerate(LINES):
         raw = os.path.join(tmp, f"l{i}.wav")
-        subprocess.run([a.piper, "-m", a.voice, "--length_scale", a.length_scale, "-f", raw],
-                       input=text, text=True, check=True, capture_output=True)
+        if a.engine == "kokoro":
+            samples, sr = kok.create(text, voice=a.voice, speed=a.speed, lang="en-us")
+            sf.write(raw, samples, sr)
+        else:
+            subprocess.run([a.piper, "-m", a.voice, "--length_scale", a.length_scale, "-f", raw],
+                           input=text, text=True, check=True, capture_output=True)
         d, slot = duration(raw), end - start
         clip = raw
         if d > slot:  # speed up just enough to fit its scene (atempo keeps the pitch)
