@@ -140,7 +140,7 @@ export default function Workflow() {
 
 
   return (
-    <section id="workflow" className="section-edge relative overflow-x-clip bg-[#130c08] px-5 pb-20 pt-12 md:px-8 md:py-[120px]">
+    <section id="workflow" className="section-edge relative overflow-x-clip bg-[#130c08] px-5 pb-20 pt-12 md:px-8 md:py-[144px]">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.4 } as React.CSSProperties} />
       <Ambient className="-right-40 top-[10%] hidden h-[520px] w-[520px] md:block" />
 

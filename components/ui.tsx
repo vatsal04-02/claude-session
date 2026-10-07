@@ -122,8 +122,8 @@ export function Ambient({ className }: { className?: string }) {
 /* ------------------------------------------------------------------ */
 
 const SPACE = {
-  md: "py-16 md:py-[104px]",
-  lg: "py-20 md:py-[128px]",
+  md: "py-20 md:py-[136px]",
+  lg: "py-24 md:py-[152px]",
   xl: "py-24 md:py-[150px]",
 } as const;
 

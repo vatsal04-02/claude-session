@@ -1,6 +1,6 @@
 "use client";
 
-import { RotateCw } from "lucide-react";
+import { Hourglass, Keyboard, ListX, Puzzle, RotateCw, Unplug } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { PREFILL_EVENT } from "./AuditForm";
@@ -41,11 +41,14 @@ const PROBLEMS = [
   },
 ] as const;
 
+const ICONS = [Keyboard, Unplug, ListX, Hourglass, Puzzle];
+
 /* Flips on hover (mouse) or keyboard focus via CSS; on touch, a tap toggles it. */
 function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
   const [flipped, setFlipped] = useState(false);
   const pointer = useRef("mouse");
   const open = "open" in p;
+  const Icon = ICONS[i];
 
   const onCardClick = (e: React.MouseEvent) => {
     if (pointer.current === "mouse" || (e.target as HTMLElement).closest("a")) return;
@@ -65,22 +68,29 @@ function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
     >
       <div className="flip-inner grid h-full">
         {/* front: the problem */}
-        <div className="flip-face flex flex-col rounded-2xl border border-border bg-surface p-6">
-          <div className="flex items-center justify-between">
-            <span className="label rounded-full border border-border-bright px-2.5 py-1 text-[10.5px] text-muted">0{i + 1}</span>
-            <RotateCw aria-hidden className="h-3.5 w-3.5 text-subtle" />
+        <div className="flip-face pc-front relative flex flex-col overflow-hidden rounded-2xl border border-border p-6">
+          <div className="flex items-start justify-between">
+            <span className="pc-icon grid h-11 w-11 place-items-center rounded-xl border border-border-bright bg-bg/50 text-muted">
+              <Icon className="h-5 w-5" strokeWidth={1.7} />
+            </span>
+            <span className="label text-[10.5px] text-subtle">0{i + 1}</span>
           </div>
-          <h3 className="item-title mt-5">{p.title}</h3>
+          <h3 className="item-title mt-6">{p.title}</h3>
           <p className="mt-2 text-[15px] leading-[1.7] text-muted">{p.line}</p>
-          <span aria-hidden className="label mt-auto flex items-center gap-1.5 pt-6 text-[10px] tracking-[0.14em] text-subtle">
-            See the fix <span className="text-accent/80">→</span>
+          <span aria-hidden className="pc-cue label mt-auto flex items-center gap-1.5 pt-6 text-[10px] tracking-[0.14em] text-subtle">
+            <RotateCw className="h-3 w-3" /> See the fix <span className="pc-cue-arrow text-accent/80">→</span>
           </span>
         </div>
 
         {/* back: the fix */}
-        <div className="flip-face flip-back flex flex-col rounded-2xl border border-accent/70 bg-[#1d130e] p-6 shadow-[0_0_28px_-6px_rgba(234,106,47,0.55)]">
-          <span className="label self-start rounded-full border border-accent/50 px-2.5 py-1 text-[10.5px] text-accent">0{i + 1}</span>
-          <h3 className="item-title mt-5 text-accent">{p.fix}</h3>
+        <div className="flip-face flip-back flex flex-col rounded-2xl border border-accent/55 bg-[linear-gradient(160deg,#2a170d,#1a100b_60%)] p-6 shadow-[0_18px_44px_-24px_rgba(234,106,47,0.7)]">
+          <div className="flex items-start justify-between">
+            <span className="grid h-11 w-11 place-items-center rounded-xl border border-accent/50 bg-accent/15 text-accent-2">
+              <Icon className="h-5 w-5" strokeWidth={1.7} />
+            </span>
+            <span className="label rounded-full bg-accent/15 px-2.5 py-1 text-[9.5px] text-accent-2">Automated</span>
+          </div>
+          <h3 className="item-title mt-6 text-accent">{p.fix}</h3>
           <p className="mt-2 text-[15px] leading-[1.7] text-text/90">{p.fixLine}</p>
           <a
             href="#audit"

@@ -69,7 +69,7 @@ export default function PipelineVideo() {
   };
 
   return (
-    <Section id="pipeline-video" grid="soft" className="!pb-10 !pt-10 bg-[#0f0907] md:!pb-14 md:!pt-16">
+    <Section id="pipeline-video" grid="soft" className="!pb-14 !pt-12 bg-[#0f0907] md:!pb-20 md:!pt-20">
       {/* a separate moment after the pipeline diagram: a quiet label, then the system running */}
       <Reveal className="text-center">
         <span className="label inline-flex items-center gap-2.5 text-accent">

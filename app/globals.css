@@ -534,3 +534,17 @@ figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
 .hero-bg { background: url("/hero-bg-poster.webp") center / cover no-repeat; opacity: 0.9; }
 .hero-bg video { opacity: 0; animation: hero-bg-in 1.2s ease 0.2s forwards; }
 @keyframes hero-bg-in { to { opacity: 1; } }
+
+/* problem cards (front): quiet glass, a warm hairline + icon glow on hover */
+.pc-front { background: linear-gradient(180deg, rgba(38, 27, 20, 0.7), rgba(24, 17, 12, 0.6)); box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.06); transition: border-color 0.25s ease; }
+.pc-front::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, var(--color-accent), transparent); transform: scaleX(0); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.pc-icon { transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+.pc-cue-arrow { display: inline-block; transition: transform 0.2s ease; }
+.flip { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .flip:hover { transform: translateY(-4px); }
+  .flip:hover .pc-front { border-color: rgba(234, 106, 47, 0.45); }
+  .flip:hover .pc-front::before { transform: scaleX(1); }
+  .flip:hover .pc-icon { color: var(--color-accent-2); border-color: rgba(234, 106, 47, 0.5); box-shadow: 0 0 20px -6px rgba(234, 106, 47, 0.6); }
+  .flip:hover .pc-cue-arrow { transform: translateX(3px); }
+}
