@@ -15,13 +15,15 @@ const NODES = [
 
 const STEP_MS = 1300;
 
-function rise(delay: number) {
-  return {
-    initial: { opacity: 0, y: 22 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.9, ease: EASE, delay },
-  };
-}
+/* Entrance: pure CSS (.hero-rise in globals.css), so the headline paints before JavaScript loads (LCP). */
+const rise = (delay: number) => ({ className: "hero-rise", style: { "--rd": `${delay}s` } as React.CSSProperties });
+
+const SERVICE_LINKS = [
+  { label: "AI automation", href: "/ai-automation/" },
+  { label: "Workflow automation", href: "/workflow-automation/" },
+  { label: "Process automation", href: "/business-process-automation/" },
+  { label: "WhatsApp automation", href: "/whatsapp-automation/" },
+];
 
 export default function Hero() {
   return (
@@ -43,37 +45,45 @@ export default function Hero() {
       <div className="relative mx-auto max-w-[1140px]">
         <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
           <div>
-            <motion.span
-              {...rise(0.05)}
-              className="label inline-flex items-center gap-3 text-accent-2"
-              style={{ letterSpacing: "0.18em" }}
-            >
-              <span className="h-px w-6 bg-accent" /> Custom automation systems for local businesses
-            </motion.span>
-
-            <h1 className="display mt-5 text-[clamp(2.6rem,5.6vw,4.5rem)] text-text" style={{ fontWeight: 780, lineHeight: 1.02 }}>
-              <motion.span {...rise(0.15)} className="block">
-                You&apos;re not short
-              </motion.span>
-              <motion.span {...rise(0.25)} className="block">
-                on leads.
-              </motion.span>
-              <motion.span {...rise(0.38)} className="mt-3 block">
-                You&apos;re short on
-              </motion.span>
-              <motion.span {...rise(0.45)} className="block">
-                <Highlight delay={1}>follow-up.</Highlight>
-              </motion.span>
+            {/* one H1: the keyword line (styled as the eyebrow) + the headline */}
+            <h1 className="text-text">
+              <span
+                className="hero-rise label flex items-center gap-3 font-normal text-accent-2"
+                style={{ letterSpacing: "0.18em", "--rd": "0.05s" } as React.CSSProperties}
+              >
+                <span aria-hidden className="h-px w-6 bg-accent" /> AI automation agency for local businesses{" "}
+              </span>
+              <span className="display mt-5 block text-[clamp(2.6rem,5.6vw,4.5rem)]" style={{ fontWeight: 780, lineHeight: 1.02 }}>
+                <span {...rise(0.15)} className="hero-rise block">
+                  You&apos;re not short{" "}
+                </span>
+                <span {...rise(0.25)} className="hero-rise block">
+                  on leads.{" "}
+                </span>
+                <span {...rise(0.38)} className="hero-rise mt-3 block">
+                  You&apos;re short on{" "}
+                </span>
+                <span {...rise(0.45)} className="hero-rise block">
+                  <Highlight delay={1}>follow-up.</Highlight>
+                </span>
+              </span>
             </h1>
 
-            <motion.p {...rise(0.5)} className="mt-7 max-w-[540px] text-balance text-[19px] font-medium leading-[1.5] text-text">
-              We build AI systems that kill repetitive work — missed follow-ups, manual data entry, chaotic processes. You bring the problem, we install the system.
-            </motion.p>
-            <motion.p {...rise(0.64)} className="label mt-5 text-subtle" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
-              AI Systems · Automation · CRM · Integrations
-            </motion.p>
+            <p {...rise(0.5)} className="hero-rise mt-7 max-w-[540px] text-balance text-[19px] font-medium leading-[1.5] text-text">
+              We build AI agents and workflow automation that kill repetitive work — missed follow-ups, manual data entry, chaotic processes. You bring the problem, we install the system.
+            </p>
+            <nav aria-label="Automation services" {...rise(0.64)} className="hero-rise label mt-5 flex flex-wrap gap-x-2 gap-y-1 text-subtle" >
+              {SERVICE_LINKS.map((l, i) => (
+                <span key={l.href} className="inline-flex items-center gap-2" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
+                  {i > 0 && <span aria-hidden>·</span>}
+                  <a href={l.href} className="inline-flex min-h-6 items-center underline decoration-transparent underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/60">
+                    {l.label}
+                  </a>
+                </span>
+              ))}
+            </nav>
 
-            <motion.div {...rise(0.7)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <div {...rise(0.7)} className="hero-rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
               <Magnetic strength={0.2} max={6}>
                 <Button size="lg" href="#audit">
                   Get My Free Audit
@@ -88,17 +98,17 @@ export default function Hero() {
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
               </Magnetic>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div {...rise(0.5)} className="relative isolate md:max-w-[540px] lg:max-w-none">
+          <div {...rise(0.5)} className="hero-rise relative isolate md:max-w-[540px] lg:max-w-none">
             {/* ambient light behind the workflow card: two blurred orbs drifting on a 14s loop */}
             <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10">
               <span className="orb-a absolute left-[4%] top-[2%] h-[300px] w-[300px] rounded-full bg-[rgba(234,106,47,0.26)] blur-[90px]" />
               <span className="orb-b absolute bottom-[0%] right-[2%] h-[260px] w-[260px] rounded-full bg-[rgba(45,150,150,0.16)] blur-[90px]" />
             </div>
             <LiveRun />
-          </motion.div>
+          </div>
         </div>
 
       </div>

@@ -93,7 +93,10 @@ export default function Founder() {
                 <div className="founder-photo relative aspect-[3/4] overflow-hidden rounded-2xl border border-border bg-surface">
                   <img
                     src={f.photo}
-                    alt={f.name}
+                    srcSet={`${f.photo.replace(".webp", "-520.webp")} 520w, ${f.photo} 900w`}
+                    sizes="(min-width: 1024px) 260px, 45vw"
+                    alt={`${f.name}, co-founder of FlowHQ`}
+                    decoding="async"
                     width={f.w}
                     height={f.h}
                     loading="lazy"

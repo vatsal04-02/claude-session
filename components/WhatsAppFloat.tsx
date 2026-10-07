@@ -7,6 +7,7 @@ import { EASE } from "./ui";
 /** Sticky WhatsApp button, bottom-right. Sits above the mobile CTA bar. */
 export default function WhatsAppFloat() {
   return (
+    <aside aria-label="WhatsApp chat">
     <AnimatePresence>
       {(
         <motion.a
@@ -27,5 +28,6 @@ export default function WhatsAppFloat() {
         </motion.a>
       )}
     </AnimatePresence>
+    </aside>
   );
 }

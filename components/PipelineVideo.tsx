@@ -12,25 +12,45 @@ const POSTER = "/pipeline-video-poster.jpg"; // the video's first frame
     with sound); click to pause/play, and the sound button turns the voiceover on from the start. */
 export default function PipelineVideo() {
   const ref = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [flash, setFlash] = useState(0); // bumps on every toggle to replay the centre icon
   const [muted, setMuted] = useState(true);
+  const userPaused = useRef(false); // a pause the visitor chose: don't auto-resume on scroll
 
   // React sets `muted` as a property, not an attribute, so the static HTML lacks it and
-  // iOS Safari would refuse to autoplay. Force it on the element and start playback.
+  // iOS Safari would refuse to autoplay. Force it on the element.
+  // Nothing downloads until the player is ~300px from the viewport (preload="none" + no autoplay
+  // attribute); it then plays muted, and pauses again whenever it scrolls out of view.
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
     v.muted = true;
     v.defaultMuted = true;
-    v.play().catch(() => setPlaying(false));
+    const io = new IntersectionObserver(
+      (entries) => {
+        const e = entries[entries.length - 1]; // a fast scroll can queue several changes: use the latest
+        if (e.isIntersecting) {
+          if (!userPaused.current) v.play().catch(() => setPlaying(false));
+        } else if (!v.paused) {
+          v.pause();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
 
   const toggle = () => {
     const v = ref.current;
     if (!v) return;
-    if (v.paused) v.play().catch(() => {});
-    else v.pause();
+    if (v.paused) {
+      userPaused.current = false;
+      v.play().catch(() => {});
+    } else {
+      userPaused.current = true; // only a click counts as the visitor pausing
+      v.pause();
+    }
     setFlash((n) => n + 1);
   };
 
@@ -40,6 +60,7 @@ export default function PipelineVideo() {
     if (v.muted) {
       v.muted = false;
       v.currentTime = 0; // the voiceover only makes sense from the top
+      userPaused.current = false;
       v.play().catch(() => {});
     } else {
       v.muted = true;
@@ -79,11 +100,10 @@ export default function PipelineVideo() {
             ref={ref}
             className="absolute inset-0 h-full w-full object-cover"
             poster={POSTER}
-            autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             disablePictureInPicture
             disableRemotePlayback
             aria-hidden

@@ -354,3 +354,24 @@ body::after {
 
 /* founder photos: vibrant colour, zoomed in around the face (origin set per photo) */
 .founder-photo img { filter: saturate(1.25) contrast(1.05); transform: scale(1.2); }
+
+/* hero entrance: CSS-only so it starts at first paint, before hydration (keeps LCP fast) */
+@keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+.hero-rise { animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--rd, 0s); }
+
+/* phones: keep the hero's decorative glows static (no continuous blur repaints) */
+@media (max-width: 767px) {
+  .anim-glow, .orb-a, .orb-b { animation: none; }
+}
+
+/* service-page FAQ (<details>): hide the native marker */
+.faq-item > summary::-webkit-details-marker { display: none; }
+
+/* keyboard users: first Tab shows a "Skip to content" link */
+.skip-link {
+  position: fixed; left: 12px; top: 12px; z-index: 110;
+  padding: 10px 16px; border-radius: 999px;
+  background: var(--color-accent); color: #1a0a03; font-weight: 600; font-size: 14px;
+  transform: translateY(-150%);
+}
+.skip-link:focus { transform: none; }

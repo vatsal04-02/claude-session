@@ -8,7 +8,8 @@ import { cn } from "@/lib/cn";
 import Logo from "./Logo";
 import { Button, EASE } from "./ui";
 
-export default function Navbar() {
+/** `base` = "" on the homepage (in-page anchors), "/" on other pages (links back to the homepage sections). */
+export default function Navbar({ base = "" }: { base?: "" | "/" }) {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -41,7 +42,7 @@ export default function Navbar() {
         )}
       >
         <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1140px] items-center justify-between px-5 lg:grid lg:grid-cols-[1fr_auto_1fr] md:px-8">
-          <a href="#top" aria-label="FlowHQ home" className="inline-flex min-h-11 items-center lg:justify-self-start" onClick={() => setMenu(false)}>
+          <a href={base ? "/" : "#top"} className="inline-flex min-h-11 items-center lg:justify-self-start" onClick={() => setMenu(false)}>
             <Logo />
           </a>
 
@@ -49,7 +50,7 @@ export default function Navbar() {
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={`${base}${l.href}`}
                   className={cn(
                     "relative py-1 text-[14px] transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:bg-accent after:transition-transform after:duration-300 hover:text-text hover:after:scale-x-100",
                     active === l.href.slice(1) ? "text-text after:scale-x-100" : "text-muted after:scale-x-0"
@@ -63,7 +64,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 lg:justify-self-end">
             <div className="hidden lg:block">
-              <Button href="#audit">Get My Free Audit</Button>
+              <Button href={`${base}#audit`}>Get My Free Audit</Button>
             </div>
             <button
               type="button"
@@ -88,7 +89,7 @@ export default function Navbar() {
             >
               {NAV_LINKS.map((l) => (
                 <li key={l.href} className="border-t border-border">
-                  <a href={l.href} onClick={() => setMenu(false)} className="block py-3.5 text-xl font-semibold">
+                  <a href={`${base}${l.href}`} onClick={() => setMenu(false)} className="block py-3.5 text-xl font-semibold">
                     {l.label}
                   </a>
                 </li>
@@ -108,7 +109,7 @@ export default function Navbar() {
             transition={{ delay: 1, duration: 0.5, ease: EASE }}
             className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/90 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden"
           >
-            <Button href="#audit" className="w-full">
+            <Button href={`${base}#audit`} className="w-full">
               Get My Free Audit
             </Button>
           </motion.div>

@@ -20,7 +20,7 @@ export default function FinalCTA() {
               <span className="h-px w-6 bg-accent/70" /> Free audit
             </span>
             <h2 className="display mt-4 text-[clamp(2.2rem,4.4vw,3.6rem)]">
-              Tell us what your team does manually.
+              Tell us what your team does manually.{" "}
               <span className="mt-4 block text-[0.5em] font-semibold leading-[1.2] text-accent">
                 We&apos;ll show you what can be <Highlight>automated.</Highlight>
               </span>

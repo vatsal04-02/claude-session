@@ -4,15 +4,14 @@ import { Button } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Page not found — FlowHQ",
-  robots: { index: false },
 };
 
 export default function NotFound() {
   return (
-    <main className="hero-atmos relative grid min-h-[100svh] place-items-center overflow-hidden px-5 text-center">
+    <main id="main" className="hero-atmos relative grid min-h-[100svh] place-items-center overflow-hidden px-5 text-center">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.6 } as React.CSSProperties} />
       <div className="relative">
-        <a href="/" aria-label="FlowHQ home" className="inline-flex min-h-11 items-center">
+        <a href="/" className="inline-flex min-h-11 items-center">
           <Logo />
         </a>
         <p className="label mt-10 text-accent">Error 404</p>

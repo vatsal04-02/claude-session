@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   output: "export",
   // No server means no on-the-fly image optimisation; serve images as-is.
   images: { unoptimized: true },
+  // every page is written as <route>/index.html and linked as /<route>/ — works on any static host
+  trailingSlash: true,
   poweredByHeader: false,
 };
 

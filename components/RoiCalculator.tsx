@@ -36,7 +36,7 @@ export default function RoiCalculator() {
               step={1}
               value={enq}
               onChange={(e) => setEnq(Number(e.target.value))}
-              className="mt-3 h-2 w-full cursor-pointer accent-accent"
+              className="mt-1 h-7 w-full cursor-pointer accent-accent"
             />
             <div className="label mt-1 flex justify-between text-[10px] text-subtle"><span>0</span><span>200</span></div>
           </div>
@@ -54,7 +54,7 @@ export default function RoiCalculator() {
               step={1}
               value={ignored}
               onChange={(e) => setIgnored(Number(e.target.value))}
-              className="mt-3 h-2 w-full cursor-pointer accent-accent"
+              className="mt-1 h-7 w-full cursor-pointer accent-accent"
             />
             <div className="label mt-1 flex justify-between text-[10px] text-subtle"><span>0%</span><span>100%</span></div>
           </div>
@@ -72,7 +72,7 @@ export default function RoiCalculator() {
               step={500}
               value={avg}
               onChange={(e) => setAvg(Number(e.target.value))}
-              className="mt-3 h-2 w-full cursor-pointer accent-accent"
+              className="mt-1 h-7 w-full cursor-pointer accent-accent"
             />
             <div className="label mt-1 flex justify-between text-[10px] text-subtle"><span>₹500</span><span>₹50,000</span></div>
           </div>
