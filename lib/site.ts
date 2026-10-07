@@ -10,4 +10,4 @@ export const NAV_LINKS = [
 ] as const;
 
 /** The founder section's code is kept; flip this on once a real name, photo and bio exist. */
-export const SHOW_FOUNDER = false;
+export const SHOW_FOUNDER = true;
