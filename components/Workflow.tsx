@@ -1,200 +1,206 @@
 "use client";
 
-import { AnimatePresence, motion, useInView } from "motion/react";
-import { Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
+import { Check, Clock, Globe, MessageCircle, PhoneMissed, UserRound } from "lucide-react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { EASE, FlowChain, Reveal, Section, Tag } from "./ui";
+import { Ambient } from "./ui";
 
-/* kicker = how the system sees the step; result = what exists once the step has run */
-const STAGES = [
-  {
-    name: "Capture",
-    kicker: "Input",
-    line: "Every enquiry — website, WhatsApp, even missed calls — caught automatically.",
-    tags: ["Website", "WhatsApp", "Forms", "Calls"],
-    flow: ["Enquiry", "Lead created"],
-    result: "Lead created",
-  },
-  {
-    name: "Understand",
-    kicker: "Understand",
-    line: "AI reads what the customer actually wants.",
-    tags: ["Need", "Details", "Urgency"],
-    flow: ["Message", "AI", "Details"],
-    result: "Need understood",
-  },
-  {
-    name: "Manage",
-    kicker: "Record",
-    line: "One place that knows the customer and the next move.",
-    tags: ["CRM", "Owner", "Timeline"],
-    flow: ["Lead", "Record", "Next step"],
-    result: "Owner assigned",
-  },
-  {
-    name: "Automate",
-    kicker: "Automate",
-    line: "Follow-ups, reminders and nudges run while you work.",
-    tags: ["Follow-up", "Tasks", "Reminders"],
-    flow: ["Trigger", "Follow-up", "Delivered"],
-    result: "Follow-up created",
-  },
-  {
-    name: "Act",
-    kicker: "Your move",
-    line: "Your team steps in exactly where humans win.",
-    tags: ["Person", "Tool", "Task"],
-    flow: ["Decision", "Next step", "Result"],
-    result: "Next step done",
-  },
+/* "How it works" as a scroll-driven engine.
+   md+: the section pins; scroll moves progress through five nodes and swaps the step panel.
+   phones: a vertical journey (no pinning) with a progress line that fills as you scroll.
+   One markup for both — CSS decides layout, JS only sets which step is active. */
+
+const STEPS = [
+  { name: "Capture", tag: "Input", line: "Every enquiry — website, WhatsApp, even missed calls — caught automatically.", result: "Lead created" },
+  { name: "Understand", tag: "AI", line: "AI reads what the customer actually wants, and how urgent it is.", result: "Need understood" },
+  { name: "Manage", tag: "Record", line: "One record with the customer, the owner and the next step.", result: "Owner assigned" },
+  { name: "Automate", tag: "Follow-up", line: "Replies, reminders and nudges go out on time — without anyone remembering.", result: "Follow-ups scheduled" },
+  { name: "Convert", tag: "Outcome", line: "The slot gets booked. The enquiry becomes a customer.", result: "Customer booked" },
 ] as const;
 
-function Stage({ i, active, onActive, last }: { i: number; active: number; onActive: (i: number) => void; last: boolean }) {
-  const ref = useRef<HTMLLIElement>(null);
-  const s = STAGES[i];
-  const isActive = active === i;
-  const done = active > i;
-  // the stage that crosses the middle of the viewport becomes active
-  const centred = useInView(ref, { margin: "-42% 0px -42% 0px" });
-  useEffect(() => {
-    if (centred) onActive(i);
-  }, [centred, i, onActive]);
+const chip = "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12.5px]";
 
+/* one small, concrete visual per step — what the system is doing right now */
+function StepVisual({ i }: { i: number }) {
+  if (i === 0)
+    return (
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2">
+          <span className={cn(chip, "border-border-bright text-muted")}><Globe className="h-3.5 w-3.5" /> Website form</span>
+          <span className={cn(chip, "border-border-bright text-muted")}><MessageCircle className="h-3.5 w-3.5" /> WhatsApp</span>
+          <span className={cn(chip, "border-border-bright text-muted")}><PhoneMissed className="h-3.5 w-3.5" /> Missed call</span>
+        </div>
+        <span aria-hidden className="h-6 w-px bg-gradient-to-b from-accent/70 to-accent/10" />
+        <div className="glass w-full max-w-[300px] rounded-xl px-4 py-3">
+          <div className="label text-[10px] text-accent-2">New lead</div>
+          <div className="mt-1 text-[14px] text-text">Enquiry from WhatsApp · 9:42 PM</div>
+        </div>
+      </div>
+    );
+  if (i === 1)
+    return (
+      <div className="w-full max-w-[340px]">
+        <div className="rounded-2xl rounded-bl-md border border-border bg-surface-2 px-4 py-3 text-[14px] text-text">
+          Hi, can I come in tomorrow evening? It&apos;s a bit urgent.
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className={cn(chip, "border-accent/50 bg-accent/10 text-accent-2")}>Wants: a booking</span>
+          <span className={cn(chip, "border-accent/50 bg-accent/10 text-accent-2")}>When: tomorrow evening</span>
+          <span className={cn(chip, "border-accent/50 bg-accent/10 text-accent-2")}>Urgency: high</span>
+        </div>
+      </div>
+    );
+  if (i === 2)
+    return (
+      <div className="glass w-full max-w-[320px] rounded-xl p-4">
+        <div className="flex items-center gap-3">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-accent/15 text-accent"><UserRound className="h-4 w-4" /></span>
+          <div>
+            <div className="text-[14px] font-medium text-text">New customer</div>
+            <div className="text-[12px] text-subtle">via WhatsApp</div>
+          </div>
+        </div>
+        <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[13px]">
+          <dt className="label text-[10px] text-subtle">Owner</dt><dd className="text-text">Front desk</dd>
+          <dt className="label text-[10px] text-subtle">Status</dt><dd className="text-text">Replied</dd>
+          <dt className="label text-[10px] text-subtle">Next</dt><dd className="text-accent-2">Confirm a slot</dd>
+        </dl>
+      </div>
+    );
+  if (i === 3)
+    return (
+      <ol className="w-full max-w-[320px] space-y-2.5">
+        {[
+          ["Now", "Instant reply sent", true],
+          ["In 2 hours", "Slot options sent", true],
+          ["Tomorrow, 9 AM", "Reminder", false],
+        ].map(([when, what, done]) => (
+          <li key={what as string} className="glass flex items-center justify-between gap-3 rounded-xl px-4 py-2.5">
+            <span className="text-[13.5px] text-text">{what}</span>
+            <span className={cn("label flex items-center gap-1.5 text-[10px]", done ? "text-accent-2" : "text-subtle")}>
+              {done ? <Check className="h-3 w-3" strokeWidth={3} /> : <Clock className="h-3 w-3" />} {when}
+            </span>
+          </li>
+        ))}
+      </ol>
+    );
   return (
-    <li ref={ref} className="relative flex gap-6 py-5 md:gap-8">
-      {/* line segment down to the next node: muted brown, soft orange once completed */}
-      {!last && (
-        <span aria-hidden className="absolute -bottom-[37px] left-[8px] top-[37px] w-px bg-border">
-          <span
-            className={cn(
-              "absolute inset-0 origin-top bg-accent/70 transition-transform duration-700 ease-out",
-              done ? "scale-y-100" : "scale-y-0"
-            )}
-          />
-        </span>
-      )}
-      <span className="relative z-10 mt-2 grid h-[17px] w-[17px] shrink-0 place-items-center">
-        {isActive && <span aria-hidden className="pulse-dot absolute h-3 w-3 rounded-full text-accent" />}
-        <span
-          className={cn(
-            "relative h-3 w-3 rounded-full border-2 transition-all duration-500",
-            isActive
-              ? "border-accent bg-accent shadow-[0_0_0_6px_rgba(234,106,47,0.18),0_0_20px_rgba(234,106,47,0.7)]"
-              : done
-              ? "border-accent/60 bg-accent/50"
-              : "border-border-bright bg-bg"
-          )}
-        />
+    <div className="glass w-full max-w-[300px] rounded-xl p-5 text-center">
+      <span className="mx-auto grid h-11 w-11 place-items-center rounded-full bg-accent text-[#1a0a03] shadow-[0_0_30px_-4px_rgba(234,106,47,0.8)]">
+        <Check className="h-5 w-5" strokeWidth={3} />
       </span>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.7, ease: EASE }}
-        className={cn("min-w-0 flex-1 transition-opacity duration-500", isActive ? "opacity-100" : "opacity-55")}
-      >
-        <div className="flex items-baseline gap-3">
-          <span className={cn("label transition-colors duration-500", isActive ? "text-accent" : "text-subtle")}>0{i + 1}</span>
-          <h3
-            className={cn(
-              "item-title text-[26px] font-bold transition-[color,text-shadow] duration-500",
-              isActive ? "[text-shadow:0_0_26px_rgba(234,106,47,0.28)]" : "text-muted"
-            )}
-          >
-            {s.name}
-          </h3>
-          <span className="label ml-auto text-subtle">{s.kicker}</span>
-        </div>
-        <p className="mt-1.5 max-w-[60ch] text-[16px] leading-[1.6] text-muted">{s.line}</p>
-
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-          <ul className="flex flex-wrap gap-1.5">
-            {s.tags.map((t) => (
-              <li key={t}>
-                <Tag tone={isActive ? "accent" : "muted"}>{t}</Tag>
-              </li>
-            ))}
-          </ul>
-          <FlowChain steps={s.flow} />
-        </div>
-
-        {/* result state: fully shown on the active step, dimmed once done, hidden until reached */}
-        <div
-          className={cn(
-            "mt-2 flex h-5 items-center gap-2 text-[13px] text-accent-2 transition-opacity duration-500",
-            isActive ? "opacity-100" : done ? "opacity-50" : "opacity-0"
-          )}
-        >
-          <Check className="h-3.5 w-3.5 text-accent" strokeWidth={2.5} /> {s.result}
-        </div>
-      </motion.div>
-    </li>
+      <div className="mt-3 text-[16px] font-semibold text-text">Booked · Tomorrow, 6:30 PM</div>
+      <div className="mt-1 text-[13px] text-muted">Confirmation and reminder sent</div>
+    </div>
   );
 }
 
 export default function Workflow() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 });
   const [active, setActive] = useState(0);
-  const cur = STAGES[active];
+  useMotionValueEvent(scrollYProgress, "change", (p) => setActive(Math.min(STEPS.length - 1, Math.floor(p * STEPS.length * 0.999))));
+  // step i activates at progress i/5, so the line reaches node 5 (its end) at 0.8
+  const fill = useTransform(progress, [0, 0.8], [0, 1]);
+  const head = useTransform(fill, (f) => `${f * 100}%`);
 
   return (
-    <Section
-      id="workflow"
-      space="lg"
-      grid="strong"
-      className="min-[1204px]:[--grid-x:-26px] bg-[#130c08] [background-image:radial-gradient(circle_at_50%_40%,rgba(234,106,47,0.045),transparent_45%)]"
-    >
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-        {/* left: sticky heading + live "now" panel */}
-        <div className="lg:sticky lg:top-32 lg:self-start">
-          <Reveal>
-            <span className="label inline-flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent/70" /> Workflow
-            </span>
-          </Reveal>
-          <Reveal delay={0.07}>
-            <h2 className="display mt-4 text-[clamp(2.25rem,4.4vw,3.5rem)]">
-              From enquiry to customer <br /> in five steps.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <p className="mt-5 max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-              Every system we build runs the same five steps — automatically.
-            </p>
-          </Reveal>
+    <section id="workflow" className="section-edge relative overflow-x-clip bg-[#130c08]">
+      <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.3 } as React.CSSProperties} />
+      <Ambient className="-right-40 top-[10%] hidden h-[520px] w-[520px] md:block" />
 
-          <div className="mt-8 hidden rounded-xl border border-accent/40 bg-accent/[0.06] p-5 lg:block">
-            <div className="label flex items-center justify-between">
-              <span className="text-subtle">Now</span>
-              <span className="text-accent">
-                0{active + 1} / 0{STAGES.length}
-              </span>
+      {/* scroll distance for the pinned engine (md+) */}
+      <div ref={ref} className="relative md:h-[420vh]">
+        <div className="px-5 py-20 md:sticky md:top-0 md:flex md:h-[100svh] md:items-center md:px-8 md:py-0">
+          <div className="relative mx-auto w-full max-w-[1140px]">
+            {/* heading + status */}
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <span className="label inline-flex items-center gap-2.5 text-accent">
+                  <span className="h-px w-6 bg-accent/70" /> How it works
+                </span>
+                <h2 className="display mt-4 max-w-[16ch] text-balance text-[clamp(2.2rem,4.2vw,3.4rem)] text-text">
+                  From enquiry to customer in five steps.
+                </h2>
+              </div>
+              <div className="label hidden items-center gap-3 rounded-full border border-border px-4 py-2 text-[10.5px] text-subtle md:flex">
+                <span className="relative flex h-2 w-2">
+                  <span className="pulse-dot absolute inset-0 rounded-full text-accent" />
+                  <span className="relative h-2 w-2 rounded-full bg-accent" />
+                </span>
+                Running · Step <span className="tabular-nums text-accent-2">0{active + 1}</span> / 05
+              </div>
             </div>
-            <div className="relative mt-3 min-h-[92px]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.3, ease: EASE }}
-                >
-                  <div className="item-title text-[24px] font-bold">{cur.name}</div>
-                  <p className="mt-1.5 text-[15px] leading-[1.6] text-muted">{cur.line}</p>
+
+            {/* engine rail (md+) */}
+            <div aria-hidden className="relative mt-12 hidden md:block">
+              <div className="absolute left-[10%] right-[10%] top-[15px] h-px bg-border-bright" />
+              <div className="absolute left-[10%] right-[10%] top-[15px] h-px">
+                <motion.div className="h-full origin-left bg-gradient-to-r from-accent/70 to-accent" style={{ scaleX: fill }} />
+                <motion.div className="absolute inset-y-0 left-0 w-full" style={{ x: head }}>
+                  <span className="absolute -left-1 -top-[3.5px] h-2 w-2 rounded-full bg-accent-2 shadow-[0_0_14px_3px_rgba(241,122,59,0.75)]" />
                 </motion.div>
-              </AnimatePresence>
+              </div>
+              <ol className="relative grid grid-cols-5">
+                {STEPS.map((s, i) => {
+                  const state = i < active ? "done" : i === active ? "active" : "next";
+                  return (
+                    <li key={s.name} className="flex flex-col items-center text-center">
+                      <span
+                        className={cn(
+                          "grid h-[31px] w-[31px] place-items-center rounded-full border text-[11px] font-semibold tabular-nums transition-[background-color,border-color,color,box-shadow,transform] duration-500",
+                          state === "done" && "border-accent/70 bg-accent/20 text-accent-2",
+                          state === "active" && "scale-110 border-accent bg-accent text-[#1a0a03] shadow-[0_0_0_6px_rgba(234,106,47,0.14),0_0_26px_rgba(234,106,47,0.6)]",
+                          state === "next" && "border-border-bright bg-bg text-subtle"
+                        )}
+                      >
+                        {state === "done" ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : `0${i + 1}`}
+                      </span>
+                      <span className={cn("mt-3 text-[15px] font-semibold transition-colors duration-500", state === "next" ? "text-subtle" : "text-text")}>{s.name}</span>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
+
+            {/* step panels: stacked + swapped on md+, a vertical journey on phones */}
+            <ol className="relative mt-10 grid md:mt-12">
+              {/* phones: progress line beside the journey */}
+              <span aria-hidden className="absolute bottom-6 left-[15px] top-6 w-px bg-border md:hidden">
+                <motion.span className="block h-full origin-top bg-accent" style={{ scaleY: fill }} />
+              </span>
+              {STEPS.map((s, i) => (
+                <li
+                  key={s.name}
+                  data-active={active === i}
+                  className="wf-panel relative pb-12 pl-12 last:pb-0 md:[grid-area:1/1] md:pb-0 md:pl-0"
+                >
+                  <span aria-hidden className="absolute left-0 top-0 grid h-[31px] w-[31px] place-items-center rounded-full border border-accent/60 bg-bg text-[11px] font-semibold text-accent-2 md:hidden">
+                    0{i + 1}
+                  </span>
+                  <div className="glass grid items-center gap-8 rounded-[24px] p-6 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
+                    <div>
+                      <div className="label text-[10.5px] text-accent-2">
+                        Step 0{i + 1} · {s.tag}
+                      </div>
+                      <h3 className="display mt-3 text-[clamp(1.9rem,3.2vw,2.75rem)] text-text">{s.name}</h3>
+                      <p className="mt-3 max-w-[40ch] text-[16.5px] leading-[1.65] text-muted">{s.line}</p>
+                      <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[13px] font-medium text-accent-2">
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} /> {s.result}
+                      </span>
+                    </div>
+                    <div className="flex justify-center">
+                      <StepVisual i={i} />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
-
-        {/* right: the five-step system */}
-        <ol className="relative">
-          {STAGES.map((_, i) => (
-            <Stage key={i} i={i} active={active} onActive={setActive} last={i === STAGES.length - 1} />
-          ))}
-        </ol>
       </div>
-    </Section>
+    </section>
   );
 }

@@ -19,6 +19,15 @@ import { cn } from "@/lib/cn";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
+/* Flow HQ motion language — one set of springs for the whole site.
+   enter: soft rise · hover: small lift · success: short confirm · ui: quick, firm settle */
+export const SPRING = {
+  enter: { type: "spring", stiffness: 120, damping: 20, mass: 0.9 },
+  hover: { type: "spring", stiffness: 380, damping: 28 },
+  success: { type: "spring", stiffness: 420, damping: 18 },
+  ui: { type: "spring", stiffness: 300, damping: 30 },
+} as const;
+
 /* ------------------------------------------------------------------ */
 /* Scroll reveal                                                       */
 /* ------------------------------------------------------------------ */
@@ -35,7 +44,7 @@ export function Reveal({
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-70px" }}
-      transition={{ duration: 0.7, ease: EASE, delay }}
+      transition={{ y: { ...SPRING.enter, delay }, opacity: { duration: 0.6, ease: EASE, delay } }}
       className={className}
       {...rest}
     >
@@ -50,7 +59,7 @@ const stagger: Variants = {
 };
 const item: Variants = {
   hidden: { opacity: 0, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+  show: { opacity: 1, y: 0, transition: { y: SPRING.enter, opacity: { duration: 0.55, ease: EASE } } },
 };
 
 export function Stagger({
@@ -85,6 +94,26 @@ export function StaggerItem({
 }
 
 /* ------------------------------------------------------------------ */
+/* Ambient background detail: a faint dot cluster + thin orbital arcs  */
+/* with a few nodes. Decorative, static, rewards a closer look.        */
+/* ------------------------------------------------------------------ */
+
+export function Ambient({ className }: { className?: string }) {
+  return (
+    <div aria-hidden className={cn("pointer-events-none absolute", className)}>
+      <div className="ambient-dots absolute inset-0" />
+      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" fill="none">
+        <ellipse cx="200" cy="200" rx="190" ry="120" stroke="rgba(234,106,47,0.10)" strokeDasharray="1 7" strokeLinecap="round" transform="rotate(-18 200 200)" />
+        <ellipse cx="200" cy="200" rx="130" ry="82" stroke="rgba(245,220,200,0.06)" transform="rotate(-18 200 200)" />
+        <circle cx="352" cy="132" r="2.2" fill="rgba(241,122,59,0.55)" />
+        <circle cx="70" cy="262" r="1.6" fill="rgba(245,220,200,0.35)" />
+        <circle cx="300" cy="300" r="1.3" fill="rgba(241,122,59,0.35)" />
+      </svg>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Section scaffolding                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -94,7 +123,7 @@ const SPACE = {
   xl: "py-24 md:py-[150px]",
 } as const;
 
-const GRID = { strong: 1, mid: 0.75, soft: 0.5 } as const;
+const GRID = { strong: 0.55, mid: 0.4, soft: 0.28 } as const;
 
 export function Section({
   id,

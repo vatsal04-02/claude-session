@@ -1,36 +1,45 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Check, RotateCcw } from "lucide-react";
+import { Check, Database, RotateCcw, Sparkles, UserCheck } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { EASE, Reveal, Section, SectionHeading, StatusDot } from "./ui";
+import { Ambient, EASE, Reveal, Section, StatusDot } from "./ui";
 
-type Kind = "event" | "bot" | "you" | "done";
+type Kind = "event" | "bot" | "you" | "ai" | "lead" | "assign" | "done";
 type Step = { kind: Kind; text: string };
 type Msg = Step & { id: number };
 
-/* Scripted, illustrative sequences — one per scenario. Nothing plays until a chip is tapped. */
+/* Scripted, illustrative sequences — one per scenario. Nothing plays until a chip is tapped.
+   Each shows the system at work: incoming message → AI understanding → lead captured → team assignment → follow-up. */
 const SCENARIOS: Record<string, Step[]> = {
   "Missed enquiry": [
     { kind: "event", text: "Missed call · after hours" },
-    { kind: "bot", text: "Sorry we missed your call! How can we help? Reply here and we'll get back to you first thing." },
-    { kind: "you", text: "I wanted to ask about availability this week." },
-    { kind: "done", text: "Lead saved · Assigned to your team · Callback task created" },
-    { kind: "bot", text: "Good morning! Following up on your enquiry — would a call at 11 AM work for you?" },
+    { kind: "you", text: "Hi, I called earlier — is anyone free this week?" },
+    { kind: "ai", text: "Wants an appointment this week · warm lead" },
+    { kind: "lead", text: "Lead captured · saved with the missed call" },
+    { kind: "assign", text: "Assigned to Front desk · callback task created" },
+    { kind: "bot", text: "Sorry we missed you! We have Tuesday 11 AM or Thursday 4 PM — which works for you?" },
+    { kind: "done", text: "Follow-up sent automatically" },
   ],
   "No-show risk": [
-    { kind: "event", text: "Appointment tomorrow, 4:00 PM · not yet confirmed" },
-    { kind: "bot", text: "Hi! A reminder that your appointment is tomorrow at 4:00 PM. Reply 1 to confirm or 2 to reschedule." },
-    { kind: "you", text: "2" },
-    { kind: "bot", text: "No problem — would Thursday 11:00 AM or Friday 5:00 PM suit you better?" },
-    { kind: "done", text: "Rescheduled · Old slot released for someone else" },
+    { kind: "event", text: "Appointment tomorrow, 4:00 PM · not confirmed" },
+    { kind: "you", text: "Sorry, something came up tomorrow." },
+    { kind: "ai", text: "Can't make it · wants to reschedule" },
+    { kind: "lead", text: "Booking updated · slot released for someone else" },
+    { kind: "assign", text: "Front desk notified · no action needed" },
+    { kind: "bot", text: "No problem! Would Thursday 11:00 AM or Friday 5:00 PM suit you better?" },
+    { kind: "done", text: "Rescheduled instead of a no-show" },
   ],
   "Silent past customer": [
-    { kind: "event", text: "Past customer · no visit or reply in a while" },
-    { kind: "bot", text: "Hi! It's been a while — we'd love to see you again. Want me to hold a slot for you this week?" },
+    { kind: "event", text: "Past customer · no visit in a while" },
+    { kind: "bot", text: "Hi! It's been a while — want me to hold a slot for you this week?" },
     { kind: "you", text: "Yes, Saturday morning if possible." },
-    { kind: "done", text: "Slot held · Saturday, 10:00 AM · Team notified" },
+    { kind: "ai", text: "Wants to rebook · Saturday morning" },
+    { kind: "lead", text: "Customer re-activated · back in your pipeline" },
+    { kind: "assign", text: "Assigned to Front desk" },
+    { kind: "bot", text: "Done — Saturday 10:00 AM is yours. See you then!" },
+    { kind: "done", text: "Booked again" },
   ],
 };
 const CHIPS = Object.keys(SCENARIOS);
@@ -84,7 +93,7 @@ export default function LiveDemoChat() {
         setTyping(false);
         setMsgs((m) => [...m, { ...step, id: nextId.current++ }]);
       }, t);
-      t += step.kind === "you" ? 900 : 1100;
+      t += step.kind === "you" ? 900 : step.kind === "bot" ? 1100 : 750;
     }
     at(() => {
       setBusy(false);
@@ -98,16 +107,31 @@ export default function LiveDemoChat() {
   };
 
   return (
-    <Section id="try-it" className="bg-[#130d09]">
+    <Section id="try-it" className="overflow-x-clip bg-[#130d09]">
+      <Ambient className="-right-48 top-[8%] hidden h-[480px] w-[480px] md:block" />
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <SectionHeading
-          eyebrow="Try it"
-          title="Try it in 30 seconds."
-          sub="Pick a scenario. Watch the system work. (Sample only — no real messages sent.)"
-        />
+        <div>
+          <Reveal>
+            <span className="label inline-flex items-center gap-2.5 text-accent">
+              <span className="h-px w-6 bg-accent/70" /> Live demo
+            </span>
+          </Reveal>
+          <Reveal delay={0.07}>
+            <h2 className="display mt-5 text-[clamp(2.1rem,3.9vw,3.4rem)] leading-[1] text-text">
+              <span className="mb-[0.18em] block text-[2.7em] leading-[0.86] tracking-[-0.045em] text-accent">Try</span> it in 30 seconds.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p className="mt-6 max-w-[30rem] text-[16.5px] leading-[1.7] text-muted md:text-[17px]">
+              Pick a scenario and watch Flow HQ handle it: the message comes in, AI works out what the customer wants, the lead
+              is saved and assigned, and the follow-up goes out.{" "}
+              <span className="text-subtle">(Sample only — no real messages sent.)</span>
+            </p>
+          </Reveal>
+        </div>
 
         <Reveal y={28}>
-          <div className="mx-auto w-full max-w-[460px] overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]">
+          <div className="glass mx-auto w-full max-w-[470px] overflow-hidden rounded-[28px]">
             <div className="flex items-center gap-3 border-b border-border bg-surface-2 px-5 py-4">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-accent text-[15px] font-bold text-[#1a0a03]">F</span>
               <div className="leading-tight">
@@ -156,7 +180,7 @@ export default function LiveDemoChat() {
               role="log"
               aria-live="polite"
               aria-label="Sample conversation"
-              className="no-scrollbar flex h-[380px] flex-col gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
+              className="no-scrollbar flex h-[420px] flex-col gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
             >
               {!scenario && (
                 <p className="m-auto max-w-[26ch] text-center text-[14.5px] leading-[1.6] text-subtle">
@@ -176,12 +200,25 @@ export default function LiveDemoChat() {
                       m.kind === "event" && "label mx-auto max-w-full rounded-full border border-border px-3 py-1.5 text-center text-[10px] text-muted",
                       m.kind === "you" && "ml-auto rounded-2xl rounded-br-md border border-accent/30 bg-accent/15 px-4 py-2.5 text-text",
                       m.kind === "bot" && "rounded-2xl rounded-bl-md border border-border bg-surface-2 px-4 py-2.5 text-text",
+                      (m.kind === "ai" || m.kind === "lead" || m.kind === "assign") &&
+                        "flex max-w-full items-center gap-2.5 self-stretch rounded-xl border border-border bg-bg/50 px-3.5 py-2 text-[13px] text-muted",
+                      m.kind === "ai" && "border-accent/30 text-text",
                       m.kind === "done" &&
                         "flex max-w-full items-center gap-2.5 rounded-xl border border-accent/40 bg-accent/[0.08] px-4 py-2.5 text-[13.5px] text-accent-2"
                     )}
                   >
                     {m.kind === "done" && <Check className="h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />}
-                    {m.text}
+                    {m.kind === "ai" && <Sparkles className="h-4 w-4 shrink-0 text-accent" />}
+                    {m.kind === "lead" && <Database className="h-4 w-4 shrink-0 text-accent-2" />}
+                    {m.kind === "assign" && <UserCheck className="h-4 w-4 shrink-0 text-accent-2" />}
+                    {(m.kind === "ai" || m.kind === "lead" || m.kind === "assign") ? (
+                      <span>
+                        <span className="label mr-2 text-[9.5px] text-subtle">{m.kind === "ai" ? "AI understood" : m.kind === "lead" ? "CRM" : "Team"}</span>
+                        {m.text}
+                      </span>
+                    ) : (
+                      m.text
+                    )}
                   </motion.div>
                 ))}
                 {typing && (
