@@ -82,7 +82,7 @@ Use `https://`, **no `www.`** and **no slash at the end**. This file is already 
 npm run build
 ```
 
-This creates the `out/` folder. If you skipped 3b, the build stops with a message telling you to set `NEXT_PUBLIC_SITE_URL`. That's on purpose, so a site with the wrong domain never goes live.
+This creates the `out/` folder. If you skipped 3b, the build uses `https://flowhq.in` — so for any other domain, set `NEXT_PUBLIC_SITE_URL` first.
 
 **3d. Optional: preview the real build locally:**
 
@@ -124,7 +124,7 @@ Only **one**, and it's used **at build time on your computer**, not in hPanel:
 
 | Variable               | Required | Example                  | What it's for |
 |------------------------|----------|--------------------------|---------------|
-| `NEXT_PUBLIC_SITE_URL` | Yes, for `npm run build` | `https://yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
+| `NEXT_PUBLIC_SITE_URL` | Only if the domain isn't `flowhq.in` | `https://yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
 
 - Put it in `.env.production` (Step 3b). `.env.example` in the project shows the format.
 - `npm run dev` needs nothing; it uses `http://localhost:3000` automatically.

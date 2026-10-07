@@ -1,24 +1,20 @@
-import HeroFlow from "./HeroFlow";
+import AutopilotWord from "./AutopilotWord";
 import { Ambient, Button, Magnetic } from "./ui";
 
-/* Entrance: pure CSS (.hero-rise in globals.css), so the headline paints before JavaScript loads (LCP). */
+/* Entrance: pure CSS (.hero-rise / .hero-lift / .ap in globals.css), so the headline paints before JavaScript loads (LCP).
+   Order of events: headline + copy settle → the aircraft uncovers "autopilot." → the transition line arrives as it leaves. */
 const rise = (delay: number) => ({ style: { "--rd": `${delay}s` } as React.CSSProperties });
-
-const SERVICE_LINKS = [
-  { label: "AI automation", href: "/ai-automation/" },
-  { label: "Workflow automation", href: "/workflow-automation/" },
-  { label: "Process automation", href: "/business-process-automation/" },
-  { label: "WhatsApp automation", href: "/whatsapp-automation/" },
-];
 
 export default function Hero() {
   return (
-    <section id="top" className="hero-atmos relative overflow-hidden px-5 pb-16 pt-28 md:px-8 md:pb-24 md:pt-32">
+    <section id="top" className="hero-atmos relative overflow-hidden px-5 pb-6 pt-28 md:px-8 md:pb-8 md:pt-32">
       {/* quiet background: faint dot texture, one warm light, a couple of ambient details */}
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.7 } as React.CSSProperties} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-[38%] h-[640px] w-[900px] -translate-x-1/2 rounded-full bg-[rgba(234,106,47,0.055)] blur-[140px]" />
       <Ambient className="-left-40 top-24 hidden h-[420px] w-[420px] md:block" />
       <Ambient className="-right-48 top-[52%] hidden h-[520px] w-[520px] rotate-90 md:block" />
+      {/* the atmosphere fades into the next section instead of ending on an edge */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#110b08]" />
 
       <div className="relative mx-auto max-w-[1140px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center text-center">
@@ -35,7 +31,7 @@ export default function Hero() {
               className="hero-lift display mx-auto mt-6 block max-w-[13ch] text-balance text-[clamp(2.75rem,6.4vw,5.4rem)] lg:max-w-none"
               style={{ fontWeight: 780, lineHeight: 1.0, "--rd": "0s" } as React.CSSProperties}
             >
-              Put your business on <span className="text-accent">autopilot.</span>
+              Put your business on <AutopilotWord />
             </span>
           </h1>
 
@@ -44,7 +40,7 @@ export default function Hero() {
             you can focus on growth.
           </p>
 
-          <div {...rise(0.62)} className="hero-rise mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+          <div {...rise(0.2)} className="hero-rise mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
             <Magnetic strength={0.2} max={6}>
               <Button size="lg" href="#audit">
                 Get My Free Audit
@@ -63,21 +59,13 @@ export default function Hero() {
 
         </div>
 
-        {/* the one visual hook: PHONE → AI → CALENDAR */}
-        <div {...rise(0.6)} className="hero-rise mt-14 md:mt-16">
-          <HeroFlow />
+        {/* the hand-off to the rest of the page: work flows down into the live pipeline below */}
+        <div {...rise(1.1)} className="hero-rise mt-20 flex flex-col items-center md:mt-24">
+          <p className="text-balance text-center text-[clamp(1.3rem,2.1vw,1.62rem)] font-semibold leading-[1.25] tracking-[-0.015em] text-text">
+            Work in. <span className="text-accent-2">Automation takes over.</span>
+          </p>
+          <span aria-hidden className="mt-7 h-16 w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
         </div>
-
-        <nav aria-label="Automation services" {...rise(0.72)} className="hero-rise label mt-12 flex flex-wrap justify-center gap-x-4 gap-y-1 text-subtle sm:gap-x-2 md:mt-14">
-          {SERVICE_LINKS.map((l, i) => (
-            <span key={l.href} className="inline-flex items-center gap-2" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
-              {i > 0 && <span aria-hidden className="hidden sm:inline">·</span>}
-              <a href={l.href} className="inline-flex min-h-6 items-center underline decoration-transparent underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/60">
-                {l.label}
-              </a>
-            </span>
-          ))}
-        </nav>
       </div>
     </section>
   );

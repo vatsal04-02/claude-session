@@ -65,13 +65,16 @@ function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
     >
       <div className="flip-inner grid h-full">
         {/* front: the problem */}
-        <div className="flip-face rounded-2xl border border-border bg-surface p-6">
+        <div className="flip-face flex flex-col rounded-2xl border border-border bg-surface p-6">
           <div className="flex items-center justify-between">
             <span className="label rounded-full border border-border-bright px-2.5 py-1 text-[10.5px] text-muted">0{i + 1}</span>
             <RotateCw aria-hidden className="h-3.5 w-3.5 text-subtle" />
           </div>
           <h3 className="item-title mt-5">{p.title}</h3>
           <p className="mt-2 text-[15px] leading-[1.7] text-muted">{p.line}</p>
+          <span aria-hidden className="label mt-auto flex items-center gap-1.5 pt-6 text-[10px] tracking-[0.14em] text-subtle">
+            See the fix <span className="text-accent/80">→</span>
+          </span>
         </div>
 
         {/* back: the fix */}

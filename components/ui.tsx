@@ -19,6 +19,10 @@ import { cn } from "@/lib/cn";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
+/* Flow HQ motion tiers (seconds). Hierarchy decides motion: only primary moments get the long ones.
+   micro: hovers, presses · ui: state changes · major: one-time reveals · cinematic: the hero flight only */
+export const DUR = { micro: 0.2, ui: 0.35, major: 0.9, cinematic: 1.6 } as const;
+
 /* Flow HQ motion language — one set of springs for the whole site.
    enter: soft rise · hover: small lift · success: short confirm · ui: quick, firm settle */
 export const SPRING = {
@@ -297,7 +301,7 @@ export function Button({
   ...props
 }: BtnProps) {
   const base = cn(
-    "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-300 active:scale-[0.97] cursor-pointer",
+    "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-200 active:scale-[0.97] cursor-pointer",
     size === "md" ? "h-11 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
     variant === "primary"
       ? "bg-accent text-[#1a0a03] hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-[0_12px_30px_-10px_rgba(233,107,47,0.7)]"
@@ -312,7 +316,7 @@ export function Button({
       {arrow && (
         <span
           className={cn(
-            "transition-transform duration-300",
+            "transition-transform duration-200",
             arrowMove === "x" ? "group-hover:translate-x-1" : "group-hover:translate-y-1"
           )}
         >

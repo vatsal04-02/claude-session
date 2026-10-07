@@ -185,21 +185,6 @@ body::before {
 .flow-chain[data-run="true"] .flow-chip { animation: chip-run var(--cycle, 5s) ease-in-out 1 both; }
 .flow-chain[data-run="true"] .flow-arrow { animation: arrow-run var(--cycle, 5s) ease-in-out 1 both; }
 
-/* small dots that drip down a connector line */
-@keyframes drip {
-  0% { transform: translateY(0); opacity: 0; }
-  15%, 80% { opacity: 1; }
-  100% { transform: translateY(30px); opacity: 0; }
-}
-.drip { animation: drip 2.8s ease-in infinite; animation-delay: var(--d, 0s); }
-
-@keyframes drip-x {
-  0% { transform: translateX(0); opacity: 0; }
-  15%, 80% { opacity: 1; }
-  100% { transform: translateX(50px); opacity: 0; }
-}
-.drip-x { animation: drip-x 2.8s ease-in infinite; animation-delay: var(--d, 0s); }
-
 /* type scale: item titles are quiet sans, not serif */
 .item-title {
   font-family: var(--font-sans);
@@ -208,13 +193,6 @@ body::before {
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
-
-/* the active workflow card breathes: glow only, no scale or movement */
-@keyframes soft-pulse {
-  0%, 100% { box-shadow: 0 0 0 rgba(233, 107, 47, 0), inset 0 0 0 rgba(233, 107, 47, 0); }
-  50% { box-shadow: 0 0 22px rgba(233, 107, 47, 0.22), inset 0 0 14px rgba(233, 107, 47, 0.08); }
-}
-.soft-pulse { animation: soft-pulse 3.2s ease-in-out infinite; }
 
 /* very soft warm light behind mid-page sections */
 .warm-a { background-image: radial-gradient(circle at 86% 18%, rgba(234, 106, 47, 0.05), transparent 38%); }
@@ -264,18 +242,6 @@ body::before {
 }
 .card-lift:hover::after { opacity: 1; }
 .card-lift { isolation: isolate; }
-
-/* hero ambient orbs, 14s drift */
-@keyframes orb-a {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(70px, 50px, 0) scale(1.12); }
-}
-@keyframes orb-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
-  50% { transform: translate3d(-60px, -45px, 0) scale(0.92); }
-}
-.orb-a { animation: orb-a 14s ease-in-out infinite; }
-.orb-b { animation: orb-b 14s ease-in-out infinite; }
 
 /* page-load brand intro */
 .intro {
@@ -329,7 +295,6 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
   .hero-rise, .hero-lift { animation: none; }
-  .orb-a, .orb-b { animation: none; }
 }
 
 /* problem flip cards: both faces share one grid cell, so the card is as tall as its taller face */
@@ -360,9 +325,57 @@ body::after {
 @keyframes hero-lift { from { transform: translateY(16px); } to { transform: none; } }
 .hero-lift { animation: hero-lift 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--rd, 0s); }
 
+/* ---------- hero: "autopilot." uncovered by a passing aircraft ----------
+   One flight, compositor-only (transform + opacity), plays on first paint and once more after the word
+   has left the screen and returned (AutopilotWord re-arms data-run). Choreography:
+     0.00–0.30s  anticipation: headline settles, word hidden
+     0.30–1.30s  the aircraft cruises across at constant speed (nose −4% → 130% of the word)
+     0.38–1.15s  the word is uncovered right behind it: the window slides in while the letters
+                 counter-slide, so they never move — they simply appear in the plane's wake
+     1.08–1.30s  the aircraft climbs away and fades
+     1.15–1.65s  settle: a brief warm flare on the word fades to its resting colour             */
+.ap { position: relative; display: inline-block; vertical-align: top; white-space: nowrap; }
+.ap-win {
+  display: inline-block; vertical-align: top; overflow: hidden;
+  /* room for descenders and the full stop, without changing the line box */
+  padding: 0.14em 0.12em 0.3em 0; margin: -0.14em -0.12em -0.3em 0;
+}
+.ap-in { display: inline-block; vertical-align: top; }
+.ap-fly { position: absolute; inset: 0; pointer-events: none; }
+.ap-craft { position: absolute; right: 100%; top: var(--ap-alt, 0.15em); width: 0.62em; height: 0.31em; opacity: 0; }
+.ap-craft svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* a short wake rides with the aircraft (it flies along the top of the lowercase letters) and leaves with it */
+.ap-craft::before {
+  content: ""; position: absolute; right: 82%; top: 50%; width: 0.95em; height: 2px; margin-top: -1px; border-radius: 2px;
+  background: linear-gradient(to right, rgba(234, 106, 47, 0), rgba(241, 122, 59, 0.42));
+}
+.ap[data-run="play"] .ap-win { animation: ap-win var(--ap-rev, 0.77s) linear var(--ap-rev-at, 0.38s) both; }
+.ap[data-run="play"] .ap-in {
+  animation: ap-in var(--ap-rev, 0.77s) linear var(--ap-rev-at, 0.38s) both,
+    ap-flare 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--ap-settle, 1.15s) both;
+}
+.ap[data-run="play"] .ap-fly { animation: ap-fly 1s linear 0.3s both; }
+.ap[data-run="play"] .ap-craft { animation: ap-craft 1s linear 0.3s both; }
+.ap[data-run="idle"] .ap-win { transform: translateX(-100%); }
+.ap[data-run="idle"] .ap-in { transform: translateX(calc(100% + 0.12em)); }
+@keyframes ap-win { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes ap-in { from { transform: translateX(calc(100% + 0.12em)); } to { transform: none; } }
+@keyframes ap-fly { from { transform: translateX(-4%); } to { transform: translateX(130%); } }
+@keyframes ap-craft {
+  0% { opacity: 0; transform: translateY(0.05em) rotate(5deg) scale(0.9); }
+  12% { opacity: 1; transform: none; }
+  78% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-0.14em) rotate(-8deg); }
+}
+@keyframes ap-flare { from { filter: brightness(1.28); } to { filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .ap .ap-win, .ap .ap-in { animation: none !important; transform: none !important; }
+  .ap-fly { display: none; }
+}
+
 /* phones: keep the hero's decorative glows static (no continuous blur repaints) */
 @media (max-width: 767px) {
-  .anim-glow, .orb-a, .orb-b { animation: none; }
+  .anim-glow { animation: none; }
 }
 
 /* service-page FAQ (<details>): hide the native marker */
@@ -395,30 +408,54 @@ body::after {
   opacity: 0.5;
 }
 
-/* hero flow: lanes, AI core */
+/* live pipeline: lanes, engine ring */
 .flow-dash { stroke: rgba(245, 220, 200, 0.16); stroke-width: 1.5; stroke-dasharray: 2 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .flow-dash-on { stroke: rgba(241, 122, 59, 0.55); animation: flow-dash 0.9s linear infinite; }
 @keyframes flow-dash { to { stroke-dashoffset: -18; } }
-.core-halo { background: radial-gradient(circle, rgba(234, 106, 47, 0.28), rgba(234, 106, 47, 0.06) 45%, transparent 68%); animation: core-breathe 4.5s ease-in-out infinite; }
-@keyframes core-breathe { 0%, 100% { opacity: 0.75; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1.04); } }
-.core-orbit { animation: core-spin 16s linear infinite; }
 @keyframes core-spin { to { transform: rotate(360deg); } }
-.core-sphere {
-  background: radial-gradient(circle at 34% 28%, #ffd9b5 0%, #f5934f 30%, #e1602a 58%, #8a3412 100%);
-  box-shadow: 0 0 0 1px rgba(255, 200, 160, 0.25), 0 0 46px -6px rgba(234, 106, 47, 0.75), inset 0 -10px 22px rgba(90, 30, 8, 0.55);
-}
-/* everything continuous in the hero flow pauses when it's off-screen */
+/* everything continuous in the live pipeline pauses when it's off-screen */
 .engine-ring[data-on="true"] { animation: core-spin 9s linear infinite; }
 figure[data-run="off"] .engine-ring,
-figure[data-run="off"] .flow-dash-on,
-figure[data-run="off"] .core-halo,
-figure[data-run="off"] .core-orbit { animation-play-state: paused; }
+figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
 
-/* workflow live panel: on lg+ the five panels share one cell; only the active one shows */
+/* ---------- workflow: fast, scroll-driven states (UI tier: 200–320ms, no long fades) ---------- */
+.wf-node { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.wf-node[data-state="done"] { border-color: rgba(234, 106, 47, 0.7); background: rgba(234, 106, 47, 0.2); color: var(--color-accent-2); }
+.wf-node[data-state="active"] { transform: scale(1.1); border-color: var(--color-accent); background: var(--color-accent); color: #1a0a03; box-shadow: 0 0 0 6px rgba(234, 106, 47, 0.14), 0 0 26px rgba(234, 106, 47, 0.6); }
+.wf-node[data-state="next"] { border-color: var(--color-border-bright); background: var(--color-bg); color: var(--color-subtle); }
+/* phones/tablets: steps ahead of you wait quietly */
+.wf-step .wf-text { transition: opacity 0.25s ease; }
+.wf-step[data-state="next"] .wf-text { opacity: 0.5; }
+/* lg+: the five steps share one cell as a single glass panel; only the active one shows */
 @media (min-width: 1024px) {
-  .wf-panel { opacity: 0; transform: translateY(18px) scale(0.985); pointer-events: none; transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  .wf-panel[data-active="true"] { opacity: 1; transform: none; pointer-events: auto; }
+  .wf-step { grid-area: 1 / 1; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 0.22s ease, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+  .wf-step[data-active="true"] { opacity: 1; transform: none; pointer-events: auto; }
+  .wf-step[data-state="next"] .wf-text { opacity: 1; }
+  .wf-card {
+    background: linear-gradient(180deg, rgba(38, 27, 20, 0.62), rgba(24, 17, 12, 0.55));
+    border: 1px solid rgba(245, 220, 200, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.07), 0 30px 70px -38px rgba(0, 0, 0, 0.9);
+  }
 }
+/* ---------- the GROW tree: seed → stem → branches → leaves → light (~1.1s), instant reset ---------- */
+.grow-tree .gt-draw { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.grow-tree .gt-pop { transform: scale(0); opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
+.grow-tree .gt-leaf { transform-origin: 0% 50%; }
+.grow-tree .gt-fade { opacity: 0; }
+.grow-tree[data-on="true"] .gt-draw {
+  stroke-dashoffset: 0; opacity: 1;
+  transition: stroke-dashoffset var(--t, 0.3s) cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s), opacity 0s linear var(--d, 0s);
+}
+.grow-tree[data-on="true"] .gt-pop {
+  transform: none; opacity: 1;
+  transition: transform 0.42s cubic-bezier(0.34, 1.45, 0.64, 1) var(--d, 0s), opacity 0.12s ease var(--d, 0s);
+}
+.grow-tree[data-on="true"] .gt-fade { opacity: 1; transition: opacity 0.45s ease var(--d, 0s); }
+.grow-tree[data-still="true"] * { transition: none !important; }
+
+/* "Grow" lights up once the tree has grown (after ~0.85s); resets instantly */
+.grow-word { transition: color 0.2s ease, text-shadow 0.2s ease; }
+.grow-word[data-grown="true"] { color: var(--color-accent); text-shadow: 0 0 28px rgba(234, 106, 47, 0.4); transition: color 0.35s ease 0.85s, text-shadow 0.5s ease 0.85s; }
 
 /* calculator: ₹ coin + tactile sliders */
 .coin-face {
