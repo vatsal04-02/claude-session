@@ -42,6 +42,7 @@ export default function LiveDemoChat() {
   const [typing, setTyping] = useState(false);
   const [busy, setBusy] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [overflowing, setOverflowing] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const nextId = useRef(1);
@@ -50,7 +51,12 @@ export default function LiveDemoChat() {
 
   // keep the newest message in view inside the chat only (never scrolls the page)
   useEffect(() => {
-    box.current?.scrollTo({ top: box.current.scrollHeight, behavior: reduce ? "auto" : "smooth" });
+    const el = box.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: reduce ? "auto" : "smooth" });
+    // Only take the wheel away from Lenis while the log really has something to scroll; otherwise the
+    // native scroll chains to the page and fights Lenis's smooth scroll (the stick-then-jump on the way past).
+    setOverflowing(el.scrollHeight > el.clientHeight + 1);
   }, [msgs, typing, finished, reduce]);
 
   const clear = () => {
@@ -146,11 +152,11 @@ export default function LiveDemoChat() {
 
             <div
               ref={box}
-              data-lenis-prevent
+              data-lenis-prevent={overflowing || undefined}
               role="log"
               aria-live="polite"
               aria-label="Sample conversation"
-              className="no-scrollbar flex h-[380px] flex-col gap-2.5 overflow-y-auto bg-bg/60 p-4"
+              className="no-scrollbar flex h-[380px] flex-col gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
             >
               {!scenario && (
                 <p className="m-auto max-w-[26ch] text-center text-[14.5px] leading-[1.6] text-subtle">
