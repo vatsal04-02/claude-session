@@ -12,6 +12,7 @@
 <style>
   @font-face { font-family: "Geist"; font-weight: 100 900; src: url(../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2) format("woff2"); }
   @font-face { font-family: "Geist Mono"; font-weight: 100 900; src: url(../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 700; src: url(../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2) format("woff2"); }
   @font-face { font-family: "Instrument Serif"; src: url(../../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2) format("woff2"); }
 
   :root {
@@ -46,7 +47,9 @@
   .scene { position: absolute; inset: 0; }
 
   /* ---- shared chrome ---- */
-  .brand { position: absolute; left: 120px; bottom: 72px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 30px; letter-spacing: -.03em; z-index: 5; }
+  .brand { position: absolute; left: 120px; bottom: 64px; display: flex; align-items: center; gap: 4px; z-index: 5; }
+  .brand .mk { height: 54px; } .brand .wm { font-size: 30px; }
+  .wm { font-family: "Poppins", sans-serif; font-weight: 700; letter-spacing: -.01em; line-height: 1; } .wm .lw { color: #F8E9C9; } .wm .hq { color: #FF6510; }
   .kicker { font-family: "Geist Mono", monospace; font-size: 22px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-2); display: flex; align-items: center; gap: 18px; }
   .kicker i { display: inline-block; width: 44px; height: 2px; background: var(--accent); }
   .step { position: absolute; right: 120px; bottom: 72px; display: flex; gap: 12px; z-index: 5; }
@@ -136,7 +139,7 @@
 
   /* end card */
   .end { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; }
-  .word { font-size: 46px; font-weight: 800; letter-spacing: -.01em; } .word .f { color: var(--accent); }
+  .word { display: flex; align-items: center; gap: 8px; } .word .mk { height: 104px; } .word .wm { font-size: 58px; }
   .end h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 118px; line-height: 1.04; letter-spacing: -.01em; margin-top: 40px; }
   .audit { margin-top: 54px; font-size: 40px; font-weight: 700; }
   .wa { margin-top: 30px; display: inline-flex; align-items: center; gap: 16px; height: 88px; padding: 0 44px; border-radius: 999px; background: rgba(37,211,102,.1); border: 2px solid rgba(37,211,102,.75); font-size: 34px; font-weight: 650; box-shadow: 0 0 60px -14px rgba(37,211,102,.55); }
@@ -144,6 +147,7 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="fhq" gradientUnits="userSpaceOnUse" x1="435" y1="115" x2="250" y2="390"><stop offset="0" stop-color="#DD4B21"/><stop offset=".45" stop-color="#EE6B30"/><stop offset="1" stop-color="#FDAA64"/></linearGradient></defs></svg>
 <div class="stage" id="stage">
   <div class="grid"></div>
   <div class="glow"></div>
@@ -320,7 +324,7 @@
   <!-- ============ 7 · END CARD (35–45s) ============ -->
   <div class="scene anim fade" style="--d:35">
     <div class="end">
-      <div class="word anim up" style="--d:35.2"><span class="f">F</span>LOW HQ</div>
+      <div class="word anim up" style="--d:35.2"><svg class="mk" viewBox="240 110 205 285"><g fill="none" stroke="url(#fhq)" stroke-linecap="round"><path d="M268 333V180a42 42 0 0 1 42-42h78" stroke-width="42"/><path d="M268 246h77" stroke-width="40"/></g><g fill="url(#fhq)"><circle cx="419" cy="139" r="24"/><circle cx="382" cy="246" r="22.5"/><circle cx="267" cy="367" r="24"/></g></svg><span class="wm"><span class="lw">LOW</span> <span class="hq">HQ</span></span></div>
       <h1>
         <span class="anim up" style="--d:35.6; display:block">We don't sell marketing.</span>
         <span class="anim up" style="--d:36.5; display:block">We install <span class="uline" style="--d:37.3">growth engines.</span></span>
@@ -334,7 +338,7 @@
     </div>
   </div>
 
-  <div class="brand anim fade" style="--d:5.2"><svg width="34" height="34" viewBox="0 0 32 32"><path d="M5 21c5 0 6-10 11-10s6 10 11 10" fill="none" stroke="#EA6A2D" stroke-width="3" stroke-linecap="round"/><circle cx="5" cy="21" r="3" fill="#EA6A2D"/><circle cx="27" cy="21" r="3" fill="#F1EAE1"/></svg>FlowHQ</div>
+  <div class="brand anim fade" style="--d:5.2"><svg class="mk" viewBox="240 110 205 285"><g fill="none" stroke="url(#fhq)" stroke-linecap="round"><path d="M268 333V180a42 42 0 0 1 42-42h78" stroke-width="42"/><path d="M268 246h77" stroke-width="40"/></g><g fill="url(#fhq)"><circle cx="419" cy="139" r="24"/><circle cx="382" cy="246" r="22.5"/><circle cx="267" cy="367" r="24"/></g></svg><span class="wm"><span class="lw">LOW</span> <span class="hq">HQ</span></span></div>
 </div>
 
 <script>
