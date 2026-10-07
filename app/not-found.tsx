@@ -3,7 +3,8 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Page not found — FlowHQ",
+  // Next.js adds <meta name="robots" content="noindex"> to the 404 page automatically
+  title: { absolute: "Page not found | Flow HQ" },
 };
 
 export default function NotFound() {
@@ -22,6 +23,11 @@ export default function NotFound() {
         <div className="mt-8">
           <Button href="/">Back to home</Button>
         </div>
+        <nav aria-label="Popular pages" className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[14px] text-muted">
+          <a href="/ai-automation/" className="inline-flex min-h-11 items-center hover:text-accent">AI automation</a>
+          <a href="/business-process-automation/" className="inline-flex min-h-11 items-center hover:text-accent">Process automation</a>
+          <a href="/resources/" className="inline-flex min-h-11 items-center hover:text-accent">Guides</a>
+        </nav>
       </div>
     </main>
   );

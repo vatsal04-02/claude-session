@@ -1,18 +1,15 @@
-"use client";
-
-import { motion } from "motion/react";
+import { SERVICES } from "@/lib/services";
 import LivePipeline from "./LivePipeline";
-import { Ambient, DUR, EASE } from "./ui";
+import { Ambient, FocusReveal } from "./ui";
 
 const SERVICE_LINKS = [
-  { label: "AI automation", href: "/ai-automation/" },
-  { label: "Workflow automation", href: "/workflow-automation/" },
-  { label: "Process automation", href: "/business-process-automation/" },
-  { label: "WhatsApp automation", href: "/whatsapp-automation/" },
+  ...SERVICES.map((x) => ({ label: x.nav, href: `/${x.slug}/` })),
+  { label: "Industries", href: "/industries/" },
+  { label: "Guides", href: "/resources/" },
 ];
 
 /* The page's big statement, then the proof right underneath it: the live pipeline.
-   The statement is a single major reveal (focus-pull, once); the pipeline is the moving part. */
+   Server component (the links are plain HTML); only the heading's focus-pull and the pipeline run on the client. */
 export default function Manifesto() {
   return (
     <section id="pipeline" aria-labelledby="pipeline-title" className="relative overflow-x-clip bg-[#110b08] px-5 pb-8 pt-6 md:px-8 md:pb-14 md:pt-8">
@@ -21,16 +18,13 @@ export default function Manifesto() {
       <Ambient className="-left-44 top-[46%] hidden h-[440px] w-[440px] lg:block" />
 
       <div className="relative mx-auto max-w-[1140px]">
-        <motion.h2
+        <FocusReveal
+          as="h2"
           id="pipeline-title"
-          initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-          transition={{ duration: DUR.major, ease: EASE }}
           className="font-serif mx-auto max-w-[14ch] text-balance text-center text-[clamp(2.75rem,6vw,4.5rem)] leading-[1] tracking-[-0.015em] text-text md:max-w-none"
         >
           Less manual work<span className="text-accent">.</span>
-        </motion.h2>
+        </FocusReveal>
 
         <div className="mt-14 md:mt-20">
           <LivePipeline />

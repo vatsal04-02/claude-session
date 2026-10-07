@@ -4,9 +4,9 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "FlowHQ — AI Automation Agency",
-    short_name: "FlowHQ",
-    description: "Custom AI and workflow automation systems for businesses in India.",
+    name: "Flow HQ — Custom AI + Automation Systems",
+    short_name: "Flow HQ",
+    description: "Custom AI and automation systems that reduce manual work, connect your tools and put repetitive business processes on autopilot.",
     start_url: "/",
     display: "browser",
     background_color: "#110b08",

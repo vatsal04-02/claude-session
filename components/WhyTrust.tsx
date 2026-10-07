@@ -23,7 +23,7 @@ export default function WhyTrust() {
     <Section id="why-flowhq" className="bg-[#140d09]">
       <div className="mx-auto max-w-[800px]">
         <SectionHeading
-          eyebrow="Why FlowHQ"
+          eyebrow="Why Flow HQ"
           title="No testimonials. Yet."
           sub="We're new, so we won't fake social proof. Instead, look at this page: the demo chat, the calculator, the video — every one of them was built by us, and each is the kind of system we install for clients. That's our portfolio."
         />

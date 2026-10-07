@@ -57,6 +57,23 @@ export function Reveal({
   );
 }
 
+/** One-time "focus pull" for a major statement: rises and sharpens from a soft blur. */
+export function FocusReveal({ as = "div", className, id, children }: { as?: "h2" | "div"; className?: string; id?: string; children: React.ReactNode }) {
+  const Tag = as === "h2" ? motion.h2 : motion.div;
+  return (
+    <Tag
+      id={id}
+      initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      transition={{ duration: DUR.major, ease: EASE }}
+      className={className}
+    >
+      {children}
+    </Tag>
+  );
+}
+
 const stagger: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },

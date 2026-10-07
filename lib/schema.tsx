@@ -9,13 +9,14 @@ const phone = `+${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2, 7)} ${
 export const organization = {
   "@type": "ProfessionalService",
   "@id": ORG_ID,
-  name: "FlowHQ",
+  name: "Flow HQ",
+  alternateName: "FlowHQ",
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-image.png`,
   slogan: "Built To Automate.",
   description:
-    "FlowHQ builds custom AI and automation systems for businesses: we map repetitive work, connect the tools a business already uses and put its operations on autopilot. Based in Lucknow, India.",
+    "Flow HQ is a custom AI and automation studio. We map a business's repetitive work, connect the tools it already uses and put its operations on autopilot — less manual work, more capacity for growth. Based in Lucknow, India.",
   telephone: phone,
   address: { "@type": "PostalAddress", addressLocality: "Lucknow", addressRegion: "Uttar Pradesh", addressCountry: "IN" },
   areaServed: { "@type": "Country", name: "India" },
@@ -25,12 +26,13 @@ export const organization = {
   ],
   knowsAbout: [
     "AI automation",
-    "Workflow automation",
+    "AI workflow automation",
     "Business process automation",
-    "n8n",
-    "AI agents",
-    "WhatsApp Business API",
     "CRM automation",
+    "Lead automation",
+    "AI receptionists",
+    "WhatsApp Business API",
+    "n8n",
   ],
   contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: phone, areaServed: "IN" },
 };
@@ -39,7 +41,8 @@ export const website = {
   "@type": "WebSite",
   "@id": `${SITE_URL}/#website`,
   url: `${SITE_URL}/`,
-  name: "FlowHQ",
+  name: "Flow HQ",
+  alternateName: "FlowHQ",
   inLanguage: "en-IN",
   publisher: { "@id": ORG_ID },
 };
@@ -69,6 +72,23 @@ export function service(s: { name: string; serviceType: string; description: str
     url: `${SITE_URL}${s.path}`,
     provider: { "@id": ORG_ID },
     areaServed: { "@type": "Country", name: "India" },
+  };
+}
+
+export function article(a: { title: string; description: string; path: string; datePublished: string; dateModified: string }) {
+  return {
+    "@type": "Article",
+    "@id": `${SITE_URL}${a.path}#article`,
+    headline: a.title,
+    description: a.description,
+    url: `${SITE_URL}${a.path}`,
+    mainEntityOfPage: `${SITE_URL}${a.path}`,
+    datePublished: a.datePublished,
+    dateModified: a.dateModified,
+    inLanguage: "en-IN",
+    image: `${SITE_URL}/og-image.png`,
+    author: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
   };
 }
 

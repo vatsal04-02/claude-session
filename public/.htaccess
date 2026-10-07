@@ -22,7 +22,10 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # 3) Clean URLs: /some-page -> some-page.html when that file exists (future pages; refreshes never 404).
+  # 3) Moved pages (keep in sync with vercel.json "redirects")
+  RewriteRule ^workflow-automation/?$ /ai-workflow-automation/ [L,R=301]
+
+  # 4) Clean URLs: /some-page -> some-page.html when that file exists (future pages; refreshes never 404).
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}.html -f

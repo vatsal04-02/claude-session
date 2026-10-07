@@ -2,6 +2,7 @@
 
 import { Check, Loader2 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { GOOGLE_SHEET_URL } from "@/lib/site";
 import { WA_LINK } from "@/lib/whatsapp";
@@ -24,6 +25,16 @@ export default function AuditForm() {
   const sending = useRef(false); // synchronous guard against double submits
   const uid = useId();
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const started = useRef(false);
+  const mountedAt = useRef(0);
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
+  const onStart = () => {
+    if (started.current) return;
+    started.current = true;
+    track("form_start");
+  };
 
   useEffect(() => {
     const onPrefill = (ev: Event) => {
@@ -49,11 +60,12 @@ export default function AuditForm() {
     setErr(e);
     if (Object.keys(e).length) return;
 
-    // a filled honeypot means a bot: show success, send nothing
-    if (trap) return setStatus("done");
+    // a filled honeypot, or a submit within 2s of the page loading, means a bot: show success, send nothing
+    if (trap || Date.now() - mountedAt.current < 2000) return setStatus("done");
 
     sending.current = true;
     setStatus("sending");
+    track("form_submit");
     try {
       // text/plain keeps this a "simple" request (no CORS preflight, which Apps Script can't answer); body is JSON
       const res = await fetch(GOOGLE_SHEET_URL, {
@@ -70,8 +82,10 @@ export default function AuditForm() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error("save failed");
       setStatus("done");
+      track("form_success");
     } catch {
       setStatus("error");
+      track("form_error");
     } finally {
       sending.current = false;
     }
@@ -121,7 +135,7 @@ export default function AuditForm() {
   };
 
   return (
-    <form onSubmit={submit} noValidate className="relative rounded-2xl border border-border bg-surface p-6 md:p-8">
+    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-2xl border border-border bg-surface p-6 md:p-8">
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${uid}-company`}>Company website</label>
         <input id={`${uid}-company`} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
@@ -149,7 +163,7 @@ export default function AuditForm() {
         <div role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
           <p>Something went wrong — please reach us on WhatsApp instead.</p>
           <a {...WA_LINK} className={cn(waText, "mt-2 inline-block")}>
-            WhatsApp FlowHQ
+            WhatsApp Flow HQ
           </a>
         </div>
       )}

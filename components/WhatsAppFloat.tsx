@@ -14,7 +14,7 @@ export default function WhatsAppFloat() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat with FlowHQ on WhatsApp"
+          aria-label="Chat with Flow HQ on WhatsApp"
           initial={{ opacity: 0, y: 16, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.9 }}

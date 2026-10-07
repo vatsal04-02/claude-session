@@ -4,18 +4,20 @@ import { GeistMono } from "geist/font/mono";
 import Providers from "@/components/Providers";
 import Intro, { INTRO_SCRIPT } from "@/components/Intro";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import Analytics from "@/components/Analytics";
 import "@fontsource/instrument-serif/latin-400.css";
 import "@fontsource/poppins/latin-700.css";
 import "./globals.css";
-import { SITE_URL } from "@/lib/config";
+import { ON_VERCEL, SITE_URL } from "@/lib/config";
 import { JsonLd, organization, website } from "@/lib/schema";
 import { OG_IMAGE, SITE_NAME } from "@/lib/seo";
 
 /* Site-wide defaults. Every page sets its own title, description and canonical via lib/seo.ts. */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "FlowHQ | Custom AI & Automation Systems for Businesses in India", template: "%s | FlowHQ" },
-  applicationName: "FlowHQ",
+  title: { default: "Flow HQ | Custom AI Automation Systems for Growing Businesses", template: "%s | Flow HQ" },
+  applicationName: "Flow HQ",
+  // robots is set per page by pageMetadata() (indexable on production, noindex on previews); the 404 gets Next's own noindex
   openGraph: { siteName: SITE_NAME, locale: "en_IN", type: "website", images: [OG_IMAGE] },
   twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
 };
@@ -39,6 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <WhatsAppFloat />
         </Providers>
+        {/* Vercel Web Analytics only exists on Vercel; other hosts (e.g. Hostinger) skip it */}
+        {ON_VERCEL && <Analytics />}
       </body>
     </html>
   );

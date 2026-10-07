@@ -1,4 +1,6 @@
 import { NAV_LINKS } from "@/lib/site";
+import { INDUSTRIES } from "@/lib/industries";
+import { CLUSTERS, getResource } from "@/lib/resources";
 import { SERVICES } from "@/lib/services";
 import { WA_LINK } from "@/lib/whatsapp";
 import Logo from "./Logo";
@@ -10,7 +12,7 @@ const linkCls = "inline-flex min-h-11 items-center transition-colors hover:text-
 export default function Footer({ base = "" }: { base?: "" | "/" }) {
   return (
     <footer className="border-t border-border px-5 pt-12 md:px-8 lg:pb-10">
-      <div className="mx-auto grid max-w-[1140px] gap-10 md:grid-cols-2 md:items-start lg:grid-cols-[1.1fr_1fr_0.8fr_auto] lg:gap-10">
+      <div className="mx-auto grid max-w-[1140px] gap-10 md:grid-cols-2 md:items-start lg:grid-cols-[1.1fr_0.9fr_1fr_0.7fr_auto] lg:gap-8">
         <div>
           <a href={base ? "/" : "#top"} className="inline-flex min-h-11 items-center">
             <Logo />
@@ -34,8 +36,36 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           </ul>
         </nav>
 
+        <nav aria-label="Industries and resources">
+          <div className="label mb-2 text-[10.5px] text-subtle">Industries</div>
+          <ul className="grid gap-1 text-[14.5px] text-muted">
+            {INDUSTRIES.map((i) => (
+              <li key={i.slug}>
+                <a href={`/industries/${i.slug}/`} className={linkCls}>
+                  {i.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="label mb-2 mt-6 text-[10.5px] text-subtle">Resources</div>
+          <ul className="grid gap-1 text-[14.5px] text-muted">
+            {CLUSTERS.map((c) => (
+              <li key={c.id}>
+                <a href={`/resources/${getResource(c.pillar)!.slug}/`} className={linkCls}>
+                  {c.name}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href="/resources/" className={linkCls}>
+                All guides
+              </a>
+            </li>
+          </ul>
+        </nav>
+
         <nav aria-label="Footer">
-          <div className="label mb-2 text-[10.5px] text-subtle">FlowHQ</div>
+          <div className="label mb-2 text-[10.5px] text-subtle">Flow HQ</div>
           <ul className="grid gap-1 text-[14.5px] text-muted">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
@@ -52,7 +82,7 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           </ul>
         </nav>
 
-        <div className="rounded-2xl border border-border bg-surface p-5 md:w-full lg:max-w-[260px] lg:justify-self-end">
+        <div className="rounded-2xl border border-border bg-surface p-5 md:w-full lg:max-w-[240px] lg:justify-self-end">
           <div className="label text-[10.5px] text-subtle">Contact</div>
           <Button variant="whatsapp" {...WA_LINK} className="mt-4 w-full">
             Chat on WhatsApp
@@ -62,9 +92,9 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
       </div>
 
       <div className="mx-auto mt-10 flex max-w-[1140px] flex-wrap items-center justify-between gap-4 border-t border-border pt-5 text-[13px] text-subtle">
-        <span>© 2026 FlowHQ</span>
+        <span>© 2026 Flow HQ</span>
         <span className="label inline-flex items-center gap-2.5 rounded-full border border-border px-3 py-1.5 text-[10px] text-muted">
-          <StatusDot tone="accent" /> FlowHQ System · Online
+          <StatusDot tone="accent" /> Flow HQ System · Online
         </span>
       </div>
     </footer>

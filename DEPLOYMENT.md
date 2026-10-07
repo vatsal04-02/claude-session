@@ -1,4 +1,42 @@
-# Deploying FlowHQ to your Hostinger domain
+# Deploying Flow HQ
+
+Two supported hosts — pick one:
+
+- **Vercel (recommended)** — connect the GitHub repo; every push deploys. See **Option A** below.
+- **Hostinger (or any static host)** — build locally and upload `out/`. See **Option B** (the rest of this file).
+
+Either way the site is a static export (`output: "export"` in `next.config.ts`): no server, no database, no secrets.
+
+---
+
+## Option A — Vercel + custom domain
+
+1. **Connect the repository.** vercel.com → Add New → Project → import this GitHub repo. Framework preset:
+   **Next.js** (auto-detected). Leave Build Command (`next build`) and Output settings at their defaults.
+   Node.js version: 20.x or newer (`engines` in package.json says `>=20.9.0`).
+2. **Production environment variable.** Project → Settings → Environment Variables → add
+   `NEXT_PUBLIC_SITE_URL` = `https://YOUR-DOMAIN.com` (no trailing slash), environment **Production only**.
+   Don't add it to Preview: preview deployments are automatically `noindex` with a disallow-all robots.txt.
+3. **Add the custom domain.** Project → Settings → Domains → add `YOUR-DOMAIN.com` and `www.YOUR-DOMAIN.com`;
+   set `www` to redirect to the apex.
+4. **Verify DNS.** At your DNS provider add the records Vercel shows (usually an `A` record for the apex and a
+   `CNAME` for `www`). Wait until both domains show "Valid Configuration".
+5. **Verify HTTPS.** Vercel issues the certificates automatically; open `https://YOUR-DOMAIN.com` and
+   `https://www.YOUR-DOMAIN.com` (the latter should redirect).
+6. **Deploy.** Deployments → Redeploy the latest production deployment (so it's built with the env var).
+7. **Inspect robots.txt** — `https://YOUR-DOMAIN.com/robots.txt` must say `Allow: /` and list your sitemap.
+8. **Inspect sitemap.xml** — `https://YOUR-DOMAIN.com/sitemap.xml` lists ~25 URLs, all on your domain.
+9. **Inspect canonicals** — view source on the homepage: `<link rel="canonical" href="https://YOUR-DOMAIN.com/">`.
+   Or run `SEO_BASE=https://YOUR-DOMAIN.com npm run seo:check`.
+10. **Connect Google Search Console**, 11. **submit the sitemap**, 12. **request indexing** for key pages,
+    13. **monitor** — step by step in [SEO_LAUNCH_CHECKLIST.md](SEO_LAUNCH_CHECKLIST.md).
+
+Also enable **Analytics** in the Vercel project (Web Analytics). `vercel.json` already sets security headers,
+asset caching, trailing slashes and the `/workflow-automation/` → `/ai-workflow-automation/` redirect.
+
+---
+
+## Option B — Hostinger (static upload)
 
 ## What this website is (read this first)
 

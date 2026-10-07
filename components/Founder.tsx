@@ -95,7 +95,7 @@ export default function Founder() {
                     src={f.photo}
                     srcSet={`${f.photo.replace(".webp", "-520.webp")} 520w, ${f.photo} 900w`}
                     sizes="(min-width: 1024px) 260px, 45vw"
-                    alt={`${f.name}, co-founder of FlowHQ`}
+                    alt={`${f.name}, co-founder of Flow HQ`}
                     decoding="async"
                     width={f.w}
                     height={f.h}
@@ -149,7 +149,7 @@ export default function Founder() {
       {/* video, full width below */}
       <Reveal className="mx-auto mt-14 max-w-[960px] md:mt-16">
         <FounderVideo />
-        <p className="mt-4 text-center text-[14.5px] text-muted">Meet the people behind FlowHQ.</p>
+        <p className="mt-4 text-center text-[14.5px] text-muted">Meet the people behind Flow HQ.</p>
       </Reveal>
     </Section>
   );

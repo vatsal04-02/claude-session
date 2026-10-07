@@ -548,3 +548,14 @@ figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
   .flip:hover .pc-icon { color: var(--color-accent-2); border-color: rgba(234, 106, 47, 0.5); box-shadow: 0 0 20px -6px rgba(234, 106, 47, 0.6); }
   .flip:hover .pc-cue-arrow { transform: translateX(3px); }
 }
+
+/* ---------- long-form article text (resources) ---------- */
+.prose-flow { color: var(--color-muted); font-size: 17px; line-height: 1.78; }
+.prose-flow section + section { margin-top: 3rem; }
+.prose-flow h2 { font-family: var(--font-sans); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; font-size: clamp(1.45rem, 2.4vw, 1.85rem); color: var(--color-text); margin-bottom: 1rem; }
+.prose-flow p { margin-top: 1rem; }
+.prose-flow ul, .prose-flow ol { margin-top: 1rem; display: grid; gap: 0.6rem; padding-left: 1.4rem; }
+.prose-flow ul { list-style: disc; }
+.prose-flow ol { list-style: decimal; }
+.prose-flow li::marker { color: var(--color-accent); }
+.prose-flow .prose-note { font-size: 14.5px; color: var(--color-subtle); border-left: 2px solid rgba(234, 106, 47, 0.5); padding-left: 0.9rem; }
