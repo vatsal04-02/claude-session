@@ -1,0 +1,106 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Mono;src:url(../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2)}
+@font-face{font-family:Sans;font-weight:600;src:url(../../node_modules/geist/dist/fonts/geist-sans/Geist-SemiBold.woff2)}
+html,body{margin:0;background:#0d0806;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#1a100b 0%,#0d0806 70%)}
+#c{position:absolute;left:50%;top:50%;width:2600px;height:1500px;margin:-750px 0 0 -1300px;
+   transform:perspective(1600px) translateY(-10px) scale(1.12) rotateX(54deg) rotateZ(-9deg);transform-origin:50% 50%}
+/* keep the centre calm for the headline; fade the far edges into the page */
+#veil{position:absolute;inset:0;background:
+  radial-gradient(ellipse 40% 46% at 50% 52%,rgba(13,8,6,.93),rgba(13,8,6,.8) 45%,rgba(13,8,6,.32) 75%,rgba(13,8,6,.05) 100%),
+  linear-gradient(to bottom,#0d0806 0%,rgba(13,8,6,0) 18%,rgba(13,8,6,0) 72%,#0d0806 100%),
+  linear-gradient(to right,#0d0806 0%,rgba(13,8,6,0) 14%,rgba(13,8,6,0) 86%,#0d0806 100%)}
+</style></head>
+<body><div id="stage"><canvas id="c" width="2600" height="1500"></canvas><div id="veil"></div></div>
+<script>
+const LOOP = 12; // seconds; everything below is periodic in LOOP so the video loops seamlessly
+const cv = document.getElementById("c"), g = cv.getContext("2d");
+const OR = (a) => `rgba(234,106,47,${a})`, CR = (a) => `rgba(245,224,205,${a})`;
+const TAU = Math.PI * 2;
+function rr(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function panel(x, y, w, h, title) {
+  rr(x, y, w, h, 22); g.fillStyle = "rgba(38,26,19,0.55)"; g.fill(); g.strokeStyle = CR(0.10); g.lineWidth = 2; g.stroke();
+  g.fillStyle = CR(0.42); g.font = "22px Mono"; g.fillText(title.toUpperCase(), x + 28, y + 46);
+}
+// layout of the dashboard "floor"
+const P = {
+  graph: [760, 260, 1080, 640],
+  chart: [120, 260, 600, 300], bars: [120, 600, 600, 300],
+  feed: [1880, 260, 600, 640], k1: [120, 940, 600, 260], k2: [760, 940, 520, 260], k3: [1320, 940, 520, 260], k4: [1880, 940, 600, 260],
+};
+// automation graph: inputs → engine → outputs
+const N = { in: [[880, 420], [880, 560], [880, 700], [880, 820]], ai: [1300, 600], out: [[1720, 430], [1720, 560], [1720, 690], [1720, 820]] };
+const EDGES = [...N.in.map((p) => [p, N.ai]), ...N.out.map((p) => [N.ai, p])];
+const FEED = ["CRM updated", "Follow-up sent", "Task created", "Team notified", "Invoice drafted", "Report updated", "Lead created", "Reminder set"];
+function draw(t) {
+  const ph = (t % LOOP) / LOOP; // 0..1
+  g.clearRect(0, 0, cv.width, cv.height);
+  // floor grid
+  g.strokeStyle = CR(0.035); g.lineWidth = 1.5;
+  for (let x = 0; x <= cv.width; x += 100) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, cv.height); g.stroke(); }
+  for (let y = 0; y <= cv.height; y += 100) { g.beginPath(); g.moveTo(0, y); g.lineTo(cv.width, y); g.stroke(); }
+
+  // line chart: a gently scrolling trend
+  let [x, y, w, h] = P.chart; panel(x, y, w, h, "Hours saved");
+  g.beginPath();
+  for (let i = 0; i <= 60; i++) { const u = i / 60; const v = 0.55 - u * 0.32 + 0.07 * Math.sin(TAU * (u * 2 + ph)) + 0.03 * Math.sin(TAU * (u * 5 - 2 * ph));
+    const px = x + 30 + u * (w - 60), py = y + 80 + v * (h - 110); i ? g.lineTo(px, py) : g.moveTo(px, py); }
+  g.strokeStyle = OR(0.8); g.lineWidth = 4; g.stroke();
+  g.lineTo(x + w - 30, y + h - 24); g.lineTo(x + 30, y + h - 24); g.closePath(); g.fillStyle = OR(0.07); g.fill();
+
+  // bars
+  [x, y, w, h] = P.bars; panel(x, y, w, h, "Tasks automated");
+  for (let i = 0; i < 9; i++) { const v = 0.35 + 0.5 * (i / 9) + 0.08 * Math.sin(TAU * (ph + i / 9));
+    const bw = 38, bx = x + 36 + i * 60, bh = v * (h - 110); rr(bx, y + h - 26 - bh, bw, bh, 6); g.fillStyle = i === 8 ? OR(0.85) : OR(0.28 + i * 0.04); g.fill(); }
+
+  // automation graph
+  [x, y, w, h] = P.graph; panel(x, y, w, h, "Flow HQ · live pipeline");
+  for (const [a, b] of EDGES) { g.beginPath(); g.moveTo(a[0], a[1]); g.bezierCurveTo((a[0] + b[0]) / 2, a[1], (a[0] + b[0]) / 2, b[1], b[0], b[1]); g.strokeStyle = CR(0.12); g.lineWidth = 2.5; g.stroke(); }
+  // packets: each edge carries packets at its own phase
+  EDGES.forEach(([a, b], k) => {
+    for (const off of [0, 0.5]) {
+      const u = (ph * 2 + k * 0.137 + off) % 1; const e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const mx = (a[0] + b[0]) / 2; const bez = (p0, p1, p2, p3, s) => (1 - s) ** 3 * p0 + 3 * (1 - s) ** 2 * s * p1 + 3 * (1 - s) * s * s * p2 + s ** 3 * p3;
+      const px = bez(a[0], mx, mx, b[0], e), py = bez(a[1], a[1], b[1], b[1], e);
+      const al = Math.sin(Math.PI * u);
+      g.beginPath(); g.arc(px, py, 7, 0, TAU); g.fillStyle = OR(0.9 * al); g.fill();
+      g.beginPath(); g.arc(px, py, 18, 0, TAU); g.fillStyle = OR(0.14 * al); g.fill();
+    }
+  });
+  const labels = ["WhatsApp", "Forms", "Email", "Calls"], outs = ["CRM", "Tasks", "Team", "Reports"];
+  g.font = "21px Mono";
+  N.in.forEach((p, i) => { g.beginPath(); g.arc(p[0], p[1], 12, 0, TAU); g.fillStyle = CR(0.55); g.fill(); g.fillStyle = CR(0.4); g.fillText(labels[i].toUpperCase(), p[0] + 26, p[1] - 18); });
+  N.out.forEach((p, i) => { g.beginPath(); g.arc(p[0], p[1], 12, 0, TAU); g.fillStyle = OR(0.8); g.fill(); g.fillStyle = CR(0.4); g.fillText(outs[i].toUpperCase(), p[0] - 120, p[1] - 20); });
+  // engine core: a quiet breathing ring
+  const br = 1 + 0.06 * Math.sin(TAU * ph * 3);
+  g.beginPath(); g.arc(N.ai[0], N.ai[1], 90 * br, 0, TAU); g.fillStyle = OR(0.10); g.fill();
+  rr(N.ai[0] - 58, N.ai[1] - 58, 116, 116, 30); g.fillStyle = "rgba(43,26,17,0.95)"; g.fill(); g.strokeStyle = OR(0.6); g.lineWidth = 3; g.stroke();
+  g.save(); g.translate(N.ai[0], N.ai[1]); g.rotate(TAU * ph); g.setLineDash([6, 14]); g.beginPath(); g.arc(0, 0, 80, 0, TAU); g.strokeStyle = CR(0.22); g.lineWidth = 2; g.stroke(); g.restore();
+  g.fillStyle = OR(0.95); g.font = "600 44px Sans"; g.textAlign = "center"; g.fillText("AI", N.ai[0], N.ai[1] + 15); g.textAlign = "left";
+
+  // feed: rows scroll up continuously, newest lit
+  [x, y, w, h] = P.feed; panel(x, y, w, h, "Done automatically");
+  g.save(); rr(x + 16, y + 70, w - 32, h - 90, 14); g.clip();
+  const rowH = 82, shift = ph * FEED.length * rowH;
+  for (let i = -1; i < FEED.length + 8; i++) {
+    const ry = y + 80 + i * rowH - (shift % rowH) ; const idx = (Math.floor(shift / rowH) + i + FEED.length * 4) % FEED.length;
+    if (ry > y + h || ry < y + 40) continue;
+    rr(x + 28, ry, w - 56, 64, 14); g.fillStyle = i === 0 ? OR(0.10) : "rgba(18,12,9,0.6)"; g.fill(); g.strokeStyle = i === 0 ? OR(0.45) : CR(0.08); g.lineWidth = 2; g.stroke();
+    g.beginPath(); g.arc(x + 64, ry + 32, 14, 0, TAU); g.fillStyle = OR(0.25); g.fill();
+    g.strokeStyle = OR(0.95); g.lineWidth = 3; g.beginPath(); g.moveTo(x + 57, ry + 32); g.lineTo(x + 62, ry + 38); g.lineTo(x + 72, ry + 26); g.stroke();
+    g.fillStyle = CR(0.7); g.font = "26px Sans"; g.fillText(FEED[idx], x + 96, ry + 41);
+  }
+  g.restore();
+
+  // KPI tiles
+  const kp = [["Replies", "instant"], ["Data entry", "0 manual"], ["Follow-ups", "on time"], ["Reports", "auto"]];
+  [P.k1, P.k2, P.k3, P.k4].forEach(([kx, ky, kw, kh], i) => { panel(kx, ky, kw, kh, kp[i][0]);
+    g.fillStyle = CR(0.28); g.font = "26px Mono"; g.fillText(kp[i][1].toUpperCase(), kx + 28, ky + 110);
+    const pu = (ph + i * 0.25) % 1; rr(kx + 28, ky + kh - 52, kw - 56, 10, 5); g.fillStyle = CR(0.07); g.fill();
+    rr(kx + 28, ky + kh - 52, (kw - 56) * (0.25 + 0.75 * (0.5 - 0.5 * Math.cos(TAU * pu))), 10, 5); g.fillStyle = OR(0.6); g.fill(); });
+}
+window.render = (t) => draw(t);
+draw(0);
+</script></body></html>

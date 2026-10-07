@@ -529,3 +529,8 @@ figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
   transition: opacity 0.5s ease;
 }
 [data-raised="true"] > .nav-glow { opacity: 0.55; }
+
+/* hero dashboard background: the poster paints at once; the video fades over it once loaded */
+.hero-bg { background: url("/hero-bg-poster.webp") center / cover no-repeat; opacity: 0.9; }
+.hero-bg video { opacity: 0; animation: hero-bg-in 1.2s ease 0.2s forwards; }
+@keyframes hero-bg-in { to { opacity: 1; } }

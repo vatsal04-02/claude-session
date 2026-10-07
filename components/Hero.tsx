@@ -1,4 +1,5 @@
 import AutopilotWord from "./AutopilotWord";
+import HeroBackground from "./HeroBackground";
 import { Ambient, Button, Magnetic } from "./ui";
 
 /* Entrance: pure CSS (.hero-rise / .hero-lift / .ap in globals.css), so the headline paints before JavaScript loads (LCP).
@@ -9,7 +10,9 @@ export default function Hero() {
   return (
     <section id="top" className="hero-atmos relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-5 pb-12 pt-28 md:px-8 md:pb-14 md:pt-32">
       {/* quiet background: faint dot texture, one warm light, a couple of ambient details */}
-      <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.7 } as React.CSSProperties} />
+      {/* animated automation dashboard behind everything (poster first, video after load) */}
+      <HeroBackground />
+      <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.35 } as React.CSSProperties} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-[38%] h-[640px] w-[900px] -translate-x-1/2 rounded-full bg-[rgba(234,106,47,0.055)] blur-[140px]" />
       <Ambient className="-left-40 top-24 hidden h-[420px] w-[420px] md:block" />
       <Ambient className="-right-48 top-[52%] hidden h-[520px] w-[520px] rotate-90 md:block" />
