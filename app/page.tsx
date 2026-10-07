@@ -9,7 +9,6 @@ import Navbar from "@/components/Navbar";
 import PipelineVideo from "@/components/PipelineVideo";
 import ProblemCards from "@/components/ProblemCards";
 import RoiCalculator from "@/components/RoiCalculator";
-import WhatWeBuild from "@/components/WhatWeBuild";
 import Workflow from "@/components/Workflow";
 import { ScrollProgress } from "@/components/ui";
 import { SHOW_FOUNDER } from "@/lib/site";
@@ -23,7 +22,6 @@ export default function Home() {
         <Hero />
         <Manifesto />
         <ProblemCards />
-        <WhatWeBuild />
         <Workflow />
         <PipelineVideo />
         <RoiCalculator />

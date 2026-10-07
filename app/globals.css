@@ -321,3 +321,21 @@ body::after {
   .intro { display: none; }
   .orb-a, .orb-b { animation: none; }
 }
+
+/* problem flip cards: both faces share one grid cell, so the card is as tall as its taller face */
+.flip { perspective: 1100px; }
+.flip-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.flip-face {
+  grid-area: 1 / 1;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.flip-back { transform: rotateY(180deg); }
+.flip[data-flipped="true"] .flip-inner,
+.flip:focus-within .flip-inner { transform: rotateY(180deg); }
+@media (hover: hover) and (pointer: fine) {
+  .flip:hover .flip-inner { transform: rotateY(180deg); }
+}

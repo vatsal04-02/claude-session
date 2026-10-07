@@ -1,88 +1,95 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { RotateCw } from "lucide-react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { PREFILL_EVENT } from "./AuditForm";
 import { Section, SectionHeading, Stagger, StaggerItem } from "./ui";
 
+/* Front = the problem, back = the system that fixes it. Every back links to the audit and pre-fills its Message field. */
 const PROBLEMS = [
   {
     title: "Leads going cold",
-    line: "Every enquiry answered in seconds, follow-ups that never forget. No lead dies in someone's inbox.",
+    line: "Enquiries dying in someone's inbox.",
+    fix: "Lead Automation",
+    fixLine: "Every enquiry answered in seconds, with follow-ups that never forget.",
   },
   {
     title: "No-shows and empty slots",
-    line: "Booking, confirmation, reminders and re-booking — your calendar fills itself.",
+    line: "Calendar gaps costing you daily.",
+    fix: "Booking Automation",
+    fixLine: "Bookings that confirm themselves. No-shows that chase themselves.",
   },
   {
     title: "Manual busywork",
-    line: "Data entry, reports, notifications, reconciliations — the repetitive work your team hates, handled.",
+    line: "Data entry, reports, reconciliations.",
+    fix: "AI CRM Systems",
+    fixLine: "The repetitive work your team hates, handled — every lead, chat and booking on one screen.",
   },
   {
     title: "Silent customers",
-    line: "Review requests, repeat offers, win-back nudges — past customers become revenue again.",
+    line: "Past customers, gone quiet.",
+    fix: "Revenue Recovery",
+    fixLine: "Review requests, repeat offers, win-back nudges — past customers become revenue again.",
   },
   {
     title: "Your specific problem",
-    line: "Tell us what your team does manually. We'll map exactly what can be automated.",
+    line: "Something else eating your hours?",
+    fix: "Custom automation",
+    fixLine: "Tell us what your team does manually. We'll map exactly what can be automated.",
     open: true,
   },
 ] as const;
 
-const MAX_TILT = 6; // degrees
-
-/* Each card links to the audit form and pre-fills its Message field. Desktop: 3D tilt + orange glow border. */
-function ProblemCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
-  const reduce = useReducedMotion();
-  const spring = { stiffness: 260, damping: 22, mass: 0.5 };
-  const rx = useSpring(useMotionValue(0), spring);
-  const ry = useSpring(useMotionValue(0), spring);
+/* Flips on hover (mouse) or keyboard focus via CSS; on touch, a tap toggles it. */
+function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
+  const [flipped, setFlipped] = useState(false);
+  const pointer = useRef("mouse");
   const open = "open" in p;
 
-  const onMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
-    if (reduce || e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    ry.set(px * 2 * MAX_TILT);
-    rx.set(-py * 2 * MAX_TILT);
+  const onCardClick = (e: React.MouseEvent) => {
+    if (pointer.current === "mouse" || (e.target as HTMLElement).closest("a")) return;
+    setFlipped((f) => !f);
   };
-  const onLeave = () => {
-    rx.set(0);
-    ry.set(0);
-  };
-  const onClick = () => {
+  const onLinkClick = () => {
     const message = open ? "I'm losing business to: " : `I'm losing business to: ${p.title}.`;
     window.dispatchEvent(new CustomEvent(PREFILL_EVENT, { detail: { message, focus: open } }));
   };
 
   return (
-    <motion.a
-      href="#audit"
-      onClick={onClick}
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
-      className={cn(
-        "card-lift group relative block h-full rounded-2xl border border-border bg-surface p-6",
-        open && "border-accent/40 bg-accent/[0.05]"
-      )}
+    <div
+      className="flip h-full cursor-pointer"
+      data-flipped={flipped}
+      onPointerDown={(e) => (pointer.current = e.pointerType)}
+      onClick={onCardClick}
     >
-      {/* orange glow border, faded in on hover */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -inset-px rounded-2xl border border-accent/70 opacity-0 shadow-[0_0_28px_-4px_rgba(234,106,47,0.55)] transition-opacity duration-300 group-hover:opacity-100"
-      />
-      <span className="label text-subtle">0{i + 1}</span>
-      <h3 className="item-title mt-4">{p.title}</h3>
-      <p className="mt-2 text-[15px] leading-[1.7] text-muted">{p.line}</p>
-      <span className="mt-5 inline-flex items-center gap-1.5 text-[14px] text-accent">
-        {open ? "Get My Free Audit" : "Fix this"}
-        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-      </span>
-    </motion.a>
+      <div className="flip-inner grid h-full">
+        {/* front: the problem */}
+        <div className="flip-face rounded-2xl border border-border bg-surface p-6">
+          <div className="flex items-center justify-between">
+            <span className="label rounded-full border border-border-bright px-2.5 py-1 text-[10.5px] text-muted">0{i + 1}</span>
+            <RotateCw aria-hidden className="h-3.5 w-3.5 text-subtle" />
+          </div>
+          <h3 className="item-title mt-5">{p.title}</h3>
+          <p className="mt-2 text-[15px] leading-[1.7] text-muted">{p.line}</p>
+        </div>
+
+        {/* back: the fix */}
+        <div className="flip-face flip-back flex flex-col rounded-2xl border border-accent/70 bg-[#1d130e] p-6 shadow-[0_0_28px_-6px_rgba(234,106,47,0.55)]">
+          <span className="label self-start rounded-full border border-accent/50 px-2.5 py-1 text-[10.5px] text-accent">0{i + 1}</span>
+          <h3 className="item-title mt-5 text-accent">{p.fix}</h3>
+          <p className="mt-2 text-[15px] leading-[1.7] text-text/90">{p.fixLine}</p>
+          <a
+            href="#audit"
+            onClick={onLinkClick}
+            className="group mt-auto inline-flex min-h-11 items-center gap-1.5 self-start pt-4 text-[14px] text-accent"
+          >
+            {open ? "Get My Free Audit" : "Fix this"}
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -91,14 +98,14 @@ export default function ProblemCards() {
     <Section id="problems" className="bg-[#160f0b]">
       <SectionHeading
         eyebrow="Problems we solve"
-        title="What we automate"
-        sub="Every business wastes hours differently. These are the problems we automate most — yours might be next."
+        title="Your problem, automated away."
+        sub="Five problems we see in every business. Tap a card to see the system that fixes it."
       />
 
       <Stagger className="mt-12 grid gap-4 md:mt-14 md:grid-cols-2 lg:grid-cols-5">
         {PROBLEMS.map((p, i) => (
           <StaggerItem key={p.title} className="h-full">
-            <ProblemCard p={p} i={i} />
+            <FlipCard p={p} i={i} />
           </StaggerItem>
         ))}
       </Stagger>
