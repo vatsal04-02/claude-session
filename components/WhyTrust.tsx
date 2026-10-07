@@ -20,7 +20,7 @@ const VERSUS = [
 /** "Why FlowHQ": honest trust section — no fake social proof, a no lock-in pledge, and a plain comparison. */
 export default function WhyTrust() {
   return (
-    <Section id="why-flowhq" className="bg-[#150e0a]">
+    <Section id="why-flowhq" className="bg-[#140d09]">
       <div className="mx-auto max-w-[800px]">
         <SectionHeading
           eyebrow="Why FlowHQ"

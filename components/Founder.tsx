@@ -83,7 +83,7 @@ function FounderVideo() {
 
 export default function Founder() {
   return (
-    <Section id="founder" className="bg-[#140e0a]">
+    <Section id="founder" className="bg-[#130d09]">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
         {/* photos + tagline */}
         <Reveal>

@@ -98,7 +98,7 @@ export default function LiveDemoChat() {
   };
 
   return (
-    <Section id="try-it" className="bg-[#140e0a]">
+    <Section id="try-it" className="bg-[#130d09]">
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
           eyebrow="Try it"

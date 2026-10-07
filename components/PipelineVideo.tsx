@@ -48,7 +48,7 @@ export default function PipelineVideo() {
   };
 
   return (
-    <Section id="pipeline-video" grid="soft" className="bg-[#100a07]">
+    <Section id="pipeline-video" grid="soft" className="bg-[#0f0907]">
       <div className="mx-auto max-w-3xl text-center">
         <Reveal>
           <span className="label inline-flex items-center gap-2.5 text-accent">

@@ -95,7 +95,7 @@ function FlipCard({ p, i }: { p: (typeof PROBLEMS)[number]; i: number }) {
 
 export default function ProblemCards() {
   return (
-    <Section id="problems" className="bg-[#160f0b]">
+    <Section id="problems" className="bg-[#150e0a]">
       <SectionHeading
         eyebrow="Problems we solve"
         title="Your problem, automated away."

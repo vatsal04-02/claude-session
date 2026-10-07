@@ -10,7 +10,7 @@ const REASSURE = ["Works with the tools you already use", "Built around how your
 /** The audit section: every "Get My Free Audit" button on the site scrolls here. */
 export default function FinalCTA() {
   return (
-    <section id="audit" className="section-edge relative overflow-hidden bg-[#1a110b] px-5 py-24 md:px-8 md:py-[150px]">
+    <section id="audit" className="section-edge relative overflow-hidden bg-[#18100a] px-5 py-24 md:px-8 md:py-[150px]">
       <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.5 } as React.CSSProperties} />
       <div aria-hidden className="anim-glow pointer-events-none absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[rgba(234,106,47,0.14)] blur-[120px]" />
       <div className="relative mx-auto grid max-w-[1140px] items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">

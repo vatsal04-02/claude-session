@@ -14,7 +14,7 @@ export default function RoiCalculator() {
   const leaking = enq * 4.33 * (ignored / 100) * avg;
 
   return (
-    <Section id="calculator" grid="soft" className="bg-[#150e0a]">
+    <Section id="calculator" grid="soft" className="bg-[#140d09]">
       <SectionHeading
         eyebrow="Revenue leak"
         title="How much are you leaking?"

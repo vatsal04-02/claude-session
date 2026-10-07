@@ -143,7 +143,7 @@ export default function Workflow() {
       id="workflow"
       space="lg"
       grid="strong"
-      className="min-[1204px]:[--grid-x:-26px] bg-[#140d09] [background-image:radial-gradient(circle_at_50%_40%,rgba(234,106,47,0.045),transparent_45%)]"
+      className="min-[1204px]:[--grid-x:-26px] bg-[#130c08] [background-image:radial-gradient(circle_at_50%_40%,rgba(234,106,47,0.045),transparent_45%)]"
     >
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         {/* left: sticky heading + live "now" panel */}
