@@ -2,9 +2,9 @@
 /**
  * Flow HQ — production SEO checks. No dependencies (Node 20+).
  *
- *   npm run seo:check                                   # checks https://flowhq.co.in (or SEO_BASE)
- *   SEO_BASE=https://flowhq.co.in npm run seo:check
- *   SEO_BASE=http://localhost:3000 SEO_ORIGIN=https://flowhq.co.in npm run seo:check   # a local build
+ *   npm run seo:check                                   # checks https://www.flowhq.co.in (or SEO_BASE)
+ *   SEO_BASE=https://www.flowhq.co.in npm run seo:check
+ *   SEO_BASE=http://localhost:3000 SEO_ORIGIN=https://www.flowhq.co.in npm run seo:check   # a local build
  *
  * SEO_BASE   where to fetch pages from
  * SEO_ORIGIN the origin canonical/OG/sitemap URLs must use (defaults to SEO_BASE)
@@ -14,7 +14,7 @@
  * og:title / og:description / og:image, and no localhost or *.vercel.app URLs. Also robots.txt,
  * sitemap.xml, favicon.ico and a real 404. Exits 1 if anything fails.
  */
-const BASE = (process.env.SEO_BASE || "https://flowhq.co.in").replace(/\/+$/, "");
+const BASE = (process.env.SEO_BASE || "https://www.flowhq.co.in").replace(/\/+$/, "");
 const ORIGIN = (process.env.SEO_ORIGIN || BASE).replace(/\/+$/, "");
 const HEADERS = process.env.SEO_HEADERS ? JSON.parse(process.env.SEO_HEADERS) : {};
 
@@ -69,6 +69,8 @@ async function checkPage(path) {
   if (ogImage && !ogImage.startsWith(ORIGIN)) fail(path, `og:image not on ${ORIGIN}: ${ogImage}`);
   if (/https?:\/\/(localhost|127\.0\.0\.1)[:/]/.test(canonical + (ogImage || ""))) fail(path, "localhost URL in canonical/og");
   if (/\.vercel\.app/.test(canonical || "")) fail(path, "vercel.app URL in canonical");
+  const ogUrl = meta(html, "og:url");
+  if (ogUrl && ogUrl !== ORIGIN + path) fail(path, `og:url is ${ogUrl}, expected ${ORIGIN + path}`);
   const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   for (const m of ld) {
     try {

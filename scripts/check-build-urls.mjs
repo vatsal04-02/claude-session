@@ -2,9 +2,11 @@
 /**
  * Post-build guard (runs after `next build`, locally and on Vercel): the generated site must never expose a
  * non-canonical origin. Fails the build if any HTML/XML/TXT file in out/ contains a *.vercel.app URL, or if
- * the sitemap, robots.txt or a canonical tag uses an origin other than the expected one.
+ * the sitemap, robots.txt, a canonical or og:url tag uses an origin other than the expected one, or (for
+ * flowhq.co.in) any bare-domain URL appears — www is the single canonical host; the bare domain only 308-redirects.
  *
- * Expected origin = NEXT_PUBLIC_SITE_URL (unless it's a *.vercel.app host) → otherwise https://flowhq.co.in.
+ * Expected origin = NEXT_PUBLIC_SITE_URL (unless it's a *.vercel.app host; https://flowhq.co.in counts as
+ * https://www.flowhq.co.in) → otherwise https://www.flowhq.co.in. Must match resolveSiteUrl() in lib/config.ts.
  * Preview builds (VERCEL_ENV=preview/development) are noindex with an empty sitemap; they're checked for
  * *.vercel.app leaks only.
  */
@@ -18,7 +20,8 @@ if (!existsSync(OUT)) {
 }
 
 const env = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "");
-const EXPECTED = env && !/\.vercel\.app(\/|$)/i.test(env) ? env : "https://flowhq.co.in";
+const PRODUCTION_URL = "https://www.flowhq.co.in";
+const EXPECTED = (env && !/\.vercel\.app(\/|$)/i.test(env) ? env : PRODUCTION_URL).replace(/^https?:\/\/flowhq\.co\.in$/i, PRODUCTION_URL);
 const indexable = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === "production" : true;
 
 const files = [];
@@ -35,6 +38,8 @@ for (const f of files) {
   const s = readFileSync(f, "utf8");
   const leak = s.match(/https?:\/\/[a-z0-9.-]*\.vercel\.app[^\s"'<]*/i);
   if (leak) problems.push(`${f}: contains ${leak[0]}`);
+  const bare = s.match(/https?:\/\/flowhq\.co\.in[^\s"'<]*/i);
+  if (bare) problems.push(`${f}: contains non-www ${bare[0]}`);
 }
 
 if (indexable) {
@@ -47,6 +52,8 @@ if (indexable) {
   for (const f of files.filter((x) => x.endsWith(".html"))) {
     const c = readFileSync(f, "utf8").match(/<link rel="canonical" href="([^"]+)"/);
     if (c && !c[1].startsWith(EXPECTED + "/")) problems.push(`${f}: canonical ${c[1]} is not on ${EXPECTED}`);
+    const og = readFileSync(f, "utf8").match(/<meta property="og:url" content="([^"]+)"/);
+    if (og && !og[1].startsWith(EXPECTED + "/")) problems.push(`${f}: og:url ${og[1]} is not on ${EXPECTED}`);
   }
   console.log(`check-build-urls: ${locs.length} sitemap URLs, ${files.length} files scanned, expected origin ${EXPECTED}`);
 } else {
@@ -57,4 +64,4 @@ if (problems.length) {
   console.error(`\ncheck-build-urls: FAILED\n  ${problems.slice(0, 20).join("\n  ")}${problems.length > 20 ? `\n  …and ${problems.length - 20} more` : ""}`);
   process.exit(1);
 }
-console.log("check-build-urls: OK — no *.vercel.app URLs, all SEO URLs on the canonical origin.");
+console.log("check-build-urls: OK — no *.vercel.app or non-www URLs, all SEO URLs on the canonical origin.");

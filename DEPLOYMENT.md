@@ -12,22 +12,23 @@ Either way the site is a static export (`output: "export"` in `next.config.ts`):
 ## Option A — Vercel + flowhq.co.in (domain registered at GoDaddy)
 
 The domain stays registered at GoDaddy, and GoDaddy keeps handling its DNS (so email records, if you add any
-later, stay there too). We only point two records at Vercel. The site's canonical address is the bare domain
-**https://flowhq.co.in**; `www.flowhq.co.in` redirects to it.
+later, stay there too). We only point two records at Vercel. The site's single canonical address is
+**https://www.flowhq.co.in**; the bare domain `flowhq.co.in` 308-redirects to it (set in Vercel, not in the code).
 
 ### A1. Vercel project
 
 1. **Import the repo.** vercel.com → Add New → Project → import `vatsal04-02/claude-session`.
    Framework preset **Next.js** (auto-detected); leave Build Command and Output Directory at their defaults.
    The repo's default branch (`claude/stoic-meitner-1n3ux3`) becomes the **production branch** — every push
-   to it deploys flowhq.co.in. Node.js 20.x or newer (`engines` in package.json says `>=20.9.0`).
+   to it deploys www.flowhq.co.in. Node.js 20.x or newer (`engines` in package.json says `>=20.9.0`).
 2. **Environment variable.** Project → Settings → Environment Variables → add
-   `NEXT_PUBLIC_SITE_URL` = `https://flowhq.co.in` (no trailing slash), environment **Production only**.
+   `NEXT_PUBLIC_SITE_URL` = `https://www.flowhq.co.in` (no trailing slash), environment **Production only**.
    Don't add it to Preview: preview deployments are automatically `noindex` with a disallow-all robots.txt.
-   (Even without it, production builds use https://flowhq.co.in, never the `*.vercel.app` hostname, and
-   `npm run build` fails if any `*.vercel.app` URL reaches the sitemap, robots.txt or the pages.)
-3. **Add the domains.** Project → Settings → Domains → add `flowhq.co.in`. When Vercel offers to add
-   `www.flowhq.co.in` too, accept and choose **redirect www.flowhq.co.in → flowhq.co.in** (308).
+   (Even without it, production builds use https://www.flowhq.co.in, never the `*.vercel.app` hostname — and a
+   bare-domain value is treated as www. `npm run build` fails if any `*.vercel.app` or non-www flowhq.co.in URL
+   reaches the sitemap, robots.txt or the pages.)
+3. **Add the domains.** Project → Settings → Domains → add `www.flowhq.co.in` as the **Production** domain, and
+   `flowhq.co.in` set to **redirect to www.flowhq.co.in** (308).
    Vercel now shows each domain as "Invalid Configuration" with the exact records it wants — keep this tab open.
 
 ### A2. GoDaddy DNS
@@ -61,11 +62,11 @@ later, stay there too). We only point two records at Vercel. The site's canonica
     up to 24–48 h to reach every network. Vercel then issues the HTTPS certificates automatically.
 11. **Redeploy** the latest production deployment (Deployments → ⋯ → Redeploy) so it's built with
     `NEXT_PUBLIC_SITE_URL`.
-12. **Check:** `https://flowhq.co.in` loads with a padlock; `https://www.flowhq.co.in` and
-    `http://flowhq.co.in` redirect to it; `https://flowhq.co.in/robots.txt` says `Allow: /` and
-    `Sitemap: https://flowhq.co.in/sitemap.xml`; the sitemap lists ~25 URLs on flowhq.co.in; the homepage source has
-    `<link rel="canonical" href="https://flowhq.co.in/"/>`. Or run all of it at once: `npm run seo:check`
-    (it checks https://flowhq.co.in by default).
+12. **Check:** `https://www.flowhq.co.in` loads with a padlock; `https://flowhq.co.in` and
+    `http://flowhq.co.in` 308-redirect to it; `https://www.flowhq.co.in/robots.txt` says `Allow: /` and
+    `Sitemap: https://www.flowhq.co.in/sitemap.xml`; the sitemap lists ~25 URLs on www.flowhq.co.in; the homepage
+    source has `<link rel="canonical" href="https://www.flowhq.co.in/"/>`. Or run all of it at once:
+    `npm run seo:check` (it checks https://www.flowhq.co.in by default).
 13. **Search Console** — add a **Domain** property for `flowhq.co.in`; verify with the `TXT` record Google gives you
     (Type TXT, Name `@`, at GoDaddy — or use the one-click GoDaddy option if Google offers it), then submit
     `sitemap.xml`. Full steps: [SEO_LAUNCH_CHECKLIST.md](SEO_LAUNCH_CHECKLIST.md).
@@ -163,7 +164,7 @@ Use `https://`, **no `www.`** and **no slash at the end**. This file is already 
 npm run build
 ```
 
-This creates the `out/` folder. If you skipped 3b, the build uses `https://flowhq.co.in` — so for any other domain, set `NEXT_PUBLIC_SITE_URL` first.
+This creates the `out/` folder. If you skipped 3b, the build uses `https://www.flowhq.co.in` — so for any other domain, set `NEXT_PUBLIC_SITE_URL` first.
 
 **3d. Optional: preview the real build locally:**
 
@@ -205,7 +206,7 @@ Only **one**, and it's used **at build time on your computer**, not in hPanel:
 
 | Variable               | Required | Example                  | What it's for |
 |------------------------|----------|--------------------------|---------------|
-| `NEXT_PUBLIC_SITE_URL` | Only if the domain isn't `flowhq.co.in` | `https://yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
+| `NEXT_PUBLIC_SITE_URL` | Only if the domain isn't `www.flowhq.co.in` | `https://www.yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
 
 - Put it in `.env.production` (Step 3b). `.env.example` in the project shows the format.
 - `npm run dev` needs nothing; it uses `http://localhost:3000` automatically.

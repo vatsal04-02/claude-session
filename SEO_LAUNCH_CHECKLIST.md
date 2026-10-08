@@ -41,15 +41,15 @@ Search Console or from customers.
 
 ## 2. Pre-launch (do once)
 
-- [ ] **Domain** `flowhq.co.in` (GoDaddy) connected to Vercel: `A @` and `CNAME www` records — see DEPLOYMENT.md, Option A. Canonical host: `https://flowhq.co.in`; `www` redirects to it.
-- [ ] **HTTPS** active on both apex and `www` (Vercel issues certificates automatically).
+- [ ] **Domain** `flowhq.co.in` (GoDaddy) connected to Vercel: `A @` and `CNAME www` records — see DEPLOYMENT.md, Option A. Canonical host: `https://www.flowhq.co.in`; the bare domain 308-redirects to it (Vercel domain setting).
+- [ ] **HTTPS** active on both `www` and the bare domain (Vercel issues certificates automatically).
 - [ ] **Production env var** set in Vercel → Settings → Environment Variables → *Production only*:
-      `NEXT_PUBLIC_SITE_URL=https://flowhq.co.in` (no trailing slash). Redeploy after setting it.
+      `NEXT_PUBLIC_SITE_URL=https://www.flowhq.co.in` (no trailing slash). Redeploy after setting it.
 - [ ] Do **not** set `NEXT_PUBLIC_SITE_URL` for Preview — previews automatically become noindex.
 - [ ] **Metadata:** every page has a unique title + description (checked by `npm run seo:check`).
-- [ ] **Canonical** on every page = `https://flowhq.co.in/<path>/` (no `localhost`, no `*.vercel.app`).
-- [ ] **robots.txt** at `/robots.txt` allows `/` and lists `Sitemap: https://flowhq.co.in/sitemap.xml`.
-- [ ] **sitemap.xml** lists only canonical pages (home, 7 services, industries, resources) with absolute URLs.
+- [ ] **Canonical** on every page = `https://www.flowhq.co.in/<path>/` (no `localhost`, no `*.vercel.app`, no bare domain).
+- [ ] **robots.txt** at `/robots.txt` allows `/` and lists `Sitemap: https://www.flowhq.co.in/sitemap.xml`.
+- [ ] **sitemap.xml** lists only canonical pages (home, 7 services, industries, resources) with absolute `https://www.flowhq.co.in/…` URLs.
 - [ ] **Structured data** validates in the Rich Results Test / Schema Markup Validator:
       ProfessionalService (Organization), WebSite, Service, BreadcrumbList, FAQPage (only where the FAQ is visible),
       Article (resources).
@@ -57,14 +57,14 @@ Search Console or from customers.
       and the 1200×630 image appear.
 - [ ] **Favicon** loads at `/favicon.ico`; app icon at `/icon.svg`.
 - [ ] **404:** a made-up URL returns HTTP 404 with the branded page (and `noindex`).
-- [ ] **Redirects:** `/workflow-automation/` → `/ai-workflow-automation/` (308), `www` → apex.
+- [ ] **Redirects:** `/workflow-automation/` → `/ai-workflow-automation/` (308), bare domain → `www` (308, Vercel).
 - [ ] **Mobile test:** check the homepage, one service page and one article on a real phone.
 - [ ] **PageSpeed:** run pagespeed.web.dev on `/`, `/ai-automation/` and one article. Field data appears only
       after real traffic; lab scores are a guide.
 - [ ] **Analytics:** Vercel → Analytics → enable Web Analytics. Page views work on all plans; the custom events
       below need a plan that includes custom events.
 - [ ] Run the automated check against production:
-      `SEO_BASE=https://flowhq.co.in npm run seo:check` → "All SEO checks passed."
+      `SEO_BASE=https://www.flowhq.co.in npm run seo:check` → "All SEO checks passed."
 
 ---
 
@@ -72,9 +72,9 @@ Search Console or from customers.
 
 1. **Verify the domain** — Search Console → Add property → *Domain* → add the TXT record at your DNS provider.
    (A Domain property covers `https://`, `http://`, apex and `www`.)
-2. **Add the production property** — if you prefer a URL-prefix property too, add `https://flowhq.co.in/`.
+2. **Add the production property** — if you prefer a URL-prefix property too, add `https://www.flowhq.co.in/`.
 3. **Submit the sitemap** — Sitemaps → enter `sitemap.xml` → Submit. Status should become "Success".
-4. **Inspect the homepage** — URL Inspection → `https://flowhq.co.in/` → *Test live URL*: indexable, canonical
+4. **Inspect the homepage** — URL Inspection → `https://www.flowhq.co.in/` → *Test live URL*: indexable, canonical
    = the URL itself, page renders.
 5. **Request indexing** for the important pages: home, the 7 service pages, the 2 pillar guides.
    (Don't spam requests — the sitemap does the rest.)
