@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/check-build-urls.mjs",
     "preview": "npx --yes serve@14 out -l 3000",
     "lint": "tsc --noEmit",
     "seo:check": "node scripts/seo-check.mjs"

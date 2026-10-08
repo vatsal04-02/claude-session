@@ -1,24 +1,25 @@
 /**
- * Public site URL + indexability — the one place the domain is configured.
+ * Public site URL + indexability — the ONE place the canonical domain is decided.
  *
- *   NEXT_PUBLIC_SITE_URL      the live domain: https://flowhq.co.in   (set it in Vercel → Production)
- *   VERCEL_PROJECT_PRODUCTION_URL   Vercel's own production domain, used only if the variable above is missing
- *   development               http://localhost:3000
+ * Every SEO URL is built from SITE_URL: metadataBase, canonicals, Open Graph/Twitter, sitemap.xml,
+ * robots.txt and all JSON-LD. It is baked into the static HTML at build time.
  *
- * It is baked into the static HTML at build time (canonical URLs, Open Graph, sitemap, robots.txt, JSON-LD),
- * so changing it means rebuilding. Preview deployments always point canonicals at production and are noindex.
+ *   production   NEXT_PUBLIC_SITE_URL if it is set to a real domain, otherwise https://flowhq.co.in
+ *   development  http://localhost:3000 (or NEXT_PUBLIC_SITE_URL if set)
+ *
+ * Vercel's own hostnames (*.vercel.app, e.g. the auto-generated project/deployment URLs) are NEVER used:
+ * not from VERCEL_URL / VERCEL_PROJECT_PRODUCTION_URL, and not even if NEXT_PUBLIC_SITE_URL is set to one by mistake.
+ * Preview deployments still point canonicals at production, and are noindex (see INDEXABLE).
  */
-const FALLBACK_PRODUCTION_URL = "https://flowhq.co.in"; // used only when no env var is set on a production build
+export const PRODUCTION_URL = "https://flowhq.co.in";
+
+const isVercelHost = (url: string) => /(^|\.)vercel\.app$/i.test(url.replace(/^https?:\/\//i, "").split(/[/:]/)[0]);
 
 function resolveSiteUrl(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (fromEnv) return fromEnv.replace(/\/+$/, "");
-
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
-  if (vercel) return `https://${vercel.replace(/\/+$/, "")}`;
-
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "");
+  if (fromEnv && !isVercelHost(fromEnv)) return fromEnv;
   if (process.env.NODE_ENV !== "production") return "http://localhost:3000";
-  return FALLBACK_PRODUCTION_URL;
+  return PRODUCTION_URL;
 }
 
 export const SITE_URL = resolveSiteUrl();

@@ -24,6 +24,8 @@ later, stay there too). We only point two records at Vercel. The site's canonica
 2. **Environment variable.** Project → Settings → Environment Variables → add
    `NEXT_PUBLIC_SITE_URL` = `https://flowhq.co.in` (no trailing slash), environment **Production only**.
    Don't add it to Preview: preview deployments are automatically `noindex` with a disallow-all robots.txt.
+   (Even without it, production builds use https://flowhq.co.in, never the `*.vercel.app` hostname, and
+   `npm run build` fails if any `*.vercel.app` URL reaches the sitemap, robots.txt or the pages.)
 3. **Add the domains.** Project → Settings → Domains → add `flowhq.co.in`. When Vercel offers to add
    `www.flowhq.co.in` too, accept and choose **redirect www.flowhq.co.in → flowhq.co.in** (308).
    Vercel now shows each domain as "Invalid Configuration" with the exact records it wants — keep this tab open.
