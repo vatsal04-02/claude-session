@@ -9,30 +9,71 @@ Either way the site is a static export (`output: "export"` in `next.config.ts`):
 
 ---
 
-## Option A — Vercel + custom domain
+## Option A — Vercel + flowhq.co.in (domain registered at GoDaddy)
 
-1. **Connect the repository.** vercel.com → Add New → Project → import this GitHub repo. Framework preset:
-   **Next.js** (auto-detected). Leave Build Command (`next build`) and Output settings at their defaults.
-   Node.js version: 20.x or newer (`engines` in package.json says `>=20.9.0`).
-2. **Production environment variable.** Project → Settings → Environment Variables → add
-   `NEXT_PUBLIC_SITE_URL` = `https://YOUR-DOMAIN.com` (no trailing slash), environment **Production only**.
+The domain stays registered at GoDaddy, and GoDaddy keeps handling its DNS (so email records, if you add any
+later, stay there too). We only point two records at Vercel. The site's canonical address is the bare domain
+**https://flowhq.co.in**; `www.flowhq.co.in` redirects to it.
+
+### A1. Vercel project
+
+1. **Import the repo.** vercel.com → Add New → Project → import `vatsal04-02/claude-session`.
+   Framework preset **Next.js** (auto-detected); leave Build Command and Output Directory at their defaults.
+   The repo's default branch (`claude/stoic-meitner-1n3ux3`) becomes the **production branch** — every push
+   to it deploys flowhq.co.in. Node.js 20.x or newer (`engines` in package.json says `>=20.9.0`).
+2. **Environment variable.** Project → Settings → Environment Variables → add
+   `NEXT_PUBLIC_SITE_URL` = `https://flowhq.co.in` (no trailing slash), environment **Production only**.
    Don't add it to Preview: preview deployments are automatically `noindex` with a disallow-all robots.txt.
-3. **Add the custom domain.** Project → Settings → Domains → add `YOUR-DOMAIN.com` and `www.YOUR-DOMAIN.com`;
-   set `www` to redirect to the apex.
-4. **Verify DNS.** At your DNS provider add the records Vercel shows (usually an `A` record for the apex and a
-   `CNAME` for `www`). Wait until both domains show "Valid Configuration".
-5. **Verify HTTPS.** Vercel issues the certificates automatically; open `https://YOUR-DOMAIN.com` and
-   `https://www.YOUR-DOMAIN.com` (the latter should redirect).
-6. **Deploy.** Deployments → Redeploy the latest production deployment (so it's built with the env var).
-7. **Inspect robots.txt** — `https://YOUR-DOMAIN.com/robots.txt` must say `Allow: /` and list your sitemap.
-8. **Inspect sitemap.xml** — `https://YOUR-DOMAIN.com/sitemap.xml` lists ~25 URLs, all on your domain.
-9. **Inspect canonicals** — view source on the homepage: `<link rel="canonical" href="https://YOUR-DOMAIN.com/">`.
-   Or run `SEO_BASE=https://YOUR-DOMAIN.com npm run seo:check`.
-10. **Connect Google Search Console**, 11. **submit the sitemap**, 12. **request indexing** for key pages,
-    13. **monitor** — step by step in [SEO_LAUNCH_CHECKLIST.md](SEO_LAUNCH_CHECKLIST.md).
+3. **Add the domains.** Project → Settings → Domains → add `flowhq.co.in`. When Vercel offers to add
+   `www.flowhq.co.in` too, accept and choose **redirect www.flowhq.co.in → flowhq.co.in** (308).
+   Vercel now shows each domain as "Invalid Configuration" with the exact records it wants — keep this tab open.
+
+### A2. GoDaddy DNS
+
+4. **Open DNS.** godaddy.com → sign in → **Domain Portfolio** (My Products → Domains) → `flowhq.co.in` →
+   **DNS** → DNS Records. Take a screenshot of the existing records first.
+   If the records are read-only, the domain is using other nameservers: under **Nameservers** choose
+   **GoDaddy's default nameservers**, then continue.
+5. **Turn off anything that overrides DNS:** Domain Portfolio → flowhq.co.in → **Forwarding** (remove any
+   domain forwarding) and disconnect any GoDaddy Website Builder / parked page.
+6. **Apex record (flowhq.co.in).** Edit the existing `A` record with Name `@` (often "Parked") so it points to
+   the IP Vercel shows for flowhq.co.in — usually `76.76.21.21`, sometimes `216.198.79.1`; **use the value on
+   your Vercel domain card**. TTL: 600 seconds (or the lowest offered). Delete any *other* `A` records and any
+   `AAAA` records whose Name is `@`.
+7. **www record.** Edit the existing `CNAME` with Name `www` (GoDaddy's default points it to `@`) so its value is
+   the target Vercel shows for www.flowhq.co.in — a project-specific alias like `xxxxxxxx.vercel-dns-017.com`
+   (older projects show `cname.vercel-dns.com`). There must be only one record named `www`.
+8. **Only if Vercel asks for it:** add the `TXT` record it shows (Name `_vercel`, value `vc-domain-verify=…`).
+   This happens when the domain was used in another Vercel account. If a `CAA` record exists for `@`, it must
+   allow `letsencrypt.org`.
+9. **Leave everything else alone:** `NS`, `SOA`, `MX`, the `_domainconnect` CNAME and any `TXT` records.
+
+| Type | Name | Value (copy from Vercel) | TTL |
+|---|---|---|---|
+| A | `@` | `76.76.21.21` *(or the IP your Vercel card shows)* | 600 |
+| CNAME | `www` | `xxxxxxxx.vercel-dns-017.com` *(project-specific)* | 600 |
+
+### A3. Go live and check
+
+10. **Verify.** Back in Vercel → Domains → **Refresh**. Usually "Valid Configuration" within minutes; DNS can take
+    up to 24–48 h to reach every network. Vercel then issues the HTTPS certificates automatically.
+11. **Redeploy** the latest production deployment (Deployments → ⋯ → Redeploy) so it's built with
+    `NEXT_PUBLIC_SITE_URL`.
+12. **Check:** `https://flowhq.co.in` loads with a padlock; `https://www.flowhq.co.in` and
+    `http://flowhq.co.in` redirect to it; `https://flowhq.co.in/robots.txt` says `Allow: /` and
+    `Sitemap: https://flowhq.co.in/sitemap.xml`; the sitemap lists ~25 URLs on flowhq.co.in; the homepage source has
+    `<link rel="canonical" href="https://flowhq.co.in/"/>`. Or run all of it at once: `npm run seo:check`
+    (it checks https://flowhq.co.in by default).
+13. **Search Console** — add a **Domain** property for `flowhq.co.in`; verify with the `TXT` record Google gives you
+    (Type TXT, Name `@`, at GoDaddy — or use the one-click GoDaddy option if Google offers it), then submit
+    `sitemap.xml`. Full steps: [SEO_LAUNCH_CHECKLIST.md](SEO_LAUNCH_CHECKLIST.md).
 
 Also enable **Analytics** in the Vercel project (Web Analytics). `vercel.json` already sets security headers,
 asset caching, trailing slashes and the `/workflow-automation/` → `/ai-workflow-automation/` redirect.
+
+**Alternative:** you can instead switch GoDaddy's nameservers to Vercel (`ns1.vercel-dns.com`,
+`ns2.vercel-dns.com`) and manage all DNS in Vercel — but then every other record (email, verification TXT)
+has to be recreated in Vercel first. The two-record setup above is simpler.
 
 ---
 
@@ -120,7 +161,7 @@ Use `https://`, **no `www.`** and **no slash at the end**. This file is already 
 npm run build
 ```
 
-This creates the `out/` folder. If you skipped 3b, the build uses `https://flowhq.in` — so for any other domain, set `NEXT_PUBLIC_SITE_URL` first.
+This creates the `out/` folder. If you skipped 3b, the build uses `https://flowhq.co.in` — so for any other domain, set `NEXT_PUBLIC_SITE_URL` first.
 
 **3d. Optional: preview the real build locally:**
 
@@ -162,7 +203,7 @@ Only **one**, and it's used **at build time on your computer**, not in hPanel:
 
 | Variable               | Required | Example                  | What it's for |
 |------------------------|----------|--------------------------|---------------|
-| `NEXT_PUBLIC_SITE_URL` | Only if the domain isn't `flowhq.in` | `https://yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
+| `NEXT_PUBLIC_SITE_URL` | Only if the domain isn't `flowhq.co.in` | `https://yourdomain.com` | Canonical URL, social-share tags, `sitemap.xml` and `robots.txt` |
 
 - Put it in `.env.production` (Step 3b). `.env.example` in the project shows the format.
 - `npm run dev` needs nothing; it uses `http://localhost:3000` automatically.

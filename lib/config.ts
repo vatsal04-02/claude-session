@@ -1,14 +1,14 @@
 /**
  * Public site URL + indexability — the one place the domain is configured.
  *
- *   NEXT_PUBLIC_SITE_URL      the live domain, e.g. https://flowhq.in   (set it in Vercel → Production)
+ *   NEXT_PUBLIC_SITE_URL      the live domain: https://flowhq.co.in   (set it in Vercel → Production)
  *   VERCEL_PROJECT_PRODUCTION_URL   Vercel's own production domain, used only if the variable above is missing
  *   development               http://localhost:3000
  *
  * It is baked into the static HTML at build time (canonical URLs, Open Graph, sitemap, robots.txt, JSON-LD),
  * so changing it means rebuilding. Preview deployments always point canonicals at production and are noindex.
  */
-const FALLBACK_PRODUCTION_URL = "https://flowhq.in"; // used only when no env var is set on a production build
+const FALLBACK_PRODUCTION_URL = "https://flowhq.co.in"; // used only when no env var is set on a production build
 
 function resolveSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
