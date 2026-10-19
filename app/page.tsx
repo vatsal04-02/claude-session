@@ -1,9 +1,11 @@
 import CaseStudies from "@/components/CaseStudies";
 import Faq from "@/components/Faq";
+import Features from "@/components/Features";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import Founder from "@/components/Founder";
 import Hero from "@/components/Hero";
+import IntegrationsStrip from "@/components/IntegrationsStrip";
 import LiveDemoChat from "@/components/LiveDemoChat";
 import Navbar from "@/components/Navbar";
 import Packages from "@/components/Packages";
@@ -22,7 +24,7 @@ export const metadata = pageMetadata({
   socialTitle: "Flow HQ — Never lose a lead again.",
 });
 
-/* Section order: hero → proof → problem → the system (demo) → work → packages → founders → FAQ → closing CTA + audit form.
+/* Section order: hero → integrations → proof → problem → features (bento) → the system (demo) → work → packages → founders → FAQ → closing CTA + audit form.
    Proof and Work render nothing in production until their content in lib/content.ts is filled. */
 export default function Home() {
   return (
@@ -32,8 +34,10 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
+        <IntegrationsStrip />
         <ProofStrip />
         <Problem />
+        <Features />
         <LiveDemoChat />
         <CaseStudies />
         <Packages />

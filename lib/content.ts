@@ -31,6 +31,12 @@ export const SHOW_PLACEHOLDERS = !INDEXABLE;
 /** A value counts as filled when it is non-empty and has no [BRACKETED] part. */
 export const isFilled = (s?: string) => !!s && !/\[[^\]]*\]/.test(s);
 
+/* ───────────────────────────── 0. hero product visual ───────────────────────────── */
+
+/** A real CRM screenshot for the hero. Put the file in /public (16:10 or wider works best) and set `src`, e.g. "/crm-screenshot.webp".
+    Until then the hero shows the built-in sample CRM mockup. */
+export const HERO_SCREENSHOT: { src: string; alt: string } = { src: "", alt: "Flow HQ lead pipeline" };
+
 /* ───────────────────────────── 1. proof strip ───────────────────────────── */
 
 /** Two client slots. `logo` is an optional path under /public (e.g. "/clients/acme.svg"). Never invent clients. */
@@ -88,10 +94,15 @@ export const SHOW_CASES = VISIBLE_CASES.length > 0;
 
 /* ───────────────────────────── 3. packages ───────────────────────────── */
 
+/** The tag on the highlighted tier. Set to "" to remove it (do this if you'd rather not claim popularity yet). */
+export const POPULAR_TAG = "Most popular";
+
 export type Pkg = {
   name: string;
-  /** e.g. "₹15,000" — shown as "from ₹15,000". Leave as "₹[X]" until set; production then shows "Get a quote". */
+  /** one-time setup price, e.g. "₹15,000" — shown as "from ₹15,000". Leave as "₹[X]" until set; production then shows "Get a quote". */
   price: string | null;
+  /** optional monthly care plan, e.g. "₹3,000" — shown as "₹3,000 / month". Production shows "Optional" until set. */
+  monthly?: string;
   /** true = always a custom quote, no price slot */
   custom?: boolean;
   blurb: string;
@@ -105,6 +116,7 @@ export const PACKAGES: Pkg[] = [
   {
     name: "Lead Follow-up System",
     price: "₹[X]",
+    monthly: "₹[X]",
     blurb: "Never miss an enquiry again.",
     bullets: [
       "Enquiries captured from your website, WhatsApp, Instagram and calls",
@@ -117,6 +129,7 @@ export const PACKAGES: Pkg[] = [
   {
     name: "Growth System",
     price: "₹[X]",
+    monthly: "₹[X]",
     blurb: "Follow-up plus the tools to grow.",
     bullets: [
       "Everything in Lead Follow-up",
@@ -141,6 +154,13 @@ export const PACKAGES: Pkg[] = [
     terms: "Quoted after a short call. Optional monthly care plan.",
   },
 ];
+
+/** The monthly care-plan line: a real price, a placeholder (previews only), or just "Optional". */
+export function monthlyLine(p: Pkg): { text: string; placeholder: boolean } {
+  if (!p.monthly) return { text: "Optional", placeholder: false };
+  if (isFilled(p.monthly)) return { text: `${p.monthly} / month`, placeholder: false };
+  return SHOW_PLACEHOLDERS ? { text: `${p.monthly} / month`, placeholder: true } : { text: "Optional", placeholder: false };
+}
 
 /** What a package's price line shows: a real price, a placeholder (previews only), or "Get a quote". */
 export function priceLine(p: Pkg): { text: string; placeholder: boolean } {

@@ -1,5 +1,6 @@
 import { Link2Off, Radar, Clock } from "lucide-react";
 import { Reveal, SectionHeading } from "./ui";
+import { BAND, CONTAINER } from "@/lib/layout";
 
 const PROBLEMS = [
   { Icon: Radar, title: "Leads slip through", line: "Enquiries arrive on five channels. Some are never seen." },
@@ -9,18 +10,20 @@ const PROBLEMS = [
 
 export default function Problem() {
   return (
-    <section id="problem" className="relative px-5 py-20 md:px-8 md:py-28">
-      <div className="mx-auto max-w-[1140px]">
-        <SectionHeading eyebrow="The problem" title="Where enquiries get lost." />
-        <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3">
+    <section id="problem" className={BAND}>
+      <div className={`${CONTAINER} grid items-start gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14`}>
+        <SectionHeading eyebrow="The problem" title="Where enquiries get lost." sub="Three small leaks. Together they cost you customers every week." />
+        <ul className="grid gap-4">
           {PROBLEMS.map(({ Icon, title, line }, i) => (
             <li key={title}>
-              <Reveal delay={i * 0.08} className="h-full rounded-2xl border border-border bg-surface/60 p-6 md:p-7">
-                <span className="grid h-10 w-10 place-items-center rounded-xl border border-border-bright text-accent-2">
+              <Reveal delay={i * 0.06} className="flex items-center gap-4 rounded-[14px] border border-border bg-surface/60 p-4 md:p-5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] border border-white/10 text-accent-2 md:h-11 md:w-11">
                   <Icon aria-hidden className="h-5 w-5" />
                 </span>
-                <h3 className="mt-5 text-[19px] font-semibold leading-tight text-text">{title}</h3>
-                <p className="mt-2 text-[15.5px] leading-[1.65] text-muted">{line}</p>
+                <div>
+                  <h3 className="text-[16.5px] font-semibold leading-tight text-text md:text-[18px]">{title}</h3>
+                  <p className="mt-1 text-[14.5px] leading-[1.55] text-muted md:text-[15.5px]">{line}</p>
+                </div>
               </Reveal>
             </li>
           ))}

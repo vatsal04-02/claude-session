@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { FOUNDER_NUMBERS, FOUNDER_PREFILL, waUrl } from "@/lib/whatsapp";
 import { Reveal } from "./ui";
+import { BAND, CONTAINER } from "@/lib/layout";
 
 const FOUNDERS = [
   // face: where the face sits in the photo (x% y%) — the crop zooms in around it
@@ -17,13 +18,14 @@ const PLEDGE = [
 /** Founders + pledge: one compact block. */
 export default function Founder() {
   return (
-    <section id="founders" className="relative px-5 py-20 md:px-8 md:py-28">
-      <div className="mx-auto grid max-w-[1140px] items-center gap-10 rounded-3xl border border-border bg-surface/50 p-6 md:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:p-12">
+    <section id="founders" className={BAND}>
+      <div className={CONTAINER}>
+      <div className="grid items-center gap-8 rounded-[14px] border border-border bg-surface/50 p-5 md:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-10">
         <Reveal>
           <div className="mx-auto grid max-w-[420px] grid-cols-2 gap-4 lg:mx-0">
             {FOUNDERS.map((f) => (
               <figure key={f.name}>
-                <div className="founder-photo relative aspect-[3/4] overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="founder-photo relative aspect-[3/4] overflow-hidden rounded-[10px] border border-border bg-surface">
                   <img
                     src={f.photo}
                     srcSet={`${f.photo.replace(".webp", "-520.webp")} 520w, ${f.photo} 900w`}
@@ -59,10 +61,10 @@ export default function Founder() {
             <span aria-hidden className="h-px w-6 bg-accent/70" /> The founders
           </span>
           <h2 className="display mt-4 text-balance text-[clamp(1.9rem,3.4vw,2.75rem)] text-text">You work with the people who build it.</h2>
-          <p className="mt-4 max-w-[34rem] text-[16px] leading-[1.7] text-muted md:text-[17px]">
+          <p className="mt-3 max-w-[34rem] text-[15.5px] leading-[1.65] text-muted md:text-[17px]">
             Flow HQ is run by Prachi Pathak and Vatsal Tripathi in Lucknow. We build every system ourselves.
           </p>
-          <ul className="mt-7 space-y-4">
+          <ul className="mt-5 space-y-3.5">
             {PLEDGE.map(([t, d]) => (
               <li key={t} className="flex items-start gap-3.5">
                 <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-accent/50 bg-accent/10 text-accent">
@@ -75,6 +77,7 @@ export default function Founder() {
             ))}
           </ul>
         </Reveal>
+      </div>
       </div>
     </section>
   );

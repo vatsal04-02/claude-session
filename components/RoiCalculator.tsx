@@ -130,7 +130,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
       )}
 
       <div className={heading ? "mt-10 grid items-stretch gap-5 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6" : "grid items-stretch gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6"}>
-        <Reveal className="glass space-y-7 rounded-[24px] p-6 md:p-8">
+        <Reveal className="glass space-y-6 rounded-[14px] p-5 md:p-7">
           <div className="label text-[10.5px] text-accent-2">Manual work</div>
           <Slider
             id="roi-hours"
@@ -187,7 +187,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
         {/* result stage: the number is the hero of this section */}
         <div
           ref={stage}
-          className="relative flex flex-col items-center justify-center overflow-hidden rounded-[24px] border border-accent/25 bg-[radial-gradient(ellipse_at_50%_30%,rgba(234,106,47,0.16),transparent_65%)] px-6 py-10 text-center md:px-10 md:py-12"
+          className="relative flex flex-col items-center justify-center overflow-hidden rounded-[14px] border border-accent/25 bg-[radial-gradient(ellipse_at_50%_30%,rgba(234,106,47,0.16),transparent_65%)] px-6 py-10 text-center md:px-10 md:py-12"
         >
           <motion.div
             initial={reduce ? false : { opacity: 0, scale: 0.6, y: 10 }}

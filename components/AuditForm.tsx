@@ -93,7 +93,7 @@ export default function AuditForm() {
 
   if (status === "done") {
     return (
-      <div className="rounded-2xl border border-border bg-surface p-8 text-center md:p-10">
+      <div className="rounded-[14px] border border-border bg-surface p-6 text-center md:p-8">
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success text-[#06251a]">
           <Check className="h-7 w-7" strokeWidth={3} />
         </span>
@@ -135,7 +135,7 @@ export default function AuditForm() {
   };
 
   return (
-    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-2xl border border-border bg-surface p-6 md:p-8">
+    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-[14px] border border-border bg-surface p-6 md:p-8">
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${uid}-company`}>Company website</label>
         <input id={`${uid}-company`} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />

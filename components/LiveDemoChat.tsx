@@ -155,8 +155,8 @@ export default function LiveDemoChat() {
           </>
         }
       />
-      <div className="mt-10 grid items-start gap-8 md:mt-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <ol className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-2">
+      <div className="mt-6 grid items-stretch gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-8">
+        <ol className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:grid-rows-4">
           {STEPS.map(({ name, line, Icon }, i) => {
             const state = stage === i ? "active" : stage > i ? "done" : "idle";
             return (
@@ -164,7 +164,7 @@ export default function LiveDemoChat() {
                 key={name}
                 aria-current={state === "active" ? "step" : undefined}
                 className={cn(
-                  "flex min-w-0 flex-col gap-3 rounded-2xl border p-4 transition-colors duration-300 lg:flex-row lg:gap-4 lg:p-5",
+                  "flex min-w-0 flex-col gap-3 rounded-[14px] border p-3.5 transition-colors duration-300 lg:flex-row lg:items-center lg:gap-4 lg:p-4",
                   state === "active" ? "border-accent/50 bg-accent/[0.06]" : "border-border bg-surface/40"
                 )}
               >
@@ -181,7 +181,7 @@ export default function LiveDemoChat() {
                     <span className="label mr-2 text-[10px] font-normal text-subtle">0{i + 1}</span>
                     {name}
                   </div>
-                  <p className="mt-1 text-[14px] leading-[1.5] text-muted">{line}</p>
+                  <p className="mt-1 text-[13.5px] leading-[1.5] text-muted">{line}</p>
                 </div>
               </li>
             );
@@ -189,7 +189,7 @@ export default function LiveDemoChat() {
         </ol>
 
         <Reveal y={28}>
-          <div className="glass mx-auto w-full max-w-[470px] overflow-hidden rounded-[28px]">
+          <div className="glass w-full overflow-hidden rounded-[14px] lg:max-w-none">
             <div className="flex items-center gap-3 border-b border-border bg-surface-2 px-5 py-4">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-accent text-[15px] font-bold text-[#1a0a03]">F</span>
               <div className="leading-tight">
@@ -240,9 +240,15 @@ export default function LiveDemoChat() {
               className="no-scrollbar flex h-[360px] flex-col lg:h-[400px] gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
             >
               {!scenario && (
-                <p className="m-auto max-w-[26ch] text-center text-[14.5px] leading-[1.6] text-subtle">
-                  Tap a task above to watch the system handle it.
-                </p>
+                <div className="m-auto flex w-full max-w-[340px] flex-col gap-2.5">
+                  <div aria-hidden className="flex flex-col gap-2.5 opacity-60">
+                    <div className="h-9 w-3/5 rounded-2xl rounded-bl-md bg-white/[0.06]" />
+                    <div className="h-8 w-full rounded-xl border border-white/[0.08]" />
+                    <div className="ml-auto h-9 w-2/3 rounded-2xl rounded-br-md bg-accent/[0.12]" />
+                    <div className="h-8 w-4/5 rounded-xl border border-accent/20 bg-accent/[0.04]" />
+                  </div>
+                  <p className="mt-2 text-center text-[14px] leading-[1.6] text-subtle">Tap a situation above to watch the system handle it.</p>
+                </div>
               )}
               <AnimatePresence initial={false}>
                 {msgs.map((m) => (

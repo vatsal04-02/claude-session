@@ -6,7 +6,7 @@
   --color-bg-soft: #150e0a;
   --color-surface: #1b130f;
   --color-surface-2: #211710;
-  --color-border: rgba(245, 220, 200, 0.12);
+  --color-border: rgba(255, 255, 255, 0.08);
   --color-border-bright: rgba(245, 220, 200, 0.22);
   --color-text: #f2e9df;
   --color-muted: #b9aea3;
@@ -24,11 +24,11 @@
 
 html {
   background: var(--color-bg);
-  /* in-page anchors land just below the floating navbar */
-  scroll-padding-top: 84px;
+  /* in-page anchors land just below the sticky navbar (56px phones / 64px desktop) */
+  scroll-padding-top: 72px;
 }
-@media (min-width: 1024px) {
-  html { scroll-padding-top: 100px; }
+@media (min-width: 768px) {
+  html { scroll-padding-top: 80px; }
 }
 /* native scrolling; in-page anchor jumps glide unless the visitor prefers reduced motion */
 @media (prefers-reduced-motion: no-preference) {
@@ -81,16 +81,6 @@ body {
     radial-gradient(circle at 78% 18%, rgba(234, 106, 47, 0.1), transparent 36%),
     radial-gradient(circle at 18% 45%, rgba(130, 60, 30, 0.08), transparent 34%),
     linear-gradient(180deg, #140d09 0%, #110b08 60%, #110b08 100%);
-}
-
-/* soft vignette: the edges of the viewport sit slightly darker than the centre */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  background: radial-gradient(ellipse 120% 100% at 50% 42%, transparent 60%, rgba(0, 0, 0, 0.18) 100%);
 }
 
 /* section transition: a hairline that fades out at both ends + a soft shadow falling from the seam */
@@ -274,18 +264,6 @@ html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
 @keyframes intro-type { to { opacity: 1; } }
 html[data-intro="off"] .intro { display: none; }
 
-/* cinematic film grain */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 31;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
 }
@@ -327,8 +305,8 @@ body::after {
 /* restrained glass: dark translucent surface, hairline border, soft inner highlight */
 .glass {
   background: linear-gradient(180deg, rgba(38, 27, 20, 0.62), rgba(24, 17, 12, 0.55));
-  border: 1px solid rgba(245, 220, 200, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.07), 0 30px 70px -38px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.05), 0 30px 70px -38px rgba(0, 0, 0, 0.9);
   -webkit-backdrop-filter: blur(14px) saturate(1.15);
   backdrop-filter: blur(14px) saturate(1.15);
 }
@@ -374,45 +352,20 @@ body::after {
 .flow-range:hover::-webkit-slider-thumb,
 .flow-range:active::-webkit-slider-thumb { transform: scale(1.12); box-shadow: 0 0 0 8px rgba(234, 106, 47, 0.2), 0 6px 14px -4px rgba(0, 0, 0, 0.8); }
 
-/* ---------- floating glass navbar ---------- */
-.nav-float { border-radius: 18px; isolation: isolate; }
-/* The glass: ONE layer with backdrop-filter, so the page content passing behind the bar is frosted.
-   (Nothing above it may set filter / opacity < 1 / mask / will-change on those — that would cut the backdrop off.) */
-.nav-glass {
-  --tint: 0.58; --blur: 16px;
-  position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgba(255, 245, 235, 0.06), rgba(255, 245, 235, 0) 45%),
-    rgba(20, 15, 12, var(--tint));
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
-  backdrop-filter: blur(var(--blur)) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: inset 0 1px 0 rgba(255, 240, 225, 0.07), 0 6px 20px -12px rgba(0, 0, 0, 0.45);
-  /* --tint and --blur are registered below, so the tint and the frost glide between states */
-  transition: --tint 0.35s cubic-bezier(0.16, 1, 0.3, 1), --blur 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.35s ease, box-shadow 0.35s ease;
+/* ---------- hero-only texture: a faint line grid that fades toward the edges, plus fine noise ---------- */
+.hero-grid {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 35%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 70% at 60% 35%, #000 0%, transparent 75%);
 }
-@property --tint { syntax: "<number>"; inherits: false; initial-value: 0.58; }
-@property --blur { syntax: "<length>"; inherits: false; initial-value: 16px; }
-/* scrolled: denser tint, stronger frost, a restrained shadow that lifts it off the page */
-[data-raised="true"] > .nav-glass {
-  --tint: 0.76; --blur: 26px;
-  border-color: rgba(255, 255, 255, 0.11);
-  box-shadow: inset 0 1px 0 rgba(255, 240, 225, 0.08), 0 12px 40px -6px rgba(0, 0, 0, 0.32), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+.hero-noise {
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
-/* phones: a touch less blur keeps scrolling smooth */
-@media (max-width: 767px) {
-  .nav-glass { --blur: 14px; }
-  [data-raised="true"] > .nav-glass { --blur: 20px; }
-}
-/* a barely-there warm glow under the bar */
-.nav-glow {
-  position: absolute; z-index: -2; left: 18%; right: 18%; top: 45%; height: 70%;
-  border-radius: 999px; pointer-events: none;
-  background: rgba(234, 106, 47, 0.16); filter: blur(28px); opacity: 0.35;
-  transition: opacity 0.5s ease;
-}
-[data-raised="true"] > .nav-glow { opacity: 0.55; }
 
 /* ---------- long-form article text (resources) ---------- */
 .prose-flow { color: var(--color-muted); font-size: 17px; line-height: 1.78; }

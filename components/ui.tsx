@@ -16,6 +16,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
+import { BAND, CONTAINER } from "@/lib/layout";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -138,31 +139,21 @@ export function Ambient({ className }: { className?: string }) {
 /* Section scaffolding                                                 */
 /* ------------------------------------------------------------------ */
 
-const SPACE = {
-  md: "py-20 md:py-[136px]",
-  lg: "py-24 md:py-[152px]",
-  xl: "py-24 md:py-[150px]",
-} as const;
-
-const GRID = { strong: 0.55, mid: 0.4, soft: 0.28 } as const;
-
 export function Section({
   id,
   className,
-  space = "md",
-  grid = "mid",
   children,
 }: {
   id?: string;
   className?: string;
-  space?: keyof typeof SPACE;
-  grid?: keyof typeof GRID;
+  /** kept for older call sites; vertical rhythm is now one value (see BAND) */
+  space?: unknown;
+  grid?: unknown;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("section-edge relative px-5 md:px-8", SPACE[space], className)}>
-      <div aria-hidden className="grid-layer" style={{ "--grid-o": GRID[grid] } as React.CSSProperties} />
-      <div className="relative mx-auto w-full max-w-[1140px]">{children}</div>
+    <section id={id} className={cn("section-edge", BAND, className)}>
+      <div className={CONTAINER}>{children}</div>
     </section>
   );
 }
@@ -192,7 +183,7 @@ export function SectionHeading({
         <h2
           className={cn(
             "display mt-4 text-balance text-text",
-            size === "md" ? "text-[clamp(2.25rem,4.4vw,3.5rem)]" : "text-[clamp(1.9rem,3.4vw,2.75rem)]"
+            size === "md" ? "text-[clamp(1.875rem,4.2vw,3.25rem)]" : "text-[clamp(1.6rem,3.2vw,2.5rem)]"
           )}
         >
           {title}
@@ -200,7 +191,7 @@ export function SectionHeading({
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>
-          <div className="mt-5 max-w-[34rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">{sub}</div>
+          <div className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-muted md:text-[17px]">{sub}</div>
         </Reveal>
       )}
     </div>

@@ -4,16 +4,17 @@ import { CLUSTERS, getResource } from "@/lib/resources";
 import { SERVICES } from "@/lib/services";
 import { WA_LINK } from "@/lib/whatsapp";
 import Logo from "./Logo";
-import { Button, StatusDot } from "./ui";
+import { Button } from "./ui";
+import { CONTAINER } from "@/lib/layout";
 
 const linkCls = "inline-flex min-h-11 items-center transition-colors hover:text-accent md:min-h-9";
 
 /** `base` = "" on the homepage (in-page anchors), "/" on other pages. */
 export default function Footer({ base = "" }: { base?: "" | "/" }) {
   return (
-    <footer className="border-t border-border px-5 pt-12 md:px-8 lg:pb-10">
-      <div className="mx-auto grid max-w-[1140px] gap-10 md:grid-cols-2 md:items-start lg:grid-cols-[1.1fr_0.9fr_1fr_0.7fr_auto] lg:gap-8">
-        <div>
+    <footer className="border-t border-border pt-12">
+      <div className={`${CONTAINER} grid grid-cols-2 gap-x-6 gap-y-8 md:items-start lg:grid-cols-[1.1fr_0.9fr_1fr_0.7fr_auto] lg:gap-8`}>
+        <div className="col-span-2 md:col-span-1">
           <a href={base ? "/" : "#top"} className="inline-flex min-h-11 items-center">
             <Logo />
           </a>
@@ -87,7 +88,7 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           </ul>
         </nav>
 
-        <div className="rounded-2xl border border-border bg-surface p-5 md:w-full lg:max-w-[240px] lg:justify-self-end">
+        <div className="col-span-2 rounded-[14px] border border-border bg-surface p-5 md:col-span-1 md:w-full lg:max-w-[240px] lg:justify-self-end">
           <div className="label text-[10.5px] text-subtle">Contact</div>
           <Button variant="whatsapp" {...WA_LINK} className="mt-4 w-full">
             Chat on WhatsApp
@@ -96,10 +97,14 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-[1140px] flex-wrap items-center justify-between gap-4 border-t border-border pt-5 text-[13px] text-subtle">
+      <div className={`${CONTAINER} mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-border py-5 text-[13px] text-subtle`}>
         <span>© 2026 Flow HQ</span>
-        <span className="label inline-flex items-center gap-2.5 rounded-full border border-border px-3 py-1.5 text-[10px] text-muted">
-          <StatusDot tone="accent" /> Flow HQ System · Online
+        <span className="inline-flex items-center gap-2.5 rounded-full border border-border px-3 py-1.5 text-[12px] text-muted">
+          <span aria-hidden className="relative flex h-2 w-2">
+            <span className="absolute inset-0 animate-ping rounded-full bg-[#34d399] opacity-60 motion-reduce:hidden" />
+            <span className="relative h-2 w-2 rounded-full bg-[#34d399]" />
+          </span>
+          System online
         </span>
       </div>
     </footer>

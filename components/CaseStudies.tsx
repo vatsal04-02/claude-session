@@ -1,28 +1,29 @@
 import { SHOW_CASES, SHOW_PLACEHOLDERS, VISIBLE_CASES } from "@/lib/content";
 import Slot from "./Slot";
 import { Reveal, SectionHeading } from "./ui";
+import { BAND, CONTAINER } from "@/lib/layout";
 
 /** Two case-study cards. Production shows only finished ones (all four text fields filled); previews show every card. */
 export default function CaseStudies() {
   if (!SHOW_CASES) return null;
   return (
-    <section id="work" className="relative px-5 py-20 md:px-8 md:py-28">
-      <div className="mx-auto max-w-[1140px]">
+    <section id="work" className={BAND}>
+      <div className={CONTAINER}>
         <SectionHeading eyebrow="Work" title="Work we've built." />
-        <ul className="mt-10 grid gap-5 md:mt-12 md:grid-cols-2">
+        <ul className="mt-6 grid gap-4 md:grid-cols-2">
           {VISIBLE_CASES.map((c, i) => (
             <li key={c.label}>
-              <Reveal delay={i * 0.08} className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface/60">
+              <Reveal delay={i * 0.08} className="flex h-full flex-col overflow-hidden rounded-[14px] border border-border bg-surface/60">
                 {c.screenshot ? (
-                  <img src={c.screenshot} alt={c.screenshotAlt ?? `${c.label} screenshot`} loading="lazy" decoding="async" className="aspect-[16/10] w-full border-b border-border object-cover" />
+                  <img src={c.screenshot} alt={c.screenshotAlt ?? `${c.label} screenshot`} loading="lazy" decoding="async" className="aspect-[16/9] w-full border-b border-border object-cover" />
                 ) : (
                   SHOW_PLACEHOLDERS && (
-                    <div className="grid aspect-[16/10] w-full place-items-center border-b border-dashed border-warning/50 bg-warning/[0.04] text-[13px] text-warning" data-placeholder>
+                    <div className="grid aspect-[16/9] w-full place-items-center border-b border-dashed border-warning/50 bg-warning/[0.04] text-[13px] text-warning" data-placeholder>
                       [SCREENSHOT]
                     </div>
                   )
                 )}
-                <div className="flex flex-1 flex-col p-6 md:p-7">
+                <div className="flex flex-1 flex-col p-5 md:p-6">
                   <span className="label w-fit rounded-full border border-border-bright px-2.5 py-1.5 text-[10px] leading-none text-muted">{c.label}</span>
                   <p className="mt-4 text-[15px] text-subtle">
                     <Slot value={c.clientType} />

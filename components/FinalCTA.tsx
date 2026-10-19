@@ -5,22 +5,23 @@ import { BOOKING_URL, PRIMARY_CTA } from "@/lib/content";
 import { WA_LINK } from "@/lib/whatsapp";
 import AuditForm from "./AuditForm";
 import { Button, Reveal } from "./ui";
+import { BAND, CONTAINER } from "@/lib/layout";
 
 /** Closing band + the audit form. Every "free audit" CTA on the page lands here (#audit). */
 export default function FinalCTA() {
   return (
-    <section id="audit" className="section-edge relative overflow-hidden bg-[#150e0a] px-5 py-20 md:px-8 md:py-28">
+    <section id="audit" className={`section-edge overflow-hidden bg-[#150e0a] ${BAND}`}>
       <div aria-hidden className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(closest-side, rgba(234,106,47,0.07), transparent)" }} />
-      <div className="relative mx-auto grid max-w-[1140px] items-start gap-10 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
+      <div className={`${CONTAINER} relative grid items-start gap-8 lg:grid-cols-[1fr_0.95fr] lg:gap-12`}>
         <Reveal>
           <span className="label inline-flex items-center gap-2.5 text-accent">
             <span aria-hidden className="h-px w-6 bg-accent/70" /> Get started
           </span>
-          <h2 className="display mt-4 text-balance text-[clamp(2.25rem,4.4vw,3.5rem)] text-text">Ready to stop losing leads?</h2>
-          <p className="mt-5 max-w-[30rem] text-[17px] leading-[1.7] text-muted">
+          <h2 className="display mt-4 text-balance text-[clamp(1.875rem,4.2vw,3.25rem)] text-text">Ready to stop losing leads?</h2>
+          <p className="mt-4 max-w-[30rem] text-[15.5px] leading-[1.65] text-muted md:text-[17px]">
             Tell us how enquiries reach you today. We&apos;ll reply with what to automate and a fixed quote — free, no obligation.
           </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             {BOOKING_URL ? (
               <Button size="lg" href={PRIMARY_CTA.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 {PRIMARY_CTA.label}
