@@ -1,3 +1,4 @@
+import { INSTAGRAM_URL } from "./site";
 import { SITE_URL } from "./config";
 import { WHATSAPP_NUMBER } from "./whatsapp";
 
@@ -35,6 +36,7 @@ export const organization = {
     "n8n",
   ],
   contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: phone, areaServed: "IN" },
+  sameAs: [INSTAGRAM_URL],
 };
 
 export const website = {

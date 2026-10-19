@@ -11,3 +11,6 @@ export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Packages", href: "#packages" },
   { label: "FAQ", href: "#faq" },
 ];
+
+/** Flow HQ on Instagram (footer link + Organization structured data `sameAs`). */
+export const INSTAGRAM_URL = "https://www.instagram.com/flowhq.in/";
