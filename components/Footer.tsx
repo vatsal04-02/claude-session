@@ -17,9 +17,9 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           <a href={base ? "/" : "#top"} className="inline-flex min-h-11 items-center">
             <Logo />
           </a>
-          <p className="label mt-2 text-accent" style={{ letterSpacing: "0.18em" }}>Built To Automate.</p>
+          <p className="label mt-2 text-accent" style={{ letterSpacing: "0.18em" }}>Not just AI. Systems that work.</p>
           <p className="mt-4 max-w-[30ch] text-[14px] leading-[1.6] text-muted">
-            Custom AI + automation systems that put your business on autopilot. Lucknow, working across India.
+            AI systems that capture leads, follow up and keep your CRM updated. Lucknow, working across India.
           </p>
         </div>
 
@@ -74,6 +74,11 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
                 </a>
               </li>
             ))}
+            <li>
+              <a href="/calculator/" className={linkCls}>
+                Cost calculator
+              </a>
+            </li>
             <li>
               <a href={`${base}#audit`} className={linkCls}>
                 Free audit

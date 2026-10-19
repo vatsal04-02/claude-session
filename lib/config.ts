@@ -29,7 +29,11 @@ export const SITE_URL = resolveSiteUrl();
 
 /** Only real production builds may be indexed. On Vercel, preview and development deployments are noindex
     (robots.txt disallows everything and every page carries <meta name="robots" content="noindex">). */
-export const INDEXABLE = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === "production" : process.env.NODE_ENV === "production";
+export const INDEXABLE = process.env.NEXT_PUBLIC_INDEXABLE
+  ? process.env.NEXT_PUBLIC_INDEXABLE === "true" // set in next.config.ts from VERCEL_ENV, so server and browser agree
+  : process.env.VERCEL_ENV
+    ? process.env.VERCEL_ENV === "production"
+    : process.env.NODE_ENV === "production";
 
 /** True when built on Vercel (enables Vercel Web Analytics). */
 export const ON_VERCEL = !!process.env.VERCEL;

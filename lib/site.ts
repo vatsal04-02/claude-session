@@ -1,13 +1,13 @@
+import { SHOW_CASES } from "./content";
+
 /** Google Apps Script Web app that appends each free-audit request to the leads sheet. */
 export const GOOGLE_SHEET_URL =
   "https://script.google.com/macros/s/AKfycbxXh891ABs0zi0SaKTQAq34Kxr-L_kSJbQwWs3b7pVupbg7uWNV5WFv5VxHqt-dFU3FLA/exec";
 
-export const NAV_LINKS = [
-  { label: "What We Build", href: "#problems" },
-  { label: "How It Works", href: "#workflow" },
-  { label: "Try It", href: "#try-it" },
+/** Header + footer anchors. "Work" only exists once there is real work to show (see lib/content.ts). */
+export const NAV_LINKS: { label: string; href: string }[] = [
+  { label: "How it works", href: "#try-it" },
+  ...(SHOW_CASES ? [{ label: "Work", href: "#work" }] : []),
+  { label: "Packages", href: "#packages" },
   { label: "FAQ", href: "#faq" },
-] as const;
-
-/** The founder section's code is kept; flip this on once a real name, photo and bio exist. */
-export const SHOW_FOUNDER = true;
+];

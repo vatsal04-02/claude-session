@@ -5,7 +5,6 @@ import Providers from "@/components/Providers";
 import Intro, { INTRO_SCRIPT } from "@/components/Intro";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Analytics from "@/components/Analytics";
-import "@fontsource/instrument-serif/latin-400.css";
 import "@fontsource/poppins/latin-700.css";
 import "./globals.css";
 import { ON_VERCEL, SITE_URL } from "@/lib/config";

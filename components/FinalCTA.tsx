@@ -1,58 +1,44 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { BOOKING_URL, PRIMARY_CTA } from "@/lib/content";
+import { WA_LINK } from "@/lib/whatsapp";
 import AuditForm from "./AuditForm";
-import { Highlight, Reveal } from "./ui";
+import { Button, Reveal } from "./ui";
 
-const GET = ["We map the work eating your team's day", "A fixed quote with no surprises", "An automation plan for your business"];
-const REASSURE = ["Works with the tools you already use", "Built around how your team operates", "People stay in control where it matters"];
-
-/** The audit section: every "Get My Free Audit" button on the site scrolls here. */
+/** Closing band + the audit form. Every "free audit" CTA on the page lands here (#audit). */
 export default function FinalCTA() {
   return (
-    <section id="audit" className="section-edge relative overflow-hidden bg-[#18100a] px-5 py-24 md:px-8 md:py-[150px]">
-      <div aria-hidden className="grid-layer" style={{ "--grid-o": 0.5 } as React.CSSProperties} />
-      <div aria-hidden className="anim-glow pointer-events-none absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[rgba(234,106,47,0.14)] blur-[120px]" />
-      <div className="relative mx-auto grid max-w-[1140px] items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-        <div>
-          <Reveal>
-            <span className="label inline-flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent/70" /> Free audit
-            </span>
-            <h2 className="display mt-4 text-[clamp(2.2rem,4.4vw,3.6rem)]">
-              Tell us what your team does manually.{" "}
-              <span className="mt-4 block text-[0.5em] font-semibold leading-[1.2] text-accent">
-                We&apos;ll show you what can be <Highlight>automated.</Highlight>
-              </span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mt-6 max-w-[30rem] text-[17px] leading-[1.75] text-muted">
-              Get a free audit and we&apos;ll map a workflow around your business.
-            </p>
-            <ul className="mt-3 space-y-1">
-              {REASSURE.map((r) => (
-                <li key={r} className="flex items-center gap-2.5 text-[14px] text-subtle">
-                  <span aria-hidden className="h-1 w-1 rounded-full bg-accent/70" />
-                  {r}
-                </li>
-              ))}
-            </ul>
-            <ul className="mt-6 space-y-3">
-              {GET.map((g) => (
-                <li key={g} className="flex items-start gap-3 text-[16px] leading-[1.5] text-text">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-accent/50 bg-accent/10 text-accent">
-                    <Check className="h-3 w-3" strokeWidth={3} />
-                  </span>
-                  {g}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-        <Reveal delay={0.15}>
+    <section id="audit" className="section-edge relative overflow-hidden bg-[#150e0a] px-5 py-20 md:px-8 md:py-28">
+      <div aria-hidden className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(closest-side, rgba(234,106,47,0.07), transparent)" }} />
+      <div className="relative mx-auto grid max-w-[1140px] items-start gap-10 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
+        <Reveal>
+          <span className="label inline-flex items-center gap-2.5 text-accent">
+            <span aria-hidden className="h-px w-6 bg-accent/70" /> Get started
+          </span>
+          <h2 className="display mt-4 text-balance text-[clamp(2.25rem,4.4vw,3.5rem)] text-text">Ready to stop losing leads?</h2>
+          <p className="mt-5 max-w-[30rem] text-[17px] leading-[1.7] text-muted">
+            Tell us how enquiries reach you today. We&apos;ll reply with what to automate and a fixed quote — free, no obligation.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            {BOOKING_URL ? (
+              <Button size="lg" href={PRIMARY_CTA.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                {PRIMARY_CTA.label}
+              </Button>
+            ) : null}
+            <Button size="lg" variant="whatsapp" arrow={<ArrowRight className="h-4 w-4" />} {...WA_LINK} className="w-full sm:w-auto">
+              Chat on WhatsApp
+            </Button>
+          </div>
+          <a
+            href="/calculator/"
+            className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-[14.5px] text-muted underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent"
+          >
+            Curious what manual work costs you? Try the calculator →
+          </a>
+        </Reveal>
+        <Reveal delay={0.12}>
           <AuditForm />
-          <p className="mt-4 text-center text-[13.5px] text-subtle">How we work: we map → design → build → launch with you.</p>
         </Reveal>
       </div>
     </section>

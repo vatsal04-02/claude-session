@@ -10,7 +10,6 @@
     "seo:check": "node scripts/seo-check.mjs"
   },
   "dependencies": {
-    "@fontsource/instrument-serif": "^5.3.0",
     "@fontsource/poppins": "^5.3.0",
     "@vercel/analytics": "^1.6.1",
     "geist": "^1.7.2",

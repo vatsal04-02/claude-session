@@ -28,7 +28,7 @@ export default function Analytics() {
         }),
       { threshold: 0.4 }
     );
-    ["pipeline", "workflow", "calculator", "try-it", "audit"].forEach((id) => {
+    ["try-it", "work", "packages", "founders", "calculator", "audit"].forEach((id) => {
       const el = document.getElementById(id);
       if (el) io.observe(el);
     });

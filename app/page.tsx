@@ -1,30 +1,29 @@
+import CaseStudies from "@/components/CaseStudies";
 import Faq from "@/components/Faq";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import Founder from "@/components/Founder";
 import Hero from "@/components/Hero";
 import LiveDemoChat from "@/components/LiveDemoChat";
-import Manifesto from "@/components/Manifesto";
 import Navbar from "@/components/Navbar";
-import PipelineVideo from "@/components/PipelineVideo";
-import ProblemCards from "@/components/ProblemCards";
-import RoiCalculator from "@/components/RoiCalculator";
-import WhyTrust from "@/components/WhyTrust";
-import Workflow from "@/components/Workflow";
+import Packages from "@/components/Packages";
+import Problem from "@/components/Problem";
+import ProofStrip from "@/components/ProofStrip";
 import { ScrollProgress } from "@/components/ui";
-import { SHOW_FOUNDER } from "@/lib/site";
 import { HOME_FAQS } from "@/lib/faq";
 import { faqPage, JsonLd } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Flow HQ | Custom AI Automation Systems for Growing Businesses",
+  title: "Flow HQ | AI Lead Capture & Follow-up Automation, Lucknow",
   description:
-    "Flow HQ builds custom AI and automation systems that reduce manual work, connect your tools, and put repetitive business processes on autopilot.",
+    "AI systems that capture leads from your website, WhatsApp, Instagram, calls and email — then follow up, book and update your CRM. Built in Lucknow.",
   path: "/",
-  socialTitle: "Flow HQ — Put your business on autopilot.",
+  socialTitle: "Flow HQ — Never lose a lead again.",
 });
 
+/* Section order: hero → proof → problem → the system (demo) → work → packages → founders → FAQ → closing CTA + audit form.
+   Proof and Work render nothing in production until their content in lib/content.ts is filled. */
 export default function Home() {
   return (
     <>
@@ -33,16 +32,14 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
-        <Manifesto />
-        <PipelineVideo />
-        <ProblemCards />
-        <Workflow />
-        <RoiCalculator />
+        <ProofStrip />
+        <Problem />
         <LiveDemoChat />
-        <FinalCTA />
-        {SHOW_FOUNDER && <Founder />}
-        <WhyTrust />
+        <CaseStudies />
+        <Packages />
+        <Founder />
         <Faq />
+        <FinalCTA />
       </main>
       <Footer />
     </>

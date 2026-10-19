@@ -12,7 +12,7 @@ import { Reveal, Section, SectionHeading } from "./ui";
 export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <Section id="faq" className="bg-[#150e0a]">
+    <Section id="faq">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading eyebrow="FAQ" title="Fair questions." />

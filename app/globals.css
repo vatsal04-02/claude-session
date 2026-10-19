@@ -19,7 +19,6 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-serif: "Instrument Serif", "Times New Roman", serif;
   --font-logo: "Poppins", var(--font-geist-sans), sans-serif;
 }
 
@@ -141,12 +140,7 @@ body::before {
 @keyframes blink {
   50% { opacity: 0.25; }
 }
-@keyframes glow-drift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(40px, 30px, 0); }
-}
 .anim-blink { animation: blink 1.6s ease-in-out infinite; }
-.anim-glow { animation: glow-drift 24s ease-in-out infinite; }
 .pulse-dot::after {
   content: "";
   position: absolute;
@@ -296,24 +290,6 @@ body::after {
   .intro { display: none; }
 }
 
-/* problem flip cards: both faces share one grid cell, so the card is as tall as its taller face */
-.flip { perspective: 1100px; }
-.flip-inner {
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.flip-face {
-  grid-area: 1 / 1;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-.flip-back { transform: rotateY(180deg); }
-.flip[data-flipped="true"] .flip-inner,
-.flip:focus-within .flip-inner { transform: rotateY(180deg); }
-@media (hover: hover) and (pointer: fine) {
-  .flip:hover .flip-inner { transform: rotateY(180deg); }
-}
-
 /* founder photos: vibrant colour, zoomed in around the face (origin set per photo) */
 .founder-photo img { filter: saturate(1.15) contrast(1.04); transform: scale(1.06); }
 
@@ -328,64 +304,12 @@ body::after {
   .hero-rise, .hero-lift { animation: none; }
 }
 
-/* hero live-system card: a small pulse dot (ring scales out and fades; static for reduced motion) */
+/* live pulse dot (hero inbox card) (ring scales out and fades; static for reduced motion) */
 .feed-dot { position: relative; width: 6px; height: 6px; flex: none; border-radius: 9999px; background: var(--color-accent); }
 .feed-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--color-accent); animation: feed-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
 @keyframes feed-ping { 0% { transform: scale(1); opacity: 0.5; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .feed-dot::after { animation: none; opacity: 0; } }
 
-/* ---------- hero: "autopilot." uncovered by a passing aircraft ----------
-   One flight, compositor-only (transform + opacity), plays on first paint and once more after the word
-   has left the screen and returned (AutopilotWord re-arms data-run). Choreography:
-     0.00–0.30s  anticipation: headline settles, word hidden
-     0.30–1.30s  the aircraft cruises across at constant speed (nose −4% → 130% of the word)
-     0.38–1.15s  the word is uncovered right behind it: the window slides in while the letters
-                 counter-slide, so they never move — they simply appear in the plane's wake
-     1.08–1.30s  the aircraft climbs away and fades
-     1.15–1.65s  settle: a brief warm flare on the word fades to its resting colour             */
-.ap { position: relative; display: inline-block; vertical-align: top; white-space: nowrap; }
-.ap-win {
-  display: inline-block; vertical-align: top; overflow: hidden;
-  /* room for descenders and the full stop, without changing the line box */
-  padding: 0.14em 0.12em 0.3em 0; margin: -0.14em -0.12em -0.3em 0;
-}
-.ap-in { display: inline-block; vertical-align: top; }
-.ap-fly { position: absolute; inset: 0; pointer-events: none; }
-.ap-craft { position: absolute; right: 100%; top: var(--ap-alt, 0.15em); width: 0.62em; height: 0.31em; opacity: 0; }
-.ap-craft svg { display: block; width: 100%; height: 100%; overflow: visible; }
-/* a short wake rides with the aircraft (it flies along the top of the lowercase letters) and leaves with it */
-.ap-craft::before {
-  content: ""; position: absolute; right: 82%; top: 50%; width: 0.95em; height: 2px; margin-top: -1px; border-radius: 2px;
-  background: linear-gradient(to right, rgba(234, 106, 47, 0), rgba(241, 122, 59, 0.42));
-}
-.ap[data-run="play"] .ap-win { animation: ap-win var(--ap-rev, 0.77s) linear var(--ap-rev-at, 0.38s) both; }
-.ap[data-run="play"] .ap-in {
-  animation: ap-in var(--ap-rev, 0.77s) linear var(--ap-rev-at, 0.38s) both,
-    ap-flare 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--ap-settle, 1.15s) both;
-}
-.ap[data-run="play"] .ap-fly { animation: ap-fly 1s linear 0.3s both; }
-.ap[data-run="play"] .ap-craft { animation: ap-craft 1s linear 0.3s both; }
-.ap[data-run="idle"] .ap-win { transform: translateX(-100%); }
-.ap[data-run="idle"] .ap-in { transform: translateX(calc(100% + 0.12em)); }
-@keyframes ap-win { from { transform: translateX(-100%); } to { transform: none; } }
-@keyframes ap-in { from { transform: translateX(calc(100% + 0.12em)); } to { transform: none; } }
-@keyframes ap-fly { from { transform: translateX(-4%); } to { transform: translateX(130%); } }
-@keyframes ap-craft {
-  0% { opacity: 0; transform: translateY(0.05em) rotate(5deg) scale(0.9); }
-  12% { opacity: 1; transform: none; }
-  78% { opacity: 1; transform: none; }
-  100% { opacity: 0; transform: translateY(-0.14em) rotate(-8deg); }
-}
-@keyframes ap-flare { from { filter: brightness(1.28); } to { filter: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .ap .ap-win, .ap .ap-in { animation: none !important; transform: none !important; }
-  .ap-fly { display: none; }
-}
-
-/* phones: keep the hero's decorative glows static (no continuous blur repaints) */
-@media (max-width: 767px) {
-  .anim-glow { animation: none; }
-}
 
 /* service-page FAQ (<details>): hide the native marker */
 .faq-item > summary::-webkit-details-marker { display: none; }
@@ -416,55 +340,6 @@ body::after {
   mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
   opacity: 0.5;
 }
-
-/* live pipeline: lanes, engine ring */
-.flow-dash { stroke: rgba(245, 220, 200, 0.16); stroke-width: 1.5; stroke-dasharray: 2 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.flow-dash-on { stroke: rgba(241, 122, 59, 0.55); animation: flow-dash 0.9s linear infinite; }
-@keyframes flow-dash { to { stroke-dashoffset: -18; } }
-@keyframes core-spin { to { transform: rotate(360deg); } }
-/* everything continuous in the live pipeline pauses when it's off-screen */
-.engine-ring[data-on="true"] { animation: core-spin 9s linear infinite; }
-figure[data-run="off"] .engine-ring,
-figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
-
-/* ---------- workflow: fast, scroll-driven states (UI tier: 200–320ms, no long fades) ---------- */
-.wf-node { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.wf-node[data-state="done"] { border-color: rgba(234, 106, 47, 0.7); background: rgba(234, 106, 47, 0.2); color: var(--color-accent-2); }
-.wf-node[data-state="active"] { transform: scale(1.1); border-color: var(--color-accent); background: var(--color-accent); color: #1a0a03; box-shadow: 0 0 0 6px rgba(234, 106, 47, 0.14), 0 0 26px rgba(234, 106, 47, 0.6); }
-.wf-node[data-state="next"] { border-color: var(--color-border-bright); background: var(--color-bg); color: var(--color-subtle); }
-/* phones/tablets: steps ahead of you wait quietly */
-.wf-step .wf-text { transition: opacity 0.25s ease; }
-.wf-step[data-state="next"] .wf-text { opacity: 0.5; }
-/* lg+: the five steps share one cell as a single glass panel; only the active one shows */
-@media (min-width: 1024px) {
-  .wf-step { grid-area: 1 / 1; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 0.22s ease, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
-  .wf-step[data-active="true"] { opacity: 1; transform: none; pointer-events: auto; }
-  .wf-step[data-state="next"] .wf-text { opacity: 1; }
-  .wf-card {
-    background: linear-gradient(180deg, rgba(38, 27, 20, 0.62), rgba(24, 17, 12, 0.55));
-    border: 1px solid rgba(245, 220, 200, 0.1);
-    box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.07), 0 30px 70px -38px rgba(0, 0, 0, 0.9);
-  }
-}
-/* ---------- the GROW tree: seed → stem → branches → leaves → light (~1.1s), instant reset ---------- */
-.grow-tree .gt-draw { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
-.grow-tree .gt-pop { transform: scale(0); opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
-.grow-tree .gt-leaf { transform-origin: 0% 50%; }
-.grow-tree .gt-fade { opacity: 0; }
-.grow-tree[data-on="true"] .gt-draw {
-  stroke-dashoffset: 0; opacity: 1;
-  transition: stroke-dashoffset var(--t, 0.3s) cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s), opacity 0s linear var(--d, 0s);
-}
-.grow-tree[data-on="true"] .gt-pop {
-  transform: none; opacity: 1;
-  transition: transform 0.42s cubic-bezier(0.34, 1.45, 0.64, 1) var(--d, 0s), opacity 0.12s ease var(--d, 0s);
-}
-.grow-tree[data-on="true"] .gt-fade { opacity: 1; transition: opacity 0.45s ease var(--d, 0s); }
-.grow-tree[data-still="true"] * { transition: none !important; }
-
-/* "Grow" lights up once the tree has grown (after ~0.85s); resets instantly */
-.grow-word { transition: color 0.2s ease, text-shadow 0.2s ease; }
-.grow-word[data-grown="true"] { color: var(--color-accent); text-shadow: 0 0 28px rgba(234, 106, 47, 0.4); transition: color 0.35s ease 0.85s, text-shadow 0.5s ease 0.85s; }
 
 /* calculator: ₹ coin + tactile sliders */
 .coin-face {
@@ -538,20 +413,6 @@ figure[data-run="off"] .flow-dash-on { animation-play-state: paused; }
   transition: opacity 0.5s ease;
 }
 [data-raised="true"] > .nav-glow { opacity: 0.55; }
-
-/* problem cards (front): quiet glass, a warm hairline + icon glow on hover */
-.pc-front { background: linear-gradient(180deg, rgba(38, 27, 20, 0.7), rgba(24, 17, 12, 0.6)); box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.06); transition: border-color 0.25s ease; }
-.pc-front::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, var(--color-accent), transparent); transform: scaleX(0); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-.pc-icon { transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
-.pc-cue-arrow { display: inline-block; transition: transform 0.2s ease; }
-.flip { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-@media (hover: hover) and (pointer: fine) {
-  .flip:hover { transform: translateY(-4px); }
-  .flip:hover .pc-front { border-color: rgba(234, 106, 47, 0.45); }
-  .flip:hover .pc-front::before { transform: scaleX(1); }
-  .flip:hover .pc-icon { color: var(--color-accent-2); border-color: rgba(234, 106, 47, 0.5); box-shadow: 0 0 20px -6px rgba(234, 106, 47, 0.6); }
-  .flip:hover .pc-cue-arrow { transform: translateX(3px); }
-}
 
 /* ---------- long-form article text (resources) ---------- */
 .prose-flow { color: var(--color-muted); font-size: 17px; line-height: 1.78; }

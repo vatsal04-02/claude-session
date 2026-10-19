@@ -43,6 +43,14 @@ for (const f of files) {
 }
 
 if (indexable) {
+  // content guard: production must never show a [BRACKETED] placeholder from lib/content.ts, nor a booking CTA without BOOKING_URL
+  const bookingSet = /export const BOOKING_URL\s*=\s*"([^"]+)"/.test(readFileSync("lib/content.ts", "utf8"));
+  for (const f of files.filter((x) => x.endsWith(".html"))) {
+    const text = readFileSync(f, "utf8").replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<style[\s\S]*?<\/style>/gi, "");
+    const ph = text.match(/\[[A-Z][A-Z0-9 ·₹\/.+-]{0,40}\]/);
+    if (ph) problems.push(`${f}: placeholder ${ph[0]} would be visible in production — fill it in lib/content.ts (or leave the section hidden)`);
+    if (!bookingSet && /Book a 15-min call/.test(text)) problems.push(`${f}: "Book a 15-min call" shown but BOOKING_URL is not set`);
+  }
   const sitemap = readFileSync(join(OUT, "sitemap.xml"), "utf8");
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   if (!locs.length) problems.push("sitemap.xml has no URLs");

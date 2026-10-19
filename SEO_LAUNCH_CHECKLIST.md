@@ -15,7 +15,7 @@ One primary intent per page. Don't add pages that compete with these.
 
 | Page | Primary intent | Secondary terms |
 |---|---|---|
-| `/` | custom AI automation systems, AI automation agency | business automation, put business on autopilot |
+| `/` | AI lead capture and follow-up automation (Lucknow) | WhatsApp / Instagram lead automation, never lose a lead |
 | `/ai-automation/` | AI automation agency / services | custom AI automation, AI agents for business |
 | `/business-process-automation/` | business process automation | business operations automation, process automation services |
 | `/ai-workflow-automation/` | AI workflow automation | workflow automation, n8n automation agency |
@@ -31,6 +31,8 @@ One primary intent per page. Don't add pages that compete with these.
 | `/resources/ai-automation-for-small-businesses/` | AI automation for small businesses | AI for small business |
 | Supporting articles (9) | question-style long-tail queries | each links to its pillar + a commercial page |
 
+`/calculator/` — the manual-work cost calculator (moved off the homepage); linked from the closing CTA, the footer and the service pages.
+
 Old URL `/workflow-automation/` permanently redirects to `/ai-workflow-automation/` (vercel.json and .htaccess).
 
 **Content rules:** no invented clients, reviews, ratings, results, prices or awards. Example numbers are labelled
@@ -41,6 +43,7 @@ Search Console or from customers.
 
 ## 2. Pre-launch (do once)
 
+- [ ] **Homepage content:** fill in `lib/content.ts` (BOOKING_URL, clients, stats, case studies, package prices). Production hides the Proof strip and Work section until they're real, and `npm run build` fails if a `[PLACEHOLDER]` would be visible.
 - [ ] **Domain** `flowhq.co.in` (GoDaddy) connected to Vercel: `A @` and `CNAME www` records — see DEPLOYMENT.md, Option A. Canonical host: `https://www.flowhq.co.in`; the bare domain 308-redirects to it (Vercel domain setting).
 - [ ] **HTTPS** active on both `www` and the bare domain (Vercel issues certificates automatically).
 - [ ] **Production env var** set in Vercel → Settings → Environment Variables → *Production only*:

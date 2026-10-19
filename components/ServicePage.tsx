@@ -110,7 +110,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
               Try the live demo
             </a>{" "}
             or{" "}
-            <a href="/#calculator" className="text-text underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent">
+            <a href="/calculator/" className="text-text underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent">
               estimate what manual work costs you
             </a>
             .

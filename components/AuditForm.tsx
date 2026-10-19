@@ -14,7 +14,7 @@ const inputCls =
 /** Fired by the problem cards: { message, focus } pre-fills (and optionally focuses) the Message field. */
 export const PREFILL_EVENT = "flowhq:prefill";
 
-const waText = "text-[14px] text-[#25D366] underline decoration-[#25D366]/40 underline-offset-4 transition-opacity hover:opacity-80";
+const waText = "inline-flex min-h-11 items-center text-[14px] text-[#25D366] underline decoration-[#25D366]/40 underline-offset-4 transition-opacity hover:opacity-80";
 
 /** The single audit action: Name, Phone, Business Type, Message → Google Apps Script → sheet row. */
 export default function AuditForm() {
@@ -162,7 +162,7 @@ export default function AuditForm() {
       {status === "error" && (
         <div role="alert" className="mt-5 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
           <p>Something went wrong — please reach us on WhatsApp instead.</p>
-          <a {...WA_LINK} className={cn(waText, "mt-2 inline-block")}>
+          <a {...WA_LINK} className={cn(waText, "mt-2")}>
             WhatsApp Flow HQ
           </a>
         </div>

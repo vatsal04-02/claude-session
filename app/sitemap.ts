@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...SERVICES.map((s) => ({ url: u(`/${s.slug}/`), changeFrequency: "monthly" as const, priority: 0.9 })),
     { url: u("/industries/"), changeFrequency: "monthly", priority: 0.6 },
     ...INDUSTRIES.map((i) => ({ url: u(`/industries/${i.slug}/`), changeFrequency: "monthly" as const, priority: 0.7 })),
+    { url: u("/calculator/"), changeFrequency: "monthly", priority: 0.5 },
     { url: u("/resources/"), changeFrequency: "weekly", priority: 0.6 },
     ...RESOURCES.map((r) => ({ url: u(`/resources/${r.slug}/`), lastModified: r.updated, changeFrequency: "monthly" as const, priority: r.pillar ? 0.7 : 0.5 })),
   ];

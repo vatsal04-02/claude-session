@@ -33,6 +33,7 @@ const REQUIRED = [
   "/industries/home-services/",
   "/industries/professional-services/",
   "/resources/",
+  "/calculator/",
 ];
 
 let failures = 0;

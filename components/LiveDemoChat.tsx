@@ -1,69 +1,83 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Check, Database, ListChecks, RotateCcw, Sheet, Sparkles, Users } from "lucide-react";
+import { ChartColumn, Check, Database, Inbox, ListChecks, RotateCcw, Sheet, Sparkles, Users, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { Ambient, EASE, Reveal, Section, StatusDot } from "./ui";
+import { EASE, Reveal, Section, SectionHeading, StatusDot } from "./ui";
 
 type Tool = "CRM" | "Sheet" | "Task" | "Team";
 type Kind = "event" | "you" | "ai" | "auto" | "bot" | "done";
 type Step = { kind: Kind; text: string; tool?: Tool };
 type Msg = Step & { id: number };
 
-/* Scripted, illustrative runs — one per kind of work. Nothing plays until a chip is tapped.
-   Each shows the same shape: input → AI understands → automation runs → action done. */
+/* Scripted, illustrative runs — one per channel / kind of work, written for local service businesses.
+   Nothing plays until a chip is tapped, and no real messages are sent. Each run follows the same four steps:
+   Capture → Understand → Act → Report. */
 const SCENARIOS: Record<string, Step[]> = {
-  "Missed enquiry": [
-    { kind: "event", text: "Website enquiry · 9:40 PM" },
-    { kind: "you", text: "Do you take custom orders? Need 50 pieces by next month." },
-    { kind: "ai", text: "Bulk order enquiry · deadline next month" },
-    { kind: "auto", tool: "CRM", text: "Lead created with the order details" },
-    { kind: "auto", tool: "Team", text: "Sales notified · follow-up due 10 AM" },
-    { kind: "bot", text: "Thanks! Yes, we do. Could you share a design or reference? Our team will send a quote tomorrow morning." },
-    { kind: "done", text: "Answered in seconds — even after hours" },
+  "Instagram DM": [
+    { kind: "event", text: "Instagram DM · 9:40 PM" },
+    { kind: "you", text: "Hi! Is the weekend batch open? What's the fee?" },
+    { kind: "ai", text: "Admission enquiry · weekend batch · wants fee details" },
+    { kind: "auto", tool: "CRM", text: "Lead created and tagged 'Weekend batch'" },
+    { kind: "bot", text: "Thanks for reaching out! Yes, the weekend batch has seats. I've sent the fee details — want a call tomorrow at 11 AM?" },
+    { kind: "auto", tool: "Task", text: "Counsellor call-back scheduled" },
+    { kind: "auto", tool: "Team", text: "Counsellor notified" },
+    { kind: "done", text: "Answered at 9:40 PM — nobody was online" },
   ],
-  "Manual data entry": [
-    { kind: "event", text: "Supplier invoice arrives by email (PDF)" },
-    { kind: "ai", text: "Invoice found · supplier, amount, due date" },
-    { kind: "auto", tool: "Sheet", text: "Accounts sheet updated — nobody typed it" },
-    { kind: "auto", tool: "Task", text: "Payment reminder set 3 days before due" },
-    { kind: "auto", tool: "Team", text: "Accounts notified" },
-    { kind: "done", text: "Zero manual data entry" },
+  "Missed call": [
+    { kind: "event", text: "Missed call · 2:15 PM · front desk busy" },
+    { kind: "ai", text: "Unknown number · likely an appointment request" },
+    { kind: "bot", text: "Sorry we missed your call! Want to book a visit? Reply 1 for today, 2 for tomorrow." },
+    { kind: "you", text: "2" },
+    { kind: "ai", text: "Wants an appointment tomorrow" },
+    { kind: "auto", tool: "CRM", text: "Contact saved · slot held" },
+    { kind: "auto", tool: "Team", text: "Front desk notified" },
+    { kind: "done", text: "Booked without a single call-back" },
   ],
-  "Follow-up": [
+  "Website form": [
+    { kind: "event", text: "Website form · quote request" },
+    { kind: "you", text: "We need an annual maintenance quote for 3 offices in Lucknow." },
+    { kind: "ai", text: "Quote request · 3 offices · annual contract" },
+    { kind: "auto", tool: "CRM", text: "Lead created with the details" },
+    { kind: "bot", text: "Thanks! We've got your request and a team member will send the quote today. Could you share the office addresses?" },
+    { kind: "auto", tool: "Task", text: "Quote task assigned · due in 4 hours" },
+    { kind: "auto", tool: "Team", text: "Sales team notified" },
+    { kind: "done", text: "Lead captured and routed in seconds" },
+  ],
+  "After-hours WhatsApp": [
+    { kind: "event", text: "WhatsApp · 11:20 PM" },
+    { kind: "you", text: "Do you have a slot for my son's check-up this Saturday?" },
+    { kind: "ai", text: "Appointment request · Saturday" },
+    { kind: "auto", tool: "CRM", text: "Contact created" },
+    { kind: "bot", text: "Hi! We have 10:30 AM and 12 PM on Saturday. Which works for you?" },
+    { kind: "you", text: "10:30 works" },
+    { kind: "auto", tool: "Task", text: "Appointment booked · reminder set for Friday" },
+    { kind: "auto", tool: "Team", text: "Front desk sees it first thing in the morning" },
+    { kind: "done", text: "Booked overnight — nobody replied by hand" },
+  ],
+  "Quiet lead": [
     { kind: "event", text: "Quote sent 3 days ago · no reply" },
-    { kind: "ai", text: "Quote pending · customer gone quiet" },
+    { kind: "ai", text: "Quote pending · customer has gone quiet" },
     { kind: "bot", text: "Hi! Just checking in on the quote we sent. Happy to answer any questions or adjust it." },
-    { kind: "you", text: "Looks good. Can we start next week?" },
+    { kind: "you", text: "Looks good — can we start next week?" },
     { kind: "ai", text: "Ready to go ahead · wants to start next week" },
     { kind: "auto", tool: "CRM", text: "Deal moved to 'Won'" },
     { kind: "auto", tool: "Task", text: "Kick-off task created for the team" },
     { kind: "done", text: "No quote forgotten" },
   ],
-  "Team notification": [
-    { kind: "event", text: "Order marked urgent in the CRM" },
-    { kind: "ai", text: "Urgent order · must ship today" },
-    { kind: "auto", tool: "Task", text: "Dispatch task assigned to the warehouse" },
-    { kind: "auto", tool: "Team", text: "Team alerted on WhatsApp" },
-    { kind: "auto", tool: "Sheet", text: "Daily report updated" },
-    { kind: "done", text: "Everyone knows. Nobody had to chase." },
-  ],
-  "Customer request": [
-    { kind: "event", text: "WhatsApp message" },
-    { kind: "you", text: "Hi, can I get a copy of my last invoice?" },
-    { kind: "ai", text: "Document request · existing customer" },
-    { kind: "auto", tool: "CRM", text: "Customer found · last invoice attached" },
-    { kind: "bot", text: "Here's your latest invoice (PDF). Anything else I can help with?" },
-    { kind: "done", text: "Handled without pulling in your team" },
-  ],
 };
 const CHIPS = Object.keys(SCENARIOS);
 const TOOL_ICON = { CRM: Database, Sheet, Task: ListChecks, Team: Users } as const;
 
-// the four stages every run moves through, and which stage each kind of row belongs to
-const STAGES = ["Input", "AI", "Automation", "Action"] as const;
-const STAGE_OF: Record<Kind, number> = { event: 0, you: 0, ai: 1, auto: 2, bot: 3, done: 3 };
+// the four steps every run moves through (they light up on the left as the run progresses)
+const STEPS = [
+  { name: "Capture", line: "Every enquiry lands in one place.", Icon: Inbox },
+  { name: "Understand", line: "AI reads it and decides what's next.", Icon: Sparkles },
+  { name: "Act", line: "Replies, bookings and CRM updates run on their own.", Icon: Zap },
+  { name: "Report", line: "You see what came in and what happened.", Icon: ChartColumn },
+] as const;
+const STAGE_OF: Record<Kind, number> = { event: 0, you: 0, ai: 1, auto: 2, bot: 2, done: 3 };
 
 function ToolIcon({ tool }: { tool: Tool }) {
   const Icon = TOOL_ICON[tool];
@@ -123,8 +137,7 @@ export default function LiveDemoChat() {
     }, t - 500);
   };
 
-  const last = msgs[msgs.length - 1];
-  const stage = finished ? STAGES.length : last ? STAGE_OF[last.kind] : -1;
+  const stage = finished ? STEPS.length : msgs.reduce((m, x) => Math.max(m, STAGE_OF[x.kind]), -1);
 
   const reset = () => {
     clear();
@@ -132,28 +145,48 @@ export default function LiveDemoChat() {
   };
 
   return (
-    <Section id="try-it" className="overflow-x-clip bg-[#130d09]">
-      <Ambient className="-right-48 top-[8%] hidden h-[480px] w-[480px] md:block" />
-      <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <div>
-          <Reveal>
-            <span className="label inline-flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent/70" /> Live demo
-            </span>
-          </Reveal>
-          <Reveal delay={0.07}>
-            <h2 className="display mt-5 text-[clamp(2.1rem,3.9vw,3.4rem)] leading-[1] text-text">
-              <span className="mb-[0.18em] block text-[2.7em] leading-[0.86] tracking-[-0.045em] text-accent">Try</span> it in 30 seconds.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <p className="mt-6 max-w-[30rem] text-[16.5px] leading-[1.7] text-muted md:text-[17px]">
-              Pick a piece of everyday work and watch Flow HQ handle it: something comes in, AI works out what it is, the automation
-              runs, and the work gets done.{" "}
-              <span className="text-subtle">(Sample only — no real messages sent.)</span>
-            </p>
-          </Reveal>
-        </div>
+    <Section id="try-it" className="overflow-x-clip">
+      <SectionHeading
+        eyebrow="The system"
+        title="One system. Four steps."
+        sub={
+          <>
+            Pick a real situation and watch it run. <span className="text-subtle">(Sample only — no real messages sent.)</span>
+          </>
+        }
+      />
+      <div className="mt-10 grid items-start gap-8 md:mt-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <ol className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-2">
+          {STEPS.map(({ name, line, Icon }, i) => {
+            const state = stage === i ? "active" : stage > i ? "done" : "idle";
+            return (
+              <li
+                key={name}
+                aria-current={state === "active" ? "step" : undefined}
+                className={cn(
+                  "flex min-w-0 flex-col gap-3 rounded-2xl border p-4 transition-colors duration-300 lg:flex-row lg:gap-4 lg:p-5",
+                  state === "active" ? "border-accent/50 bg-accent/[0.06]" : "border-border bg-surface/40"
+                )}
+              >
+                <span
+                  className={cn(
+                    "grid h-10 w-10 shrink-0 place-items-center rounded-xl border transition-colors duration-300",
+                    state === "idle" ? "border-border-bright text-muted" : "border-accent/50 text-accent-2"
+                  )}
+                >
+                  {state === "done" ? <Check aria-hidden className="h-5 w-5" strokeWidth={2.5} /> : <Icon aria-hidden className="h-5 w-5" />}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-[16px] font-semibold leading-tight text-text">
+                    <span className="label mr-2 text-[10px] font-normal text-subtle">0{i + 1}</span>
+                    {name}
+                  </div>
+                  <p className="mt-1 text-[14px] leading-[1.5] text-muted">{line}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
 
         <Reveal y={28}>
           <div className="glass mx-auto w-full max-w-[470px] overflow-hidden rounded-[28px]">
@@ -199,39 +232,12 @@ export default function LiveDemoChat() {
               </div>
             </div>
 
-            {/* where the run is: input → AI → automation → action */}
-            <ol aria-hidden className="flex items-center gap-1.5 border-b border-border bg-bg/40 px-4 py-2.5">
-              {STAGES.map((st, i) => {
-                const lit = stage >= i;
-                return (
-                  <li key={st} className={cn("flex items-center gap-1.5", i < STAGES.length - 1 && "flex-1")}>
-                    <span
-                      className={cn(
-                        "label whitespace-nowrap text-[9.5px] transition-colors duration-300",
-                        stage === i ? "text-accent-2" : lit ? "text-text/80" : "text-subtle/70"
-                      )}
-                    >
-                      {st}
-                    </span>
-                    {i < STAGES.length - 1 && (
-                      <span className="relative h-px flex-1 bg-border-bright">
-                        <span
-                          className="absolute inset-0 origin-left bg-accent transition-transform duration-500"
-                          style={{ transform: `scaleX(${stage > i ? 1 : 0})` }}
-                        />
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
-
             <div
               ref={box}
               role="log"
               aria-live="polite"
               aria-label="Sample conversation"
-              className="no-scrollbar flex h-[420px] flex-col gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
+              className="no-scrollbar flex h-[360px] flex-col lg:h-[400px] gap-2.5 overflow-y-auto overscroll-contain bg-bg/60 p-4"
             >
               {!scenario && (
                 <p className="m-auto max-w-[26ch] text-center text-[14.5px] leading-[1.6] text-subtle">

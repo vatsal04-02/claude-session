@@ -74,12 +74,13 @@ function Coin({ flip }: { flip: boolean }) {
   );
 }
 
-export default function RoiCalculator() {
-  const [hours, setHours] = useState(15);
-  const [rate, setRate] = useState(300);
-  const [enq, setEnq] = useState(40);
-  const [ignored, setIgnored] = useState(30);
-  const [avg, setAvg] = useState(5000);
+/** Defaults describe a small local business: 5 h/week of repetitive work at ₹200/h, 20 enquiries a week, 20% missed, ₹2,000 per customer. */
+export default function RoiCalculator({ auditHref = "#audit", heading = true }: { auditHref?: string; heading?: boolean }) {
+  const [hours, setHours] = useState(5);
+  const [rate, setRate] = useState(200);
+  const [enq, setEnq] = useState(20);
+  const [ignored, setIgnored] = useState(20);
+  const [avg, setAvg] = useState(2000);
 
   // manual_work = hours_per_week × 4.33 × cost_per_hour
   const manual = hours * 4.33 * rate;
@@ -120,13 +121,15 @@ export default function RoiCalculator() {
   return (
     <Section id="calculator" grid="soft" className="overflow-x-clip bg-[#140d09]">
       <Ambient className="-left-48 top-[30%] hidden h-[520px] w-[520px] md:block" />
-      <SectionHeading
-        eyebrow="Cost of manual work"
-        title="How much is manual work costing you?"
-        sub="Two costs hide in most businesses: hours spent on repetitive work, and opportunities lost because nobody got to them in time. Drag the sliders. (Estimate — your real number comes from the free audit.)"
-      />
+      {heading && (
+        <SectionHeading
+          eyebrow="Cost of manual work"
+          title="How much is manual work costing you?"
+          sub="Two costs hide in most businesses: hours spent on repetitive work, and opportunities lost because nobody got to them in time. Drag the sliders. (Estimate — your real number comes from the free audit.)"
+        />
+      )}
 
-      <div className="mt-10 grid items-stretch gap-5 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6">
+      <div className={heading ? "mt-10 grid items-stretch gap-5 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6" : "grid items-stretch gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6"}>
         <Reveal className="glass space-y-7 rounded-[24px] p-6 md:p-8">
           <div className="label text-[10.5px] text-accent-2">Manual work</div>
           <Slider
@@ -222,7 +225,7 @@ export default function RoiCalculator() {
               <dt className="border-t border-border pt-1.5 text-muted">Hours your team could get back</dt>
               <dd className="border-t border-border pt-1.5 text-right tabular-nums text-accent-2">~{hoursBack} h / month</dd>
             </dl>
-            <Button href="#audit">Find your real number</Button>
+            <Button href={auditHref}>Find your real number</Button>
           </motion.div>
         </div>
       </div>
