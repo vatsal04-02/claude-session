@@ -1,4 +1,4 @@
-import { INSTAGRAM_URL } from "./site";
+import { CONTACT_EMAIL, INSTAGRAM_URL, LINKEDIN_URL, YOUTUBE_URL } from "./site";
 import { SITE_URL } from "./config";
 import { WHATSAPP_NUMBER } from "./whatsapp";
 
@@ -35,8 +35,9 @@ export const organization = {
     "WhatsApp Business API",
     "n8n",
   ],
-  contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: phone, areaServed: "IN" },
-  sameAs: [INSTAGRAM_URL],
+  email: CONTACT_EMAIL,
+  contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: phone, email: CONTACT_EMAIL, areaServed: "IN" },
+  sameAs: [INSTAGRAM_URL, YOUTUBE_URL, LINKEDIN_URL],
 };
 
 export const website = {

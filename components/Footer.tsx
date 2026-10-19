@@ -1,10 +1,11 @@
-import { INSTAGRAM_URL, NAV_LINKS } from "@/lib/site";
+import { CONTACT_EMAIL, INSTAGRAM_URL, LINKEDIN_URL, NAV_LINKS, YOUTUBE_URL } from "@/lib/site";
 import { INDUSTRIES } from "@/lib/industries";
 import { CLUSTERS, getResource } from "@/lib/resources";
 import { SERVICES } from "@/lib/services";
 import { WA_LINK } from "@/lib/whatsapp";
 import { Instagram } from "./channels";
 import Logo from "./Logo";
+import { Linkedin, Youtube } from "./social-icons";
 import { Button } from "./ui";
 import { CONTAINER } from "@/lib/layout";
 
@@ -94,14 +95,28 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
           <Button variant="whatsapp" {...WA_LINK} className="mt-4 w-full">
             Chat on WhatsApp
           </Button>
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-border-bright text-[14px] font-medium text-text transition-colors hover:border-accent/60 hover:text-accent"
-          >
-            <Instagram className="h-4 w-4" /> Follow on Instagram
+          <a href={`mailto:${CONTACT_EMAIL}`} className="mt-3 inline-flex min-h-11 w-full items-center break-all text-[14px] text-text transition-colors hover:text-accent">
+            {CONTACT_EMAIL}
           </a>
+          <ul className="mt-1 flex gap-2">
+            {[
+              { name: "Instagram", href: INSTAGRAM_URL, Icon: Instagram },
+              { name: "YouTube", href: YOUTUBE_URL, Icon: Youtube },
+              { name: "LinkedIn", href: LINKEDIN_URL, Icon: Linkedin },
+            ].map(({ name, href, Icon }) => (
+              <li key={name}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Flow HQ on ${name}`}
+                  className="grid h-11 w-11 place-items-center rounded-full border border-border-bright text-muted transition-colors hover:border-accent/60 hover:text-accent"
+                >
+                  <Icon className="h-[18px] w-[18px]" />
+                </a>
+              </li>
+            ))}
+          </ul>
           <p className="mt-4 text-[14.5px] text-muted">Lucknow, India</p>
         </div>
       </div>

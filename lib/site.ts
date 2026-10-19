@@ -12,5 +12,8 @@ export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "FAQ", href: "#faq" },
 ];
 
-/** Flow HQ on Instagram (footer link + Organization structured data `sameAs`). */
+/** Social profiles (footer links + Organization structured data `sameAs`) and the public contact email. */
 export const INSTAGRAM_URL = "https://www.instagram.com/flowhq.in/";
+export const YOUTUBE_URL = "https://www.youtube.com/@FlowHQ_in";
+export const LINKEDIN_URL = "https://www.linkedin.com/company/flowhqin/";
+export const CONTACT_EMAIL = "flowhqofficial@gmail.com";
