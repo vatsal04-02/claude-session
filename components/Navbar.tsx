@@ -84,10 +84,10 @@ export default function Navbar({ base = "" }: { base?: "" | "/" }) {
                       href={`${base}${l.href}`}
                       aria-current={on ? "location" : undefined}
                       className={cn(
-                        "relative inline-flex h-10 items-center px-3.5 text-[13.5px] tracking-[0.005em] transition-[color,transform,text-shadow] duration-200 ease-out hover:-translate-y-px xl:px-4",
+                        "relative inline-flex h-10 items-center px-3.5 text-[14px] tracking-[0.005em] transition-[color,transform,text-shadow] duration-200 ease-out hover:-translate-y-px xl:px-4",
                         on
                           ? "text-accent-2 [text-shadow:0_0_14px_rgba(234,106,47,0.35)]"
-                          : "text-text/75 hover:text-text hover:[text-shadow:0_0_14px_rgba(234,106,47,0.22)]"
+                          : "text-[#B9B9C0] hover:text-text hover:[text-shadow:0_0_14px_rgba(234,106,47,0.22)]"
                       )}
                     >
                       {l.label}
