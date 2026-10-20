@@ -10,6 +10,7 @@ import LiveDemoChat from "@/components/LiveDemoChat";
 import Navbar from "@/components/Navbar";
 import Packages from "@/components/Packages";
 import Problem from "@/components/Problem";
+import Reviews from "@/components/Reviews";
 import Socials from "@/components/Socials";
 import ProofStrip from "@/components/ProofStrip";
 import { ScrollProgress } from "@/components/ui";
@@ -25,7 +26,7 @@ export const metadata = pageMetadata({
   socialTitle: "Flow HQ — Never lose a lead again.",
 });
 
-/* Section order: hero → integrations → proof → problem → features (bento) → the system (demo) → work → packages → founders → social links → FAQ → closing CTA + audit form.
+/* Section order: hero → integrations → proof → problem → features (bento) → the system (demo) → reviews → work → packages → founders → social links → FAQ → closing CTA + audit form.
    Proof and Work render nothing in production until their content in lib/content.ts is filled. */
 export default function Home() {
   return (
@@ -40,6 +41,7 @@ export default function Home() {
         <Problem />
         <Features />
         <LiveDemoChat />
+        <Reviews />
         <CaseStudies />
         <Packages />
         <Founder />

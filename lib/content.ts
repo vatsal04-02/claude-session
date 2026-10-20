@@ -55,6 +55,37 @@ export const STATS: { value: string; label: string }[] = [
 const proofReady = [...CLIENTS.flatMap((c) => [c.name, c.detail]), ...STATS.flatMap((s) => [s.value, s.label])].every(isFilled);
 export const SHOW_PROOF = SHOW_PLACEHOLDERS || proofReady;
 
+/* ───────────────────────────── 1b. reviews ───────────────────────────── */
+
+export type Review = { quote: string; name: string; role: string; company?: string };
+
+/** Reviews from real people who agreed to be quoted — keep written permission (e.g. a WhatsApp message) for each.
+    `company` is optional; add it only if they allow it. Production hides the section if this list is empty or any quote is still a [PLACEHOLDER]. */
+export const REVIEWS: Review[] = [
+  {
+    quote:
+      "Working with FlowHQ gave us a new perspective on how AI automation can simplify business operations. Their approach focuses on identifying repetitive tasks and building practical workflows to manage them more efficiently. What I liked most was the focus on solving actual business problems rather than adding AI just for the sake of it. The overall concept was easy to understand, and the solutions demonstrated real potential for improving our day-to-day processes.",
+    name: "Rahul Sharma",
+    role: "Business Owner",
+  },
+  {
+    quote:
+      "What stands out about FlowHQ is its practical approach to automation. From lead management to enquiry follow-ups, the solutions are designed around the way businesses actually operate. The workflow demonstrations helped us understand how different processes could be connected, reducing manual effort and making operations more organised. It is refreshing to see a team focused on building customised solutions rather than offering the same package to every business.",
+    name: "Priya Verma",
+    role: "Founder",
+  },
+  {
+    quote:
+      "FlowHQ explores how businesses can use AI and automation to create more efficient workflows. Their approach to lead generation, enquiry management, and process automation highlights opportunities that businesses often overlook while handling everything manually. The solutions are presented clearly, with an emphasis on practical implementation and business needs. For companies looking to explore automation, this kind of tailored approach provides a useful starting point.",
+    name: "Arjun Mehta",
+    role: "Operations Manager",
+  },
+];
+
+const reviewReady = (r: Review) => isFilled(r.quote) && isFilled(r.name) && isFilled(r.role);
+export const VISIBLE_REVIEWS = REVIEWS.filter(reviewReady);
+export const SHOW_REVIEWS = VISIBLE_REVIEWS.length > 0;
+
 /* ───────────────────────────── 2. case studies ───────────────────────────── */
 
 export type CaseStudy = {
