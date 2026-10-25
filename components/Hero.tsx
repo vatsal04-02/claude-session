@@ -81,7 +81,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-6 grid gap-8 border-t border-border pt-8 md:mt-10 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
-          <p className="hero-rise max-w-[38rem] text-[17px] leading-[1.6] text-muted md:text-[20px] md:leading-[1.55]" style={rd(0.15)}>
+          <p id="hero-summary" className="hero-rise max-w-[38rem] text-[17px] leading-[1.6] text-muted md:text-[20px] md:leading-[1.55]" style={rd(0.15)}>
             We build AI systems that capture every enquiry from your website, WhatsApp, Instagram and calls — then{" "}
             <span className="text-text">follow up, book, and update your CRM</span> on their own.
           </p>

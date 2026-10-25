@@ -15,13 +15,16 @@ import Socials from "@/components/Socials";
 import ProofStrip from "@/components/ProofStrip";
 import { ScrollProgress } from "@/components/ui";
 import { HOME_FAQS } from "@/lib/faq";
-import { faqPage, JsonLd } from "@/lib/schema";
+import { faqPage, JsonLd, webPage } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
+const TITLE = "Flow HQ | AI Lead Capture & Follow-up Automation, Lucknow";
+const DESCRIPTION =
+  "AI systems that capture leads from your website, WhatsApp, Instagram, calls and email — then follow up, book and update your CRM. Built in Lucknow.";
+
 export const metadata = pageMetadata({
-  title: "Flow HQ | AI Lead Capture & Follow-up Automation, Lucknow",
-  description:
-    "AI systems that capture leads from your website, WhatsApp, Instagram, calls and email — then follow up, book and update your CRM. Built in Lucknow.",
+  title: TITLE,
+  description: DESCRIPTION,
   path: "/",
   socialTitle: "Flow HQ — Never lose a lead again.",
 });
@@ -31,7 +34,7 @@ export const metadata = pageMetadata({
 export default function Home() {
   return (
     <>
-      <JsonLd graph={[faqPage(HOME_FAQS, "/")]} />
+      <JsonLd graph={[webPage({ path: "/", name: TITLE, description: DESCRIPTION, speakable: ["#hero-summary", "#faq-0"] }), faqPage(HOME_FAQS, "/")]} />
       <ScrollProgress />
       <Navbar />
       <main id="main">

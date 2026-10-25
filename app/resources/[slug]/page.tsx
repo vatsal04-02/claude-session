@@ -39,7 +39,7 @@ export default async function Page({ params }: Props) {
     <Shell>
       <JsonLd
         graph={[
-          article({ title: r.title, description: r.description, path, datePublished: r.published, dateModified: r.updated }),
+          article({ title: r.title, description: r.description, path, datePublished: r.published, dateModified: r.updated, abstract: r.summary, section: cluster.name }),
           breadcrumbs([
             { name: "Home", path: "/" },
             { name: "Resources", path: "/resources/" },
@@ -53,7 +53,7 @@ export default async function Page({ params }: Props) {
           <div className="relative mx-auto w-full max-w-[780px]">
             <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Resources", href: "/resources/" }, { name: r.pillar ? "Guide" : "Article" }]} />
             <Eyebrow>{r.pillar ? `Guide · ${cluster.name}` : cluster.name}</Eyebrow>
-            <h1 className="display mt-5 text-balance text-[clamp(2.1rem,4.4vw,3.4rem)] text-text" style={{ fontWeight: 760, lineHeight: 1.08 }}>
+            <h1 className="display mt-6 text-balance text-[clamp(2.4rem,5.4vw,4.2rem)] text-text" style={{ lineHeight: 1, letterSpacing: "-0.045em" }}>
               {r.title}
             </h1>
             <p className="label mt-6 text-[10.5px] text-subtle">
@@ -64,7 +64,7 @@ export default async function Page({ params }: Props) {
 
         <div className="px-5 pb-20 md:px-8 md:pb-28">
           <div className="relative mx-auto w-full max-w-[780px]">
-            <div className="rounded-2xl border border-accent/30 bg-accent/[0.05] p-6 md:p-7">
+            <div id="short-answer" className="theme-ink rounded-[24px] p-6 md:p-8">
               <div className="label text-[10px] text-accent">The short answer</div>
               <p className="mt-2 text-[17px] leading-[1.7] text-text">{r.summary}</p>
             </div>

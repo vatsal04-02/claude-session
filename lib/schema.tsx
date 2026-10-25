@@ -1,11 +1,30 @@
 import { CONTACT_EMAIL, INSTAGRAM_URL, LINKEDIN_URL, YOUTUBE_URL } from "./site";
 import { SITE_URL } from "./config";
+import { SERVICES } from "./services";
 import { WHATSAPP_NUMBER } from "./whatsapp";
 
 /* schema.org JSON-LD. Only facts that are true and visible on the site. */
 export const ORG_ID = `${SITE_URL}/#organization`;
 
 const phone = `+${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2, 7)} ${WHATSAPP_NUMBER.slice(7)}`;
+
+/** One-line definition, used verbatim in the Organization data, llms.txt and the homepage FAQ so every source agrees. */
+export const ORG_DEFINITION =
+  "Flow HQ is an AI automation studio in Lucknow, India. It builds AI systems that capture enquiries from a business's website, WhatsApp, Instagram, calls and email, then reply, follow up, book appointments and update the CRM automatically.";
+
+/** The founders as their own entities (referenced by @id from the Organization). */
+export const FOUNDERS = [
+  { id: `${SITE_URL}/#prachi-pathak`, name: "Prachi Pathak", image: `${SITE_URL}/founder-prachi.webp` },
+  { id: `${SITE_URL}/#vatsal-tripathi`, name: "Vatsal Tripathi", image: `${SITE_URL}/founder-vatsal.webp` },
+].map((f) => ({
+  "@type": "Person",
+  "@id": f.id,
+  name: f.name,
+  jobTitle: "Co-founder",
+  image: f.image,
+  worksFor: { "@id": `${SITE_URL}/#organization` },
+  homeLocation: { "@type": "Place", name: "Lucknow, Uttar Pradesh, India" },
+}));
 
 export const organization = {
   "@type": "ProfessionalService",
@@ -15,17 +34,17 @@ export const organization = {
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-image.png`,
-  slogan: "Built To Automate.",
-  description:
-    "Flow HQ is a custom AI and automation studio. We map a business's repetitive work, connect the tools it already uses and put its operations on autopilot — less manual work, more capacity for growth. Based in Lucknow, India.",
+  slogan: "Not just AI. Systems that work.",
+  description: ORG_DEFINITION,
   telephone: phone,
   address: { "@type": "PostalAddress", addressLocality: "Lucknow", addressRegion: "Uttar Pradesh", addressCountry: "IN" },
   areaServed: { "@type": "Country", name: "India" },
-  founder: [
-    { "@type": "Person", name: "Prachi Pathak" },
-    { "@type": "Person", name: "Vatsal Tripathi" },
-  ],
+  foundingLocation: { "@type": "Place", name: "Lucknow, Uttar Pradesh, India" },
+  founder: FOUNDERS.map((f) => ({ "@id": f["@id"] })),
   knowsAbout: [
+    "Lead capture automation",
+    "Lead follow-up automation",
+    "Appointment booking automation",
     "AI automation",
     "AI workflow automation",
     "Business process automation",
@@ -38,7 +57,31 @@ export const organization = {
   email: CONTACT_EMAIL,
   contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: phone, email: CONTACT_EMAIL, areaServed: "IN" },
   sameAs: [INSTAGRAM_URL, YOUTUBE_URL, LINKEDIN_URL],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "AI automation services",
+    itemListElement: SERVICES.map((sv) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", "@id": `${SITE_URL}/${sv.slug}/#service`, name: sv.schema.name, url: `${SITE_URL}/${sv.slug}/` },
+    })),
+  },
 };
+
+/** A page node. `speakable` points voice assistants / answer engines at the passages that answer the page's question. */
+export function webPage(p: { path: string; name: string; description: string; speakable?: string[] }) {
+  return {
+    "@type": "WebPage",
+    "@id": `${SITE_URL}${p.path}#webpage`,
+    url: `${SITE_URL}${p.path}`,
+    name: p.name,
+    description: p.description,
+    inLanguage: "en-IN",
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": ORG_ID },
+    primaryImageOfPage: { "@type": "ImageObject", url: `${SITE_URL}/og-image.png`, width: 1200, height: 630 },
+    ...(p.speakable ? { speakable: { "@type": "SpeakableSpecification", cssSelector: p.speakable } } : {}),
+  };
+}
 
 export const website = {
   "@type": "WebSite",
@@ -78,7 +121,7 @@ export function service(s: { name: string; serviceType: string; description: str
   };
 }
 
-export function article(a: { title: string; description: string; path: string; datePublished: string; dateModified: string }) {
+export function article(a: { title: string; description: string; path: string; datePublished: string; dateModified: string; abstract?: string; section?: string }) {
   return {
     "@type": "Article",
     "@id": `${SITE_URL}${a.path}#article`,
@@ -92,6 +135,11 @@ export function article(a: { title: string; description: string; path: string; d
     image: `${SITE_URL}/og-image.png`,
     author: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    ...(a.abstract ? { abstract: a.abstract } : {}),
+    ...(a.section ? { articleSection: a.section } : {}),
+    // the short answer is the passage to read aloud / quote
+    speakable: { "@type": "SpeakableSpecification", cssSelector: ["#short-answer"] },
   };
 }
 

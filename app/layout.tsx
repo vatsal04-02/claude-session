@@ -10,7 +10,7 @@ import "@fontsource-variable/bricolage-grotesque/opsz.css";
 import "@fontsource/instrument-serif/latin-400-italic.css";
 import "./globals.css";
 import { ON_VERCEL, SITE_URL } from "@/lib/config";
-import { JsonLd, organization, website } from "@/lib/schema";
+import { FOUNDERS, JsonLd, organization, website } from "@/lib/schema";
 import { OG_IMAGE, SITE_NAME } from "@/lib/seo";
 
 /* Site-wide defaults. Every page sets its own title, description and canonical via lib/seo.ts. */
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-IN" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
-        <JsonLd graph={[organization, website]} />
+        <JsonLd graph={[organization, website, ...FOUNDERS]} />
       </head>
       <body>
         <a href="#main" className="skip-link">Skip to content</a>
