@@ -2,7 +2,8 @@ import { Check } from "lucide-react";
 import { monthlyLine, PACKAGES, POPULAR_TAG, priceLine } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import Slot from "./Slot";
-import { Button, Reveal, SectionHeading } from "./ui";
+import { Rise3D } from "./motion-fx";
+import { Button, SectionHeading } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
 /** Pricing: three tiers (setup + optional monthly care plan); the featured tier sits in ink. Prices come from lib/content.ts; until set, production shows "Get a quote". */
@@ -27,7 +28,10 @@ export default function Packages() {
             const hot = !!p.featured;
             return (
               <li key={p.name} className="relative">
-                <Reveal delay={i * 0.06} className={cn("flex h-full flex-col rounded-[24px] p-6 md:p-8", hot ? "theme-ink lg:-my-4 lg:py-12" : "border border-border bg-surface")}>
+                {/* the featured tier gets a stacked sheet behind it */}
+                {hot && <div aria-hidden className="absolute inset-0 hidden translate-x-3 translate-y-3 rotate-[2deg] rounded-[24px] bg-signal lg:-inset-y-4 lg:block" />}
+                <Rise3D delay={i * 0.08} className="relative h-full">
+                <div className={cn("elev elev-hover flex h-full flex-col rounded-[24px] p-6 md:p-8", hot ? "theme-ink lg:-my-4 lg:h-[calc(100%+2rem)] lg:py-12" : "border border-border bg-surface")}>
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-mono text-[12px] text-subtle">0{i + 1}</span>
                     {hot && POPULAR_TAG && <span className="rounded-full bg-signal px-3 py-1.5 text-[11.5px] font-semibold leading-none text-ink">{POPULAR_TAG}</span>}
@@ -60,7 +64,8 @@ export default function Packages() {
                   <Button href="#audit" size="lg" variant={hot ? "primary" : "ghost"} className="mt-8 w-full">
                     Get started
                   </Button>
-                </Reveal>
+                </div>
+                </Rise3D>
               </li>
             );
           })}

@@ -30,6 +30,23 @@ export default function IntegrationsStrip() {
           {set(true)}
         </div>
       </div>
+      {/* second row: the four steps in outlined type, running the other way (decorative) */}
+      <div aria-hidden className="relative overflow-hidden py-5 md:py-7 motion-reduce:hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
+        <div className="flex w-max animate-[marquee-rev_46s_linear_infinite]">
+          {[0, 1].map((k) => (
+            <div key={k} className="flex shrink-0 items-center gap-10 pr-10 md:gap-14 md:pr-14">
+              {["Capture", "Understand", "Act", "Report", "Capture", "Understand", "Act", "Report"].map((w, i) => (
+                <span key={i} className="flex items-center gap-10 md:gap-14">
+                  <span className={`display whitespace-nowrap text-[44px] md:text-[72px] ${i % 4 === 2 ? "text-signal" : "text-outline"}`} style={{ letterSpacing: "-0.045em", lineHeight: 1 }}>
+                    {w}
+                  </span>
+                  <span className="h-3 w-3 rotate-45 rounded-[2px] bg-text md:h-4 md:w-4" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

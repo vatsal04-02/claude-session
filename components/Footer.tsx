@@ -6,6 +6,7 @@ import { WA_LINK } from "@/lib/whatsapp";
 import { Instagram } from "./channels";
 import Logo from "./Logo";
 import { Linkedin, Youtube } from "./social-icons";
+import { Parallax } from "./motion-fx";
 import { Button } from "./ui";
 import { CONTAINER } from "@/lib/layout";
 
@@ -136,9 +137,11 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
 
       {/* oversized wordmark, cropped by the page edge */}
       <div aria-hidden className="pointer-events-none select-none overflow-hidden">
-        <div className="display -mb-[0.2em] whitespace-nowrap text-center text-[25vw] leading-[0.8] text-text/[0.08]" style={{ letterSpacing: "-0.07em" }}>
-          Flow HQ
-        </div>
+        <Parallax speed={-50}>
+          <div className="display -mb-[0.2em] whitespace-nowrap text-center text-[25vw] leading-[0.8] text-text/[0.08]" style={{ letterSpacing: "-0.07em" }}>
+            Flow HQ
+          </div>
+        </Parallax>
       </div>
     </footer>
   );

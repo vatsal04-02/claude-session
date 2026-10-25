@@ -1,6 +1,7 @@
 import { VISIBLE_REVIEWS } from "@/lib/content";
 import { BAND, CONTAINER } from "@/lib/layout";
-import { Reveal, SectionHeading } from "./ui";
+import { Rise3D } from "./motion-fx";
+import { SectionHeading } from "./ui";
 
 /** Client reviews from lib/content.ts (production shows only finished ones). No star ratings: we don't invent scores. */
 export default function Reviews() {
@@ -25,7 +26,10 @@ export default function Reviews() {
         >
           {VISIBLE_REVIEWS.map((r, i) => (
             <li key={r.name} className="w-[86%] shrink-0 snap-start md:w-auto">
-              <Reveal delay={i * 0.06} className={`flex h-full flex-col rounded-[24px] p-6 md:p-8 ${i === 1 ? "theme-ink" : "border border-border bg-surface"}`}>
+              <Rise3D delay={i * 0.08} className="h-full">
+              <div
+                className={`elev elev-hover flex h-full flex-col rounded-[24px] p-6 md:p-8 md:hover:!rotate-0 ${i === 1 ? "theme-ink md:translate-y-6 md:rotate-[1.2deg]" : `border border-border bg-surface ${i === 0 ? "md:rotate-[-1.2deg]" : "md:rotate-[0.8deg]"}`}`}
+              >
                 <figure className="flex h-full flex-col">
                   <span aria-hidden className="font-serif text-[88px] italic leading-[0.6] text-signal">“</span>
                   <blockquote className="mt-4 flex-1 text-[15.5px] leading-[1.7] text-text md:text-[16px]">{r.quote}</blockquote>
@@ -42,7 +46,8 @@ export default function Reviews() {
                     </span>
                   </figcaption>
                 </figure>
-              </Reveal>
+              </div>
+              </Rise3D>
             </li>
           ))}
         </ul>

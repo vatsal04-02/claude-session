@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { FOUNDER_NUMBERS, FOUNDER_PREFILL, waUrl } from "@/lib/whatsapp";
+import { Parallax } from "./motion-fx";
 import { Reveal } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
@@ -23,8 +24,9 @@ export default function Founder() {
         <Reveal>
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             {FOUNDERS.map((f, i) => (
-              <figure key={f.name} className={i === 1 ? "mt-10 md:mt-16" : undefined}>
-                <div className="founder-photo relative aspect-[3/4] overflow-hidden rounded-[24px] bg-surface-2">
+              <Parallax key={f.name} speed={i === 0 ? 20 : -20}>
+              <figure className={i === 1 ? "mt-10 md:mt-16" : undefined}>
+                <div className="founder-photo elev relative aspect-[3/4] overflow-hidden rounded-[24px] bg-surface-2">
                   <img
                     src={f.photo}
                     srcSet={`${f.photo.replace(".webp", "-520.webp")} 520w, ${f.photo} 900w`}
@@ -53,6 +55,7 @@ export default function Founder() {
                   </a>
                 </figcaption>
               </figure>
+              </Parallax>
             ))}
           </div>
         </Reveal>

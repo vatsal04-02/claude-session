@@ -17,6 +17,7 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { BAND, CONTAINER } from "@/lib/layout";
+import { WordsReveal } from "./motion-fx";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -181,16 +182,14 @@ export function SectionHeading({
           {eyebrow}
         </span>
       </Reveal>
-      <Reveal delay={0.07}>
-        <h2
-          className={cn(
-            "display mt-5 text-balance text-text",
-            size === "md" ? "text-[clamp(2.4rem,6vw,5rem)]" : "text-[clamp(2rem,4.2vw,3.4rem)]"
-          )}
-        >
-          {title}
-        </h2>
-      </Reveal>
+      <h2
+        className={cn(
+          "display mt-5 text-balance text-text",
+          size === "md" ? "text-[clamp(2.4rem,6vw,5rem)]" : "text-[clamp(2rem,4.2vw,3.4rem)]"
+        )}
+      >
+        <WordsReveal>{title}</WordsReveal>
+      </h2>
       {sub && (
         <Reveal delay={0.14}>
           <div className="mt-5 max-w-[36rem] text-[16px] leading-[1.65] text-muted md:text-[18px]">{sub}</div>
@@ -315,9 +314,9 @@ export function Button({
     "group relative inline-flex cursor-pointer items-center justify-center gap-2.5 overflow-hidden rounded-full font-semibold tracking-[-0.01em] whitespace-nowrap transition-[transform,box-shadow,border-color,background-color,color] duration-200 active:scale-[0.97]",
     size === "md" ? "h-11 px-5 text-[14.5px]" : "h-[52px] px-7 text-[15.5px]",
     variant === "primary"
-      ? "bg-signal text-on-signal shadow-[inset_0_-2px_0_rgba(0,0,0,0.12)] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_rgba(255,95,21,0.75)]"
+      ? "btn-shine bg-signal text-on-signal shadow-[inset_0_-2px_0_rgba(0,0,0,0.12),0_8px_20px_-12px_rgba(255,95,21,0.8)] hover:-translate-y-0.5 hover:shadow-[inset_0_-2px_0_rgba(0,0,0,0.12),0_18px_36px_-14px_rgba(255,95,21,0.85)]"
       : variant === "ink"
-      ? "bg-text text-bg hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-14px_rgba(23,18,14,0.6)]"
+      ? "btn-shine bg-text text-bg hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-14px_rgba(23,18,14,0.6)]"
       : variant === "whatsapp"
       ? "border border-border-bright text-text hover:-translate-y-0.5 hover:border-[#1a9e4b] hover:bg-[#25D366]/10 hover:text-[#147a3a]"
       : "border border-border-bright text-text hover:border-text hover:bg-text hover:text-bg",

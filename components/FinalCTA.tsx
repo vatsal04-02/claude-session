@@ -4,7 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { BOOKING_URL, PRIMARY_CTA } from "@/lib/content";
 import { WA_LINK } from "@/lib/whatsapp";
 import AuditForm from "./AuditForm";
-import { Button, Reveal } from "./ui";
+import { Parallax } from "./motion-fx";
+import { Button, Magnetic, Reveal } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
 /** Closing band: the one orange band on the page, with the audit form on a paper card. Every "free audit" CTA lands here (#audit). */
@@ -12,6 +13,13 @@ export default function FinalCTA() {
   return (
     <section id="audit" className={`theme-signal relative overflow-hidden ${BAND}`}>
       <div aria-hidden className="grain" />
+      {/* depth: ink rings drifting at two speeds behind the copy */}
+      <Parallax speed={80} className="pointer-events-none absolute -left-24 -top-24 h-[420px] w-[420px] md:h-[620px] md:w-[620px]">
+        <div aria-hidden className="h-full w-full rounded-full border-[2px] border-ink/15" />
+      </Parallax>
+      <Parallax speed={40} className="pointer-events-none absolute -bottom-40 left-[30%] hidden h-[380px] w-[380px] md:block">
+        <div aria-hidden className="h-full w-full rounded-full bg-ink/[0.06]" />
+      </Parallax>
       <div className={`${CONTAINER} relative grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16`}>
         <Reveal>
           <span className="kicker [&::before]:!bg-ink">Get started</span>
@@ -27,9 +35,11 @@ export default function FinalCTA() {
                 {PRIMARY_CTA.label}
               </Button>
             ) : null}
-            <Button size="lg" variant="ink" arrow={<ArrowRight className="h-4 w-4" />} {...WA_LINK} className="w-full sm:w-auto">
-              Chat on WhatsApp
-            </Button>
+            <Magnetic strength={0.3} max={10} className="w-full sm:w-auto">
+              <Button size="lg" variant="ink" arrow={<ArrowRight className="h-4 w-4" />} {...WA_LINK} className="w-full sm:w-auto">
+                Chat on WhatsApp
+              </Button>
+            </Magnetic>
           </div>
           <a
             href="/calculator/"

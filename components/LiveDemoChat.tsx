@@ -4,7 +4,9 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChartColumn, Check, Database, Inbox, ListChecks, RotateCcw, Sheet, Sparkles, Users, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { EASE, Reveal, Section, SectionHeading, StatusDot } from "./ui";
+import { BAND, CONTAINER } from "@/lib/layout";
+import { Curtain } from "./motion-fx";
+import { EASE, Reveal, SectionHeading, StatusDot } from "./ui";
 
 type Tool = "CRM" | "Sheet" | "Task" | "Team";
 type Kind = "event" | "you" | "ai" | "auto" | "bot" | "done";
@@ -145,7 +147,8 @@ export default function LiveDemoChat() {
   };
 
   return (
-    <Section id="try-it" className="theme-ink overflow-x-clip !border-t-0">
+    <Curtain id="try-it" className={`theme-ink overflow-x-clip ${BAND}`}>
+      <div className={CONTAINER}>
       <SectionHeading
         index="03"
         eyebrow="The system"
@@ -326,6 +329,7 @@ export default function LiveDemoChat() {
           </div>
         </Reveal>
       </div>
-    </Section>
+      </div>
+    </Curtain>
   );
 }

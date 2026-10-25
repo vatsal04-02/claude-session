@@ -2,7 +2,8 @@ import { BellRing, CalendarCheck, Check, Database, Inbox, ChartColumn, Sparkles 
 import { cn } from "@/lib/cn";
 import { chan } from "./channels";
 import { Tilt } from "./effects";
-import { Reveal, SectionHeading } from "./ui";
+import { Rise3D } from "./motion-fx";
+import { SectionHeading } from "./ui";
 import { CONTAINER, BAND } from "@/lib/layout";
 
 /* Bento: six capabilities, each with a small UI snippet. Two cards sit in ink, the rest on paper; every card tilts toward a mouse.
@@ -187,12 +188,12 @@ export default function Features() {
             const wide = "wide" in c && c.wide;
             return (
               <li key={title} className={cn("w-[84%] shrink-0 snap-start md:w-auto", span)}>
-                <Reveal delay={(i % 3) * 0.06} className="h-full">
+                <Rise3D delay={(i % 3) * 0.08} className="h-full">
                   <Tilt
                     max={wide ? 2.5 : 6}
                     className={cn(
                       "flex h-full flex-col rounded-[24px] border p-6 md:p-7",
-                      ink ? "theme-ink border-transparent" : "border-border bg-surface",
+                      ink ? "theme-ink elev border-transparent" : "elev border-border bg-surface",
                       wide && "lg:grid lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12 lg:p-10"
                     )}
                   >
@@ -207,7 +208,7 @@ export default function Features() {
                     </div>
                     <Snippet />
                   </Tilt>
-                </Reveal>
+                </Rise3D>
               </li>
             );
           })}

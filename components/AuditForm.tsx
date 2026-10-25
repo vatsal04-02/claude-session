@@ -135,7 +135,7 @@ export default function AuditForm() {
   };
 
   return (
-    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-[24px] bg-surface p-6 shadow-[0_40px_80px_-40px_rgba(23,18,14,0.55)] md:p-9">
+    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-[24px] bg-surface p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_2px_6px_rgba(23,18,14,0.08),0_50px_90px_-40px_rgba(23,18,14,0.6)] md:p-9">
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${uid}-company`}>Company website</label>
         <input id={`${uid}-company`} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
