@@ -42,20 +42,82 @@ export function Tilt({
 }
 
 /* ------------------------------------------------------------------ */
-/* Hero object: "the flow engine"                                      */
-/* Five channel blocks orbit an orange core; packets travel from each  */
-/* block into the core. Drag to spin it (mouse). Decorative only.      */
+/* Hero object: what Flow HQ does, in one picture                      */
+/* Your channels (WhatsApp, Instagram, call, email, web form) orbit as */
+/* app tiles that always face the viewer; each one sends enquiries     */
+/* into a 3D Flow HQ "F". Drag to turn it (mouse). Decorative only.    */
 /* ------------------------------------------------------------------ */
 
 const INK = "#17120E";
-const INK_2 = "#2E251E";
-const INK_3 = "#46392F";
 const PAPER = "#FBF8F3";
 const PAPER_2 = "#E9E1D4";
-const PAPER_3 = "#D6CABA";
 const SIGNAL = "#FF5F15";
-const SIGNAL_DEEP = "#D9470A";
-const LINE = "rgba(23,18,14,0.28)";
+const LINE = "rgba(23,18,14,0.22)";
+const WHITE = "#FFFFFF";
+// the logo gradient, deep → light, spread over the mark's parts
+const F_DEEP = "#DD4B21";
+const F_MID = "#EE6B30";
+const F_LIGHT = "#FDAA64";
+
+type Z = typeof import("zdog");
+type Anchor = InstanceType<Z["Anchor"]>;
+
+/** The Flow HQ "F" (same geometry as LogoMark, centred and scaled): round tubes + three balls. */
+function buildMark(Zdog: Z, addTo: Anchor) {
+  const s = 0.7;
+  const P = (x: number, y: number) => ({ x: (x - 342) * s, y: (y - 252) * s });
+  const mark = new Zdog.Anchor({ addTo });
+  new Zdog.Shape({
+    addTo: mark,
+    path: [P(268, 333), P(268, 180), { arc: [P(268, 138), P(310, 138)] }, P(388, 138)],
+    closed: false,
+    stroke: 42 * s,
+    color: F_MID,
+  });
+  new Zdog.Shape({ addTo: mark, path: [P(268, 246), P(345, 246)], stroke: 40 * s, color: F_MID });
+  new Zdog.Shape({ addTo: mark, translate: P(419, 139), stroke: 48 * s, color: F_LIGHT });
+  new Zdog.Shape({ addTo: mark, translate: P(382, 246), stroke: 45 * s, color: F_MID });
+  new Zdog.Shape({ addTo: mark, translate: P(267, 367), stroke: 48 * s, color: F_DEEP });
+  return mark;
+}
+
+/** One channel tile: a rounded app icon with a simple white/ink glyph. Drawn in the tile's own (camera-facing) space. */
+function buildTile(Zdog: Z, addTo: Anchor, kind: "whatsapp" | "instagram" | "call" | "email" | "form") {
+  const g = new Zdog.Group({ addTo });
+  const bg = { whatsapp: "#25D366", instagram: "#E1306C", call: INK, email: PAPER, form: PAPER_2 }[kind];
+  new Zdog.RoundedRect({ addTo: g, width: 52, height: 52, cornerRadius: 14, stroke: 4, fill: true, color: bg });
+  if (kind === "email" || kind === "form") new Zdog.RoundedRect({ addTo: g, width: 56, height: 56, cornerRadius: 16, stroke: 1.5, color: LINE });
+  const z = { z: 2 };
+  if (kind === "whatsapp") {
+    new Zdog.Ellipse({ addTo: g, diameter: 27, stroke: 3.5, color: WHITE, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -10, y: 8 }, { x: -14, y: 15 }, { x: -5, y: 12 }], stroke: 3, fill: true, color: WHITE, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -4, y: -5 }, { bezier: [{ x: -5, y: 2 }, { x: 1, y: 6 }, { x: 6, y: 5 }] }], closed: false, stroke: 3.5, color: WHITE, translate: z });
+  } else if (kind === "instagram") {
+    new Zdog.RoundedRect({ addTo: g, width: 26, height: 26, cornerRadius: 8, stroke: 3.5, color: WHITE, translate: z });
+    new Zdog.Ellipse({ addTo: g, diameter: 10, stroke: 3.5, color: WHITE, translate: z });
+    new Zdog.Shape({ addTo: g, translate: { x: 7.5, y: -7.5, z: 2 }, stroke: 4, color: WHITE });
+  } else if (kind === "call") {
+    new Zdog.RoundedRect({ addTo: g, width: 18, height: 30, cornerRadius: 4, stroke: 3.5, color: WHITE, translate: z });
+    new Zdog.Shape({ addTo: g, translate: { y: 10, z: 2 }, stroke: 3.5, color: SIGNAL });
+  } else if (kind === "email") {
+    new Zdog.Rect({ addTo: g, width: 30, height: 21, stroke: 3, color: INK, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -15, y: -10.5 }, { x: 0, y: 2 }, { x: 15, y: -10.5 }], closed: false, stroke: 3, color: SIGNAL, translate: z });
+  } else {
+    new Zdog.RoundedRect({ addTo: g, width: 32, height: 26, cornerRadius: 3, stroke: 3, color: INK, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -16, y: -6 }, { x: 16, y: -6 }], stroke: 2.5, color: INK, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -9, y: 1 }, { x: 9, y: 1 }], stroke: 3, color: SIGNAL, translate: z });
+    new Zdog.Shape({ addTo: g, path: [{ x: -9, y: 7 }, { x: 3, y: 7 }], stroke: 3, color: SIGNAL, translate: z });
+  }
+  return g;
+}
+
+const CHANNELS = [
+  { kind: "whatsapp", packet: "#25D366" },
+  { kind: "instagram", packet: "#E1306C" },
+  { kind: "call", packet: INK },
+  { kind: "email", packet: SIGNAL },
+  { kind: "form", packet: INK },
+] as const;
 
 export function HeroScene({ className }: { className?: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -72,99 +134,76 @@ export function HeroScene({ className }: { className?: string }) {
       if (!alive) return;
       const TAU = Zdog.TAU;
       const still = reducedMotion();
-      let spinning = true;
-      let resumeAt = 0;
 
       const illo = new Zdog.Illustration({
         element: el,
         resize: true,
         dragRotate: finePointer() && !still,
-        rotate: { x: -0.42, y: 0.6 },
+        rotate: { x: -0.32 },
         onResize(width: number, height: number) {
-          this.zoom = Math.min(width, height) / 430;
-        },
-        onDragStart() {
-          spinning = false;
-        },
-        onDragEnd() {
-          resumeAt = performance.now() + 1800;
+          this.zoom = Math.min(width, height) / 440;
         },
       });
 
-      // the core: two hemispheres give it a lit side and a shaded side
-      const core = new Zdog.Anchor({ addTo: illo });
-      new Zdog.Hemisphere({ addTo: core, diameter: 118, stroke: false, color: SIGNAL, backface: SIGNAL_DEEP });
-      new Zdog.Hemisphere({ addTo: core, diameter: 118, stroke: false, color: SIGNAL_DEEP, backface: SIGNAL, rotate: { y: TAU / 2 } });
-      // a ring around the core, like a planet's
-      new Zdog.Ellipse({ addTo: core, diameter: 168, stroke: 5, color: INK, rotate: { x: TAU / 4 } });
-
       // orbit lines
-      new Zdog.Ellipse({ addTo: illo, diameter: 330, stroke: 1.4, color: LINE, rotate: { x: TAU / 4 } });
-      new Zdog.Ellipse({ addTo: illo, diameter: 250, stroke: 1.2, color: "rgba(255,95,21,0.55)", rotate: { x: TAU / 4 + 0.55, z: 0.3 } });
+      new Zdog.Ellipse({ addTo: illo, diameter: 340, stroke: 1.4, color: LINE, rotate: { x: TAU / 4 } });
+      new Zdog.Ellipse({ addTo: illo, diameter: 250, stroke: 1.2, color: "rgba(255,95,21,0.5)", rotate: { x: TAU / 4 + 0.5, z: 0.25 } });
 
-      // five channel blocks on the outer orbit, alternating ink and paper
-      const R = 165;
-      const blocks: InstanceType<typeof Zdog.Box>[] = [];
-      const packets: { shape: InstanceType<typeof Zdog.Shape>; x: number; z: number; t: number }[] = [];
-      for (let i = 0; i < 5; i++) {
-        const a = (i / 5) * TAU;
-        const x = Math.cos(a) * R;
-        const z = Math.sin(a) * R;
-        const dark = i % 2 === 0;
-        const box = new Zdog.Box({
-          addTo: illo,
-          width: 40,
-          height: 40,
-          depth: 40,
-          stroke: 6,
-          translate: { x, z },
-          rotate: { y: a, x: 0.2 * i },
-          color: dark ? INK : PAPER,
-          leftFace: dark ? INK_2 : PAPER_2,
-          rightFace: dark ? INK_3 : PAPER_3,
-          topFace: i === 1 ? SIGNAL : dark ? INK_2 : PAPER,
-          bottomFace: dark ? INK_3 : PAPER_3,
-          rearFace: dark ? INK_2 : PAPER_2,
+      // the core: the Flow HQ mark (kept facing the viewer, so it never reads mirrored) inside a ring that turns with the scene
+      const core = new Zdog.Anchor({ addTo: illo });
+      const markFaceY = new Zdog.Anchor({ addTo: core });
+      const markFaceX = new Zdog.Anchor({ addTo: markFaceY });
+      const mark = buildMark(Zdog, markFaceX);
+      new Zdog.Ellipse({ addTo: core, diameter: 190, stroke: 4, color: INK, rotate: { x: TAU / 4 } });
+
+      // channel tiles on the orbit; each sits in two counter-rotating anchors so it always faces the viewer
+      const R = 170;
+      const tiles = CHANNELS.map((c, i) => {
+        const pos = new Zdog.Anchor({ addTo: illo });
+        const faceY = new Zdog.Anchor({ addTo: pos });
+        const faceX = new Zdog.Anchor({ addTo: faceY });
+        buildTile(Zdog, faceX, c.kind);
+        const packet = new Zdog.Shape({ addTo: illo, stroke: 10, color: c.packet });
+        return { pos, faceY, faceX, packet, phase: (i / CHANNELS.length) * TAU, t: i / CHANNELS.length };
+      });
+
+      let orbit = 0;
+      const place = (time: number) => {
+        tiles.forEach((tile, i) => {
+          const a = tile.phase + orbit;
+          const x = Math.cos(a) * R;
+          const z = Math.sin(a) * R;
+          const y = Math.sin(time * 1.3 + i * 1.7) * 8;
+          tile.pos.translate.set({ x, y, z });
+          // undo the scene's rotation (inner X first, then Y) so the tile faces the camera
+          tile.faceY.rotate.y = -illo.rotate.y;
+          tile.faceX.rotate.x = -illo.rotate.x;
+          // an enquiry travels from the tile into the mark, arcing up a little
+          const k = 1 - tile.t;
+          tile.packet.translate.set({ x: x * k, y: y * k - Math.sin(tile.t * Math.PI) * 34, z: z * k });
+          tile.packet.visible = tile.t < 0.66;
         });
-        blocks.push(box);
-        // a packet travelling from this block to the core
-        const shape = new Zdog.Shape({ addTo: illo, stroke: 11, color: i % 2 ? INK : SIGNAL, translate: { x, z } });
-        packets.push({ shape, x, z, t: i / 5 });
-      }
-
-      // a few floating motes for depth
-      [
-        [-150, -120, 60, 7],
-        [170, -90, -80, 5],
-        [-60, 140, -120, 6],
-        [110, 130, 120, 4],
-      ].forEach(([x, y, z, s]) => new Zdog.Shape({ addTo: illo, stroke: s, color: INK, translate: { x, y, z } }));
+        markFaceY.rotate.y = -illo.rotate.y;
+        markFaceX.rotate.x = -illo.rotate.x;
+      };
 
       const startT = performance.now();
       const frame = (now: number) => {
-        const t = (now - startT) / 1000;
-        if (!spinning && resumeAt && now > resumeAt) spinning = true;
-        if (spinning) illo.rotate.y += 0.0035;
-        core.rotate.y = t * 0.6;
-        illo.translate.y = Math.sin(t * 1.1) * 6;
-        blocks.forEach((b, i) => {
-          b.rotate.y += 0.006 + i * 0.001;
-          b.translate.y = Math.sin(t * 1.4 + i) * 10;
-        });
-        packets.forEach((p) => {
-          p.t = (p.t + 0.0045) % 1;
-          const k = 1 - p.t;
-          p.shape.translate.x = p.x * k;
-          p.shape.translate.z = p.z * k;
-          p.shape.translate.y = Math.sin(p.t * Math.PI) * -38;
-          // hide inside the core
-          p.shape.visible = p.t < 0.62;
-        });
+        const time = (now - startT) / 1000;
+        orbit += 0.0032;
+        tiles.forEach((tile) => (tile.t = (tile.t + 0.005) % 1));
+        // the mark sways so it reads as 3D but stays legible
+        mark.rotate.y = Math.sin(time * 0.7) * 0.45;
+        core.translate.y = Math.sin(time * 1.1) * 5;
+        place(time);
         illo.updateRenderGraph();
         if (alive && visible) raf = requestAnimationFrame(frame);
       };
 
       if (still) {
+        orbit = 0.35;
+        mark.rotate.y = -0.35;
+        place(0);
         illo.updateRenderGraph();
         const onResize = () => illo.updateRenderGraph();
         addEventListener("resize", onResize);
