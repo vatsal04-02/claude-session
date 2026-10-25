@@ -3,7 +3,7 @@ import { CONTACT_EMAIL, INSTAGRAM_URL, LINKEDIN_URL, YOUTUBE_URL } from "@/lib/s
 import { BAND, CONTAINER } from "@/lib/layout";
 import { Instagram } from "./channels";
 import { Linkedin, Youtube } from "./social-icons";
-import { Reveal, SectionHeading } from "./ui";
+import { Reveal } from "./ui";
 
 const LINKS = [
   { name: "Instagram", handle: "@flowhq.in", href: INSTAGRAM_URL, Icon: Instagram, external: true },
@@ -12,39 +12,35 @@ const LINKS = [
   { name: "Email", handle: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, Icon: Mail, external: false },
 ] as const;
 
-/** Where to find Flow HQ: one card per account (icon, platform, handle). */
+/** Where to find Flow HQ: big editorial link rows (platform in display type, handle beside it). */
 export default function Socials() {
   return (
     <section id="social" aria-labelledby="social-title" className={`${BAND} !pt-0`}>
-      <div className={`${CONTAINER} grid items-center gap-6 lg:grid-cols-[0.7fr_1.3fr] lg:gap-12`}>
-        <SectionHeading eyebrow="Find us" title="Follow Flow HQ." sub="See what we're building, or just say hello." size="sm" />
-        <ul className="grid grid-cols-2 gap-4">
+      <div className={CONTAINER}>
+        <div className="flex items-baseline justify-between gap-6">
+          <h2 id="social-title" className="kicker">
+            Find us
+          </h2>
+          <p className="text-[14px] text-subtle">See what we&apos;re building, or just say hello.</p>
+        </div>
+        <ul className="mt-6 border-b border-border">
           {LINKS.map(({ name, handle, href, Icon, external }, i) => (
-            <li key={name}>
-              <Reveal delay={i * 0.05} className="h-full">
+            <li key={name} className="border-t border-border">
+              <Reveal delay={i * 0.04}>
                 <a
                   href={href}
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   aria-label={external ? `Flow HQ on ${name}` : `Email ${handle}`}
-                  className="group flex h-full min-h-[76px] flex-col gap-3 rounded-[14px] border border-border bg-surface/60 p-4 transition-colors duration-200 hover:border-accent/50 sm:flex-row sm:items-center sm:gap-3.5"
+                  className="group flex min-h-[84px] items-center gap-4 py-5 transition-colors duration-300 md:gap-8 md:py-6"
                 >
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[10px] border border-white/10 text-muted transition-colors duration-200 group-hover:border-accent/50 group-hover:text-accent-2">
-                    <Icon className="h-5 w-5" />
+                  <Icon className="h-6 w-6 shrink-0 text-subtle transition-colors duration-300 group-hover:text-signal md:h-7 md:w-7" />
+                  <span className="display text-[clamp(1.9rem,5vw,4rem)] text-text transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2" style={{ letterSpacing: "-0.045em", lineHeight: 1 }}>
+                    {name}
                   </span>
-                  <span className="min-w-0 flex-1 sm:flex-1">
-                    <span className="block text-[15px] font-semibold leading-tight text-text">{name}</span>
-                    <span className="mt-0.5 block text-[13px] leading-snug text-subtle sm:truncate">
-                      {name === "Email" ? (
-                        <>
-                          {handle.split("@")[0]}
-                          <wbr />@{handle.split("@")[1]}
-                        </>
-                      ) : (
-                        handle
-                      )}
-                    </span>
+                  <span className="ml-auto hidden min-w-0 truncate text-[15px] text-muted sm:block">{handle}</span>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border-bright text-text transition-[background-color,color,border-color] duration-300 group-hover:border-signal group-hover:bg-signal group-hover:text-ink max-sm:ml-auto">
+                    <ArrowUpRight aria-hidden className="h-5 w-5 transition-transform duration-300 group-hover:rotate-45" />
                   </span>
-                  <ArrowUpRight aria-hidden className="hidden h-4 w-4 shrink-0 text-subtle transition-[color,transform] duration-200 sm:block group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-2" />
                 </a>
               </Reveal>
             </li>

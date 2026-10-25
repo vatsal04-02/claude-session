@@ -11,7 +11,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       <PageHero crumbs={[{ name: "Home", href: "/" }, { name: s.nav }]} eyebrow={s.eyebrow} title={s.h1} intro={s.intro} />
 
       {/* the problem */}
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={wrap}>
           <Eyebrow>The problem</Eyebrow>
           <h2 className={`${h2} mt-4`}>{s.signsTitle}</h2>
@@ -20,7 +20,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* what the system does */}
-      <section className={`${band} warm-a bg-[#130c08]`}>
+      <section className={`${band} bg-bg`}>
         <div className={wrap}>
           <Eyebrow>What we build</Eyebrow>
           <h2 className={`${h2} mt-4`}>{s.buildsTitle}</h2>
@@ -29,7 +29,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* how it works */}
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={wrap}>
           <Eyebrow>How it works</Eyebrow>
           <h2 className={`${h2} mt-4`}>How {s.topic} works, step by step</h2>
@@ -38,7 +38,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* examples */}
-      <section className={`${band} bg-[#130c08]`}>
+      <section className={`${band} bg-bg`}>
         <div className={wrap}>
           <Eyebrow>Examples</Eyebrow>
           <h2 className={`${h2} mt-4`}>What it looks like in practice</h2>
@@ -48,7 +48,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* integrations + who it's for */}
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={`${wrap} grid gap-12 lg:grid-cols-2 lg:gap-16`}>
           <div>
             <Eyebrow>Integrations</Eyebrow>
@@ -80,7 +80,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* approach */}
-      <section className={`${band} bg-[#130c08]`}>
+      <section className={`${band} bg-bg`}>
         <div className={`${wrap} grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16`}>
           <div>
             <h2 className={h2}>{s.deepTitle}</h2>
@@ -91,7 +91,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
             ))}
           </div>
           {s.deepPoints && (
-            <div className="self-center rounded-2xl border border-accent/30 bg-accent/[0.05] p-6 md:p-8">
+            <div className="theme-ink self-center rounded-[24px] p-6 md:p-10">
               <Checklist items={s.deepPoints} />
             </div>
           )}
@@ -99,7 +99,7 @@ export default function ServicePage({ s }: { s: ServiceContent }) {
       </section>
 
       {/* implementation process */}
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={wrap}>
           <Eyebrow>Implementation</Eyebrow>
           <h2 className={`${h2} mt-4`}>From free audit to a system that runs itself</h2>

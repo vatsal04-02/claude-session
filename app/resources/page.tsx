@@ -26,7 +26,7 @@ export default function Page() {
         const pillar = getResource(c.pillar)!;
         const rest = inCluster(c.id).filter((r) => !r.pillar);
         return (
-          <section key={c.id} className={`${band} ${k % 2 ? "bg-[#130c08]" : "bg-[#150e0a]"}`}>
+          <section key={c.id} className={`${band} ${k % 2 ? "bg-bg" : "bg-bg-soft"}`}>
             <div className={wrap}>
               <Eyebrow>{c.name}</Eyebrow>
               <h2 className={`${h2} mt-4 max-w-[24ch]`}>{c.blurb}</h2>
@@ -34,7 +34,7 @@ export default function Page() {
                 href={`/resources/${pillar.slug}/`}
                 className="group mt-10 block rounded-2xl border border-accent/40 bg-[linear-gradient(160deg,#2a170d,#1a100b_60%)] p-6 transition-colors hover:border-accent md:p-8"
               >
-                <span className="label text-[10px] text-accent-2">Start here · {pillar.readMins} min guide</span>
+                <span className="label text-[10px] text-accent">Start here · {pillar.readMins} min guide</span>
                 <h3 className="item-title mt-3 text-[24px] group-hover:text-accent">{pillar.title}</h3>
                 <p className="mt-2 max-w-[60ch] text-[15.5px] leading-[1.7] text-muted">{pillar.description}</p>
               </a>

@@ -36,7 +36,7 @@ export default async function Page({ params }: Props) {
       />
       <PageHero crumbs={[{ name: "Home", href: "/" }, { name: "Industries", href: "/industries/" }, { name: i.name }]} eyebrow={i.name} title={i.h1} intro={i.intro} />
 
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={wrap}>
           <Eyebrow>The problem</Eyebrow>
           <h2 className={`${h2} mt-4`}>Where the time goes</h2>
@@ -44,7 +44,7 @@ export default async function Page({ params }: Props) {
         </div>
       </section>
 
-      <section className={`${band} warm-a bg-[#130c08]`}>
+      <section className={`${band} bg-bg`}>
         <div className={wrap}>
           <Eyebrow>What we automate</Eyebrow>
           <h2 className={`${h2} mt-4`}>Workflows we build for {i.name.toLowerCase()}</h2>
@@ -53,7 +53,7 @@ export default async function Page({ params }: Props) {
         </div>
       </section>
 
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={`${wrap} grid gap-12 lg:grid-cols-2 lg:gap-16`}>
           <div>
             <Eyebrow>Integrations</Eyebrow>

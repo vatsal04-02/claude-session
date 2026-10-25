@@ -1,33 +1,45 @@
-import { Link2Off, Radar, Clock } from "lucide-react";
 import { Reveal, SectionHeading } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
 const PROBLEMS = [
-  { Icon: Radar, title: "Leads slip through", line: "Enquiries arrive on five channels. Some are never seen." },
-  { Icon: Clock, title: "Follow-ups get forgotten", line: "The quote goes out. Then nobody chases it." },
-  { Icon: Link2Off, title: "Tools don't talk to each other", line: "Your CRM, sheet and WhatsApp each tell a different story." },
+  { title: "Leads slip through", line: "Enquiries arrive on five channels. Some are never seen." },
+  { title: "Follow-ups get forgotten", line: "The quote goes out. Then nobody chases it." },
+  { title: "Tools don't talk", line: "Your CRM, sheet and WhatsApp each tell a different story." },
 ] as const;
 
+/** The problem: a statement on the left, three numbered leaks on the right (editorial rows, no cards). */
 export default function Problem() {
   return (
-    <section id="problem" className={BAND}>
-      <div className={`${CONTAINER} grid items-start gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14`}>
-        <SectionHeading eyebrow="The problem" title="Where enquiries get lost." sub="Three small leaks. Together they cost you customers every week." />
-        <ul className="grid gap-4">
-          {PROBLEMS.map(({ Icon, title, line }, i) => (
-            <li key={title}>
-              <Reveal delay={i * 0.06} className="flex items-center gap-4 rounded-[14px] border border-border bg-surface/60 p-4 md:p-5">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] border border-white/10 text-accent-2 md:h-11 md:w-11">
-                  <Icon aria-hidden className="h-5 w-5" />
+    <section id="problem" className={`${BAND} !pt-16 md:!pt-24`}>
+      <div className={`${CONTAINER} grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20`}>
+        <SectionHeading
+          index="01"
+          eyebrow="The problem"
+          title={
+            <>
+              Where enquiries <em>leak</em>.
+            </>
+          }
+          sub="Three small leaks. Together they cost you customers every single week."
+          className="lg:sticky lg:top-32"
+        />
+        <ol className="border-b border-border">
+          {PROBLEMS.map(({ title, line }, i) => (
+            <li key={title} className="border-t border-border">
+              <Reveal delay={i * 0.06} className="group grid grid-cols-[auto_1fr] items-baseline gap-x-6 py-8 md:gap-x-10 md:py-10">
+                <span className="display text-[clamp(3rem,7vw,5.5rem)] leading-none text-signal transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1" style={{ letterSpacing: "-0.06em" }}>
+                  0{i + 1}
                 </span>
                 <div>
-                  <h3 className="text-[16.5px] font-semibold leading-tight text-text md:text-[18px]">{title}</h3>
-                  <p className="mt-1 text-[14.5px] leading-[1.55] text-muted md:text-[15.5px]">{line}</p>
+                  <h3 className="display text-[clamp(1.6rem,3vw,2.4rem)] text-text" style={{ letterSpacing: "-0.035em", lineHeight: 1.05 }}>
+                    {title}
+                  </h3>
+                  <p className="mt-3 max-w-[28rem] text-[16px] leading-[1.6] text-muted md:text-[17px]">{line}</p>
                 </div>
               </Reveal>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );

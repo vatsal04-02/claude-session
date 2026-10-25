@@ -15,7 +15,7 @@ export default function NotFound() {
         <a href="/" className="inline-flex min-h-11 items-center">
           <Logo />
         </a>
-        <p className="label mt-10 text-accent">Error 404</p>
+        <p aria-hidden className="display mt-8 text-[clamp(7rem,26vw,15rem)] leading-[0.82] text-signal" style={{ letterSpacing: "-0.07em" }}>404</p>
         <h1 className="display mt-4 text-[clamp(2.4rem,6vw,4rem)] text-text">Page not found.</h1>
         <p className="mx-auto mt-4 max-w-[34ch] text-[16px] leading-[1.7] text-muted">
           The page you&apos;re looking for doesn&apos;t exist or has moved.

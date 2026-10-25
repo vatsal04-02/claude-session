@@ -1,22 +1,34 @@
 import { BRAND_ICONS } from "./brand-icons";
 import { CONTAINER } from "@/lib/layout";
 
-/** "Works with" strip: monochrome brand marks at low opacity that brighten on hover (simple-icons paths, see brand-icons.ts). */
+/** "Works with": an endless marquee of the tools we connect (simple-icons paths, see brand-icons.ts).
+    Two identical sets slide by half their width for a seamless loop; hover pauses it. Reduced motion: one static, wrapping row. */
 export default function IntegrationsStrip() {
+  const set = (dup: boolean) => (
+    <ul aria-hidden={dup || undefined} className={`flex shrink-0 items-center gap-12 pr-12 md:gap-16 md:pr-16 ${dup ? "motion-reduce:hidden" : "motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-6"}`}>
+      {BRAND_ICONS.map((b) => (
+        <li key={b.name} className="flex items-center gap-3 text-text/70 transition-colors duration-200 hover:text-text">
+          <svg viewBox="0 0 24 24" aria-hidden className="h-6 w-6 shrink-0 fill-current md:h-7 md:w-7">
+            <path d={b.path} />
+          </svg>
+          <span className="display whitespace-nowrap text-[22px] md:text-[28px]" style={{ letterSpacing: "-0.035em" }}>
+            {b.name}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
   return (
-    <section aria-label="Integrations" className="border-y border-border">
-      <div className={`${CONTAINER} flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between md:gap-10 md:py-7`}>
-        <p className="label shrink-0 text-[11px] text-subtle">Works with</p>
-        <ul className="grid grid-cols-4 gap-x-2 gap-y-4 md:flex md:flex-1 md:flex-wrap md:justify-between md:gap-x-6">
-          {BRAND_ICONS.map((b) => (
-            <li key={b.name} className="group flex flex-col items-center gap-1.5 text-center text-text/40 transition-colors duration-200 hover:text-text md:flex-row md:gap-2 md:text-left">
-              <svg viewBox="0 0 24 24" aria-hidden className="h-5 w-5 shrink-0 fill-current">
-                <path d={b.path} />
-              </svg>
-              <span className="text-[11px] font-medium leading-tight text-text/65 transition-colors duration-200 group-hover:text-text md:text-[13px]">{b.name}</span>
-            </li>
-          ))}
-        </ul>
+    <section aria-label="Integrations" className="relative pb-4 pt-14 md:pt-20">
+      <div className={`${CONTAINER} mb-6 flex items-end justify-between gap-6 md:mb-8`}>
+        <p className="kicker">Plugs into the tools you already use</p>
+        <p className="hidden text-[13.5px] text-subtle md:block">Anything with an API or webhook, too.</p>
+      </div>
+      <div className="relative overflow-hidden border-y border-border py-6 md:py-8 [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
+        <div className="marquee-track flex w-max animate-marquee motion-reduce:w-full motion-reduce:animate-none motion-reduce:justify-center">
+          {set(false)}
+          {set(true)}
+        </div>
       </div>
     </section>
   );

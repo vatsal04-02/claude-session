@@ -5,52 +5,59 @@ import Slot from "./Slot";
 import { Button, Reveal, SectionHeading } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
-/** Pricing table: three tiers (setup + optional monthly care plan). Prices come from lib/content.ts; until set, production shows "Get a quote". */
+/** Pricing: three tiers (setup + optional monthly care plan); the featured tier sits in ink. Prices come from lib/content.ts; until set, production shows "Get a quote". */
 export default function Packages() {
   return (
-    <section id="packages" className={BAND}>
+    <section id="packages" className={`${BAND} bg-bg-soft`}>
       <div className={CONTAINER}>
-        <SectionHeading eyebrow="Packages" title="Pick a starting point." sub="Every system is built around your business. You get a fixed quote before anything starts." />
-        <ul className="mt-6 grid gap-4 lg:grid-cols-3 lg:items-stretch">
+        <SectionHeading
+          index="05"
+          eyebrow="Packages"
+          title={
+            <>
+              Pick a <em>starting</em> point.
+            </>
+          }
+          sub="Every system is built around your business. You get a fixed quote before anything starts."
+        />
+        <ul className="mt-12 grid gap-4 md:mt-16 lg:grid-cols-3 lg:items-stretch">
           {PACKAGES.map((p, i) => {
             const setup = priceLine(p);
             const monthly = monthlyLine(p);
             const hot = !!p.featured;
             return (
               <li key={p.name} className="relative">
-                {hot && POPULAR_TAG && (
-                  <span className="absolute -top-3 left-5 z-10 rounded-full bg-accent px-3 py-1 text-[11px] font-semibold uppercase leading-none tracking-[0.08em] text-[#1a0a03]">{POPULAR_TAG}</span>
-                )}
-                <Reveal
-                  delay={i * 0.06}
-                  className={cn(
-                    "flex h-full flex-col rounded-[14px] border p-5 md:p-6",
-                    hot ? "border-accent/60 bg-accent/[0.05] shadow-[0_24px_60px_-30px_rgba(234,106,47,0.45)]" : "border-border bg-surface/60"
-                  )}
-                >
-                  <h3 className="text-[19px] font-semibold leading-tight text-text">{p.name}</h3>
-                  <p className="mt-1 text-[14.5px] text-muted">{p.blurb}</p>
+                <Reveal delay={i * 0.06} className={cn("flex h-full flex-col rounded-[24px] p-6 md:p-8", hot ? "theme-ink lg:-my-4 lg:py-12" : "border border-border bg-surface")}>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-mono text-[12px] text-subtle">0{i + 1}</span>
+                    {hot && POPULAR_TAG && <span className="rounded-full bg-signal px-3 py-1.5 text-[11.5px] font-semibold leading-none text-ink">{POPULAR_TAG}</span>}
+                  </div>
+                  <h3 className="display mt-6 text-[28px] text-text md:text-[30px]" style={{ letterSpacing: "-0.035em", lineHeight: 1.02 }}>
+                    {p.name}
+                  </h3>
+                  <p className="mt-2 text-[15px] text-muted">{p.blurb}</p>
 
-                  <dl className="mt-5 rounded-[10px] border border-white/[0.08] bg-black/20 text-[14px]">
-                    <div className="flex items-baseline justify-between gap-3 border-b border-white/[0.08] px-3.5 py-3">
-                      <dt className="text-subtle">Setup</dt>
-                      <dd className="text-[19px] font-semibold text-text">{setup.placeholder ? <Slot value={setup.text} /> : setup.text}</dd>
+                  <div className="mt-8 border-y border-border py-5">
+                    <div className="display text-[34px] text-text md:text-[38px]" style={{ letterSpacing: "-0.04em", lineHeight: 1 }}>
+                      {setup.placeholder ? <Slot value={setup.text} /> : setup.text}
                     </div>
-                    <div className="flex items-baseline justify-between gap-3 px-3.5 py-2.5">
-                      <dt className="text-subtle">Monthly care plan</dt>
-                      <dd className="text-muted">{monthly.placeholder ? <Slot value={monthly.text} /> : monthly.text}</dd>
+                    <div className="mt-2 flex items-baseline justify-between gap-3 text-[14px]">
+                      <span className="text-subtle">One-time setup</span>
+                      <span className="text-muted">Care plan · {monthly.placeholder ? <Slot value={monthly.text} /> : monthly.text}</span>
                     </div>
-                  </dl>
+                  </div>
 
-                  <ul className="mt-5 flex-1 space-y-2.5">
+                  <ul className="mt-6 flex-1 space-y-3">
                     {p.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2.5 text-[14.5px] leading-[1.5] text-text">
-                        <Check aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />
+                      <li key={b} className="flex items-start gap-3 text-[15px] leading-[1.5] text-text">
+                        <span className={cn("mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full", hot ? "bg-signal text-ink" : "bg-text text-bg")}>
+                          <Check aria-hidden className="h-3 w-3" strokeWidth={3} />
+                        </span>
                         {b}
                       </li>
                     ))}
                   </ul>
-                  <Button href="#audit" variant={hot ? "primary" : "ghost"} className="mt-6 w-full">
+                  <Button href="#audit" size="lg" variant={hot ? "primary" : "ghost"} className="mt-8 w-full">
                     Get started
                   </Button>
                 </Reveal>
@@ -58,7 +65,7 @@ export default function Packages() {
             );
           })}
         </ul>
-        <p className="mt-4 text-[13.5px] text-subtle">No lock-in. An optional monthly care plan covers monitoring, updates and a monthly report.</p>
+        <p className="mt-8 text-[14px] text-subtle">No lock-in. An optional monthly care plan covers monitoring, updates and a monthly report.</p>
       </div>
     </section>
   );

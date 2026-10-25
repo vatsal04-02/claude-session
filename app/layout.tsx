@@ -6,6 +6,8 @@ import Intro, { INTRO_SCRIPT } from "@/components/Intro";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Analytics from "@/components/Analytics";
 import "@fontsource/poppins/latin-700.css";
+import "@fontsource-variable/bricolage-grotesque/opsz.css";
+import "@fontsource/instrument-serif/latin-400-italic.css";
 import "./globals.css";
 import { ON_VERCEL, SITE_URL } from "@/lib/config";
 import { JsonLd, organization, website } from "@/lib/schema";
@@ -22,8 +24,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0D0906",
-  colorScheme: "dark",
+  themeColor: "#F4EFE7",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

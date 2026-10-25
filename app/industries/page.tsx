@@ -20,7 +20,7 @@ export default function Page() {
         title="Automation built around how your industry works"
         intro="The building blocks are the same — capture, understand, route, automate. The workflows aren't. Here's how they look in the industries we work with most."
       />
-      <section className={`${band} bg-[#150e0a]`}>
+      <section className={`${band} bg-bg-soft`}>
         <div className={wrap}>
           <Eyebrow>Choose your industry</Eyebrow>
           <h2 className={`${h2} mt-4`}>Industry guides</h2>

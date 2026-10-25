@@ -1,4 +1,4 @@
-import { band, PageHero, Shell } from "@/components/content";
+import { PageHero, Shell } from "@/components/content";
 import RoiCalculator from "@/components/RoiCalculator";
 import { breadcrumbs, JsonLd } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
@@ -22,9 +22,7 @@ export default function Page() {
       >
         <></>
       </PageHero>
-      <div className={`${band} !py-0 md:!py-0`}>
-        <RoiCalculator auditHref="/#audit" heading={false} />
-      </div>
+      <RoiCalculator auditHref="/#audit" heading={false} />
     </Shell>
   );
 }

@@ -145,17 +145,22 @@ export default function LiveDemoChat() {
   };
 
   return (
-    <Section id="try-it" className="overflow-x-clip">
+    <Section id="try-it" className="theme-ink overflow-x-clip !border-t-0">
       <SectionHeading
+        index="03"
         eyebrow="The system"
-        title="One system. Four steps."
+        title={
+          <>
+            One system. <em>Four</em> steps.
+          </>
+        }
         sub={
           <>
             Pick a real situation and watch it run. <span className="text-subtle">(Sample only — no real messages sent.)</span>
           </>
         }
       />
-      <div className="mt-6 grid items-stretch gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-8">
+      <div className="mt-12 grid items-stretch gap-4 md:mt-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-8">
         <ol className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:grid-rows-4">
           {STEPS.map(({ name, line, Icon }, i) => {
             const state = stage === i ? "active" : stage > i ? "done" : "idle";
@@ -164,20 +169,20 @@ export default function LiveDemoChat() {
                 key={name}
                 aria-current={state === "active" ? "step" : undefined}
                 className={cn(
-                  "flex min-w-0 flex-col gap-3 rounded-[14px] border p-3.5 transition-colors duration-300 lg:flex-row lg:items-center lg:gap-4 lg:p-4",
-                  state === "active" ? "border-accent/50 bg-accent/[0.06]" : "border-border bg-surface/40"
+                  "flex min-w-0 flex-col gap-3 rounded-[20px] border p-4 transition-colors duration-300 lg:flex-row lg:items-center lg:gap-5 lg:p-5",
+                  state === "active" ? "border-signal bg-signal/[0.08]" : "border-border bg-surface/50"
                 )}
               >
                 <span
                   className={cn(
-                    "grid h-10 w-10 shrink-0 place-items-center rounded-xl border transition-colors duration-300",
-                    state === "idle" ? "border-border-bright text-muted" : "border-accent/50 text-accent-2"
+                    "grid h-11 w-11 shrink-0 place-items-center rounded-full border transition-colors duration-300",
+                    state === "idle" ? "border-border-bright text-muted" : state === "active" ? "border-signal bg-signal text-ink" : "border-accent/50 text-accent"
                   )}
                 >
                   {state === "done" ? <Check aria-hidden className="h-5 w-5" strokeWidth={2.5} /> : <Icon aria-hidden className="h-5 w-5" />}
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[16px] font-semibold leading-tight text-text">
+                  <div className="display text-[20px] leading-tight text-text" style={{ letterSpacing: "-0.03em" }}>
                     <span className="label mr-2 text-[10px] font-normal text-subtle">0{i + 1}</span>
                     {name}
                   </div>
@@ -189,9 +194,9 @@ export default function LiveDemoChat() {
         </ol>
 
         <Reveal y={28}>
-          <div className="glass w-full overflow-hidden rounded-[14px] lg:max-w-none">
+          <div className="glass w-full overflow-hidden rounded-[24px] lg:max-w-none">
             <div className="flex items-center gap-3 border-b border-border bg-surface-2 px-5 py-4">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-accent text-[15px] font-bold text-[#1a0a03]">F</span>
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-signal text-[15px] font-bold text-ink">F</span>
               <div className="leading-tight">
                 <div className="text-[15px] font-semibold">Flow HQ automation</div>
                 <div className="label mt-1 flex items-center gap-2 text-[10px] text-muted">
@@ -222,7 +227,7 @@ export default function LiveDemoChat() {
                     className={cn(
                       "min-h-11 cursor-pointer rounded-full border px-4 text-[14px] transition-colors disabled:cursor-not-allowed",
                       scenario === c
-                        ? "border-accent bg-accent/15 text-text"
+                        ? "border-signal bg-signal text-ink"
                         : "border-border text-text hover:border-accent/60 hover:text-accent disabled:opacity-45 disabled:hover:border-border disabled:hover:text-text"
                     )}
                   >
@@ -261,7 +266,7 @@ export default function LiveDemoChat() {
                     className={cn(
                       "max-w-[85%] text-[14.5px] leading-[1.5]",
                       m.kind === "event" && "label mx-auto max-w-full rounded-full border border-border px-3 py-1.5 text-center text-[10px] text-muted",
-                      m.kind === "you" && "ml-auto rounded-2xl rounded-br-md border border-accent/30 bg-accent/15 px-4 py-2.5 text-text",
+                      m.kind === "you" && "ml-auto rounded-2xl rounded-br-md bg-signal px-4 py-2.5 text-ink",
                       m.kind === "bot" && "rounded-2xl rounded-bl-md border border-border bg-surface-2 px-4 py-2.5 text-text",
                       (m.kind === "ai" || m.kind === "auto") &&
                         "flex max-w-full items-center gap-2.5 self-stretch rounded-xl border border-border bg-bg/50 px-3.5 py-2 text-[13px] text-muted",

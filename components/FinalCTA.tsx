@@ -7,38 +7,38 @@ import AuditForm from "./AuditForm";
 import { Button, Reveal } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
-/** Closing band + the audit form. Every "free audit" CTA on the page lands here (#audit). */
+/** Closing band: the one orange band on the page, with the audit form on a paper card. Every "free audit" CTA lands here (#audit). */
 export default function FinalCTA() {
   return (
-    <section id="audit" className={`section-edge overflow-hidden bg-[#150e0a] ${BAND}`}>
-      <div aria-hidden className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(closest-side, rgba(234,106,47,0.07), transparent)" }} />
-      <div className={`${CONTAINER} relative grid items-start gap-8 lg:grid-cols-[1fr_0.95fr] lg:gap-12`}>
+    <section id="audit" className={`theme-signal relative overflow-hidden ${BAND}`}>
+      <div aria-hidden className="grain" />
+      <div className={`${CONTAINER} relative grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16`}>
         <Reveal>
-          <span className="label inline-flex items-center gap-2.5 text-accent">
-            <span aria-hidden className="h-px w-6 bg-accent/70" /> Get started
-          </span>
-          <h2 className="display mt-4 text-balance text-[clamp(1.875rem,4.2vw,3.25rem)] text-text">Ready to stop losing leads?</h2>
-          <p className="mt-4 max-w-[30rem] text-[15.5px] leading-[1.65] text-muted md:text-[17px]">
+          <span className="kicker [&::before]:!bg-ink">Get started</span>
+          <h2 className="display mt-6 text-balance text-[clamp(3rem,8vw,7rem)] text-text" style={{ lineHeight: 0.92, letterSpacing: "-0.055em" }}>
+            Ready to stop losing <span className="font-serif font-normal italic tracking-[-0.02em]">leads?</span>
+          </h2>
+          <p className="mt-6 max-w-[30rem] text-[16.5px] leading-[1.6] text-muted md:text-[19px]">
             Tell us how enquiries reach you today. We&apos;ll reply with what to automate and a fixed quote — free, no obligation.
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             {BOOKING_URL ? (
-              <Button size="lg" href={PRIMARY_CTA.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <Button size="lg" variant="ink" href={PRIMARY_CTA.href} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 {PRIMARY_CTA.label}
               </Button>
             ) : null}
-            <Button size="lg" variant="whatsapp" arrow={<ArrowRight className="h-4 w-4" />} {...WA_LINK} className="w-full sm:w-auto">
+            <Button size="lg" variant="ink" arrow={<ArrowRight className="h-4 w-4" />} {...WA_LINK} className="w-full sm:w-auto">
               Chat on WhatsApp
             </Button>
           </div>
           <a
             href="/calculator/"
-            className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-[14.5px] text-muted underline decoration-border-bright underline-offset-4 transition-colors hover:text-accent"
+            className="mt-5 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-medium text-text underline decoration-text/40 underline-offset-4 transition-colors hover:decoration-text"
           >
             Curious what manual work costs you? Try the calculator →
           </a>
         </Reveal>
-        <Reveal delay={0.12}>
+        <Reveal delay={0.12} className="theme-paper">
           <AuditForm />
         </Reveal>
       </div>

@@ -123,13 +123,12 @@ export function StaggerItem({
 export function Ambient({ className }: { className?: string }) {
   return (
     <div aria-hidden className={cn("pointer-events-none absolute", className)}>
-      <div className="ambient-dots absolute inset-0" />
-      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" fill="none">
-        <ellipse cx="200" cy="200" rx="190" ry="120" stroke="rgba(234,106,47,0.10)" strokeDasharray="1 7" strokeLinecap="round" transform="rotate(-18 200 200)" />
-        <ellipse cx="200" cy="200" rx="130" ry="82" stroke="rgba(245,220,200,0.06)" transform="rotate(-18 200 200)" />
-        <circle cx="352" cy="132" r="2.2" fill="rgba(241,122,59,0.55)" />
-        <circle cx="70" cy="262" r="1.6" fill="rgba(245,220,200,0.35)" />
-        <circle cx="300" cy="300" r="1.3" fill="rgba(241,122,59,0.35)" />
+            <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" fill="none">
+        <ellipse cx="200" cy="200" rx="190" ry="120" stroke="var(--color-border-bright)" strokeDasharray="1 7" strokeLinecap="round" transform="rotate(-18 200 200)" />
+        <ellipse cx="200" cy="200" rx="130" ry="82" stroke="var(--color-border)" transform="rotate(-18 200 200)" />
+        <circle cx="352" cy="132" r="2.2" fill="var(--color-signal)" />
+        <circle cx="70" cy="262" r="1.6" fill="var(--color-border-bright)" />
+        <circle cx="300" cy="300" r="1.3" fill="var(--color-signal)" />
       </svg>
     </div>
   );
@@ -160,30 +159,33 @@ export function Section({
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   sub,
   size = "md",
   className,
 }: {
   eyebrow: string;
+  /** optional section number, shown before the kicker ("01") */
+  index?: string;
   title: React.ReactNode;
   sub?: React.ReactNode;
   size?: "md" | "sm";
   className?: string;
 }) {
   return (
-    <div className={cn("max-w-3xl", className)}>
+    <div className={cn("max-w-4xl", className)}>
       <Reveal>
-        <span className="label inline-flex items-center gap-2.5 text-accent">
-          <span className="h-px w-6 bg-accent/70" />
+        <span className="kicker">
+          {index && <span className="kicker-n">{index}</span>}
           {eyebrow}
         </span>
       </Reveal>
       <Reveal delay={0.07}>
         <h2
           className={cn(
-            "display mt-4 text-balance text-text",
-            size === "md" ? "text-[clamp(1.875rem,4.2vw,3.25rem)]" : "text-[clamp(1.6rem,3.2vw,2.5rem)]"
+            "display mt-5 text-balance text-text",
+            size === "md" ? "text-[clamp(2.4rem,6vw,5rem)]" : "text-[clamp(2rem,4.2vw,3.4rem)]"
           )}
         >
           {title}
@@ -191,7 +193,7 @@ export function SectionHeading({
       </Reveal>
       {sub && (
         <Reveal delay={0.14}>
-          <div className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-muted md:text-[17px]">{sub}</div>
+          <div className="mt-5 max-w-[36rem] text-[16px] leading-[1.65] text-muted md:text-[18px]">{sub}</div>
         </Reveal>
       )}
     </div>
@@ -273,7 +275,7 @@ export function SpotlightCard({
       whileHover={lift ? { y: -4 } : undefined}
       transition={{ duration: 0.25, ease: "easeOut" }}
       className={cn(
-        "spotlight card-lift rounded-2xl border border-border bg-surface transition-[border-color] duration-300 hover:border-accent/45",
+        "rounded-[20px] border border-border bg-surface transition-[border-color,box-shadow] duration-300 hover:border-border-bright hover:shadow-[0_24px_50px_-30px_rgba(23,18,14,0.35)]",
         className
       )}
       {...rest}
@@ -288,7 +290,8 @@ export function SpotlightCard({
 /* ------------------------------------------------------------------ */
 
 type BtnProps = {
-  variant?: "primary" | "ghost" | "whatsapp";
+  /** primary: signal orange · ink: solid ink (or paper inside ink bands) · ghost: outline · whatsapp: outline that turns green */
+  variant?: "primary" | "ink" | "ghost" | "whatsapp";
   size?: "md" | "lg";
   arrow?: React.ReactNode;
   arrowMove?: "x" | "y";
@@ -309,13 +312,15 @@ export function Button({
   ...props
 }: BtnProps) {
   const base = cn(
-    "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,box-shadow,border-color,background-color] duration-200 active:scale-[0.97] cursor-pointer",
-    size === "md" ? "h-11 px-5 text-[14px]" : "h-12 px-7 text-[15px]",
+    "group relative inline-flex cursor-pointer items-center justify-center gap-2.5 overflow-hidden rounded-full font-semibold tracking-[-0.01em] whitespace-nowrap transition-[transform,box-shadow,border-color,background-color,color] duration-200 active:scale-[0.97]",
+    size === "md" ? "h-11 px-5 text-[14.5px]" : "h-[52px] px-7 text-[15.5px]",
     variant === "primary"
-      ? "bg-accent text-[#1a0a03] hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-[0_12px_30px_-10px_rgba(233,107,47,0.7)]"
+      ? "bg-signal text-on-signal shadow-[inset_0_-2px_0_rgba(0,0,0,0.12)] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_rgba(255,95,21,0.75)]"
+      : variant === "ink"
+      ? "bg-text text-bg hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-14px_rgba(23,18,14,0.6)]"
       : variant === "whatsapp"
-      ? "border border-[#25D366]/40 bg-[#25D366]/[0.05] text-text hover:-translate-y-0.5 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366]"
-      : "border border-border-bright text-text hover:border-accent/60 hover:text-accent",
+      ? "border border-border-bright text-text hover:-translate-y-0.5 hover:border-[#1a9e4b] hover:bg-[#25D366]/10 hover:text-[#147a3a]"
+      : "border border-border-bright text-text hover:border-text hover:bg-text hover:text-bg",
     className
   );
   const inner = (
@@ -324,7 +329,7 @@ export function Button({
       {arrow && (
         <span
           className={cn(
-            "transition-transform duration-200",
+            "grid place-items-center transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
             arrowMove === "x" ? "group-hover:translate-x-1" : "group-hover:translate-y-1"
           )}
         >
@@ -404,15 +409,15 @@ export function Highlight({ children, delay = 0 }: { children: React.ReactNode; 
     <span ref={ref} className="relative inline-block whitespace-nowrap">
       <motion.span
         className="inline-block"
-        initial={{ color: "#f2e9df", textShadow: "0 0 0 rgba(234,106,47,0)" }}
-        animate={on ? { color: "#ea6a2f", textShadow: "0 0 0.45em rgba(234,106,47,0.35)" } : undefined}
+        initial={{ color: "var(--color-text)" }}
+        animate={on ? { color: "var(--color-accent)" } : undefined}
         transition={{ duration: 0.6, ease: "easeOut", delay }}
       >
         {children}
       </motion.span>
       <motion.span
         aria-hidden
-        className="absolute -bottom-[0.06em] left-0 h-[0.07em] min-h-[2px] w-full origin-left rounded-full bg-accent"
+        className="absolute -bottom-[0.06em] left-0 h-[0.07em] min-h-[2px] w-full origin-left rounded-full bg-signal"
         initial={{ scaleX: 0 }}
         animate={on ? { scaleX: 1 } : undefined}
         transition={{ duration: 0.6, ease: "easeOut", delay: delay + 0.25 }}
@@ -590,7 +595,7 @@ export function ScrollProgress() {
     <motion.div
       aria-hidden
       style={{ scaleX }}
-      className="fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-accent to-accent-2"
+      className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-signal"
     />
   );
 }

@@ -9,12 +9,12 @@ import { WA_LINK } from "@/lib/whatsapp";
 import { Button } from "./ui";
 
 const inputCls =
-  "w-full rounded-xl border border-border bg-bg/60 px-4 py-3 text-[15px] text-text placeholder:text-subtle transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25";
+  "w-full rounded-[12px] border border-border-bright bg-bg px-4 py-3.5 text-[16px] text-text placeholder:text-subtle transition-[border-color,box-shadow] focus:border-text focus:outline-none focus:ring-4 focus:ring-signal/25";
 
 /** Fired by the problem cards: { message, focus } pre-fills (and optionally focuses) the Message field. */
 export const PREFILL_EVENT = "flowhq:prefill";
 
-const waText = "inline-flex min-h-11 items-center text-[14px] text-[#25D366] underline decoration-[#25D366]/40 underline-offset-4 transition-opacity hover:opacity-80";
+const waText = "inline-flex min-h-11 items-center text-[14px] font-medium text-[#147a3a] underline decoration-[#147a3a]/40 underline-offset-4 transition-opacity hover:opacity-80";
 
 /** The single audit action: Name, Phone, Business Type, Message → Google Apps Script → sheet row. */
 export default function AuditForm() {
@@ -93,11 +93,11 @@ export default function AuditForm() {
 
   if (status === "done") {
     return (
-      <div className="rounded-[14px] border border-border bg-surface p-6 text-center md:p-8">
-        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success text-[#06251a]">
+      <div className="rounded-[24px] bg-surface p-6 text-center shadow-[0_40px_80px_-40px_rgba(23,18,14,0.55)] md:p-10">
+        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success text-white">
           <Check className="h-7 w-7" strokeWidth={3} />
         </span>
-        <p className="mt-6 text-[22px] font-semibold tracking-tight">Thanks! We&apos;ll reach out soon.</p>
+        <p className="display mt-6 text-[28px]" style={{ letterSpacing: "-0.035em" }}>Thanks! We&apos;ll reach out soon.</p>
         <p className="mt-6 text-[14px] text-muted">
           Prefer WhatsApp?{" "}
           <a {...WA_LINK} className={waText}>
@@ -135,12 +135,16 @@ export default function AuditForm() {
   };
 
   return (
-    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-[14px] border border-border bg-surface p-6 md:p-8">
+    <form onSubmit={submit} onFocusCapture={onStart} noValidate className="relative rounded-[24px] bg-surface p-6 shadow-[0_40px_80px_-40px_rgba(23,18,14,0.55)] md:p-9">
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor={`${uid}-company`}>Company website</label>
         <input id={`${uid}-company`} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
       </div>
-      <div className="space-y-4">
+      <p className="display text-[26px] text-text md:text-[30px]" style={{ letterSpacing: "-0.035em", lineHeight: 1.05 }}>
+        Your free audit
+      </p>
+      <p className="mt-1.5 text-[14.5px] text-muted">Four quick fields. Free, no obligation.</p>
+      <div className="mt-6 space-y-4">
         {field("name", "Name", { autoComplete: "name" })}
         {field("phone", "Phone", { type: "tel", inputMode: "tel", autoComplete: "tel" })}
         {field("businessType", "Business Type")}

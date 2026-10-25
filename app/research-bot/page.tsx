@@ -26,7 +26,7 @@ export default function Page() {
       >
         <></>
       </PageHero>
-      <section className={`${band} bg-[#150e0a] !pt-0`}>
+      <section className={`${band} bg-bg-soft !pt-0`}>
         <div className={`${wrap} max-w-[820px]`}>
           <Eyebrow>About this crawler</Eyebrow>
           <dl className="mt-6 grid gap-4 sm:grid-cols-2">

@@ -9,11 +9,11 @@ export default function CaseStudies() {
   return (
     <section id="work" className={BAND}>
       <div className={CONTAINER}>
-        <SectionHeading eyebrow="Work" title="Work we've built." />
-        <ul className="mt-6 grid gap-4 md:grid-cols-2">
+        <SectionHeading eyebrow="Work" title={<>Work we&apos;ve <em>built</em>.</>} />
+        <ul className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2">
           {VISIBLE_CASES.map((c, i) => (
             <li key={c.label}>
-              <Reveal delay={i * 0.08} className="flex h-full flex-col overflow-hidden rounded-[14px] border border-border bg-surface/60">
+              <Reveal delay={i * 0.08} className="flex h-full flex-col overflow-hidden rounded-[24px] border border-border bg-surface">
                 {c.screenshot ? (
                   <img src={c.screenshot} alt={c.screenshotAlt ?? `${c.label} screenshot`} loading="lazy" decoding="async" className="aspect-[16/9] w-full border-b border-border object-cover" />
                 ) : (
@@ -23,7 +23,7 @@ export default function CaseStudies() {
                     </div>
                   )
                 )}
-                <div className="flex flex-1 flex-col p-5 md:p-6">
+                <div className="flex flex-1 flex-col p-6 md:p-8">
                   <span className="label w-fit rounded-full border border-border-bright px-2.5 py-1.5 text-[10px] leading-none text-muted">{c.label}</span>
                   <p className="mt-4 text-[15px] text-subtle">
                     <Slot value={c.clientType} />
@@ -43,7 +43,7 @@ export default function CaseStudies() {
                     </div>
                     <div className="border-t border-border pt-4">
                       <dt className="label text-[10px] text-subtle">Result</dt>
-                      <dd className="mt-1 text-[17px] font-semibold text-accent-2">
+                      <dd className="display mt-1 text-[24px] text-accent" style={{ letterSpacing: "-0.03em" }}>
                         <Slot value={c.result} />
                       </dd>
                     </div>

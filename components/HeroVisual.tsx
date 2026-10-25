@@ -53,7 +53,7 @@ function useInboxLoop() {
 
 function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#15100d] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]">
+    <div className="overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#1c1611]">
       <div className="flex h-9 items-center gap-3 border-b border-white/[0.08] bg-white/[0.02] px-3.5">
         <span className="flex gap-1.5" aria-hidden>
           <i className="h-2.5 w-2.5 rounded-full bg-white/15" />
@@ -135,7 +135,7 @@ function CrmMockup({ ev, step, reduce }: { ev: number; step: number; reduce: boo
 function FloatingFeed({ ev, step, className }: { ev: number; step: number; className?: string }) {
   const cur = EVENTS[ev];
   return (
-    <div className={cn("rounded-[14px] border border-white/[0.1] bg-[rgba(24,17,13,0.92)] p-3.5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md", className)}>
+    <div className={cn("flex flex-col rounded-[16px] border border-white/[0.1] bg-[#221b15] p-4", className)}>
       <div className="flex items-center justify-between">
         <span className="text-[12.5px] font-medium text-text">Unified inbox</span>
         <span className="label flex items-center gap-1.5 text-[9.5px] text-subtle">
@@ -146,22 +146,41 @@ function FloatingFeed({ ev, step, className }: { ev: number; step: number; class
         {CHANNELS.map(({ id, label, Icon }) => {
           const on = id === cur.channel;
           return (
-            <li key={id} className={cn("flex flex-col items-center gap-1 rounded-lg border py-1.5 text-[9.5px] transition-colors duration-300", on ? "border-accent/60 bg-accent/10 text-text" : "border-white/[0.08] text-subtle")}>
-              <Icon className={cn("h-4 w-4", on && "text-accent-2")} />
+            <li key={id} className={cn("flex flex-col items-center gap-1.5 rounded-[10px] border py-2 text-[9.5px] transition-colors duration-300 lg:py-3", on ? "border-signal bg-signal/15 text-text" : "border-white/[0.08] text-subtle")}>
+              <Icon className={cn("h-4 w-4 lg:h-5 lg:w-5", on && "text-signal")} />
               {label}
             </li>
           );
         })}
       </ul>
-      <p className="mt-2.5 truncate text-[11.5px] text-muted">
-        <span className="font-mono text-subtle">{cur.time}</span> · {chan(cur.channel).name} · {cur.text}
-      </p>
-      <ul className="mt-2 space-y-1">
+      <div className="mt-3 rounded-[12px] rounded-tl-sm border border-white/[0.08] bg-white/[0.04] px-3 py-2.5">
+        <div className="flex items-center justify-between text-[10.5px] text-subtle">
+          <span>
+            {cur.who} · {chan(cur.channel).name}
+          </span>
+          <span className="font-mono">{cur.time}</span>
+        </div>
+        <p className="mt-1 truncate text-[12.5px] text-text">{cur.text}</p>
+      </div>
+      {/* the automatic reply, once the first step has run */}
+      <div
+        className={cn(
+          "ml-6 mt-2 rounded-[12px] rounded-tr-sm bg-signal px-3 py-2.5 text-ink transition-[opacity,transform] duration-300",
+          step > 0 ? "opacity-100" : "translate-y-1 opacity-0"
+        )}
+      >
+        <div className="flex items-center justify-between text-[10.5px] font-medium opacity-75">
+          <span>Flow HQ · auto-reply</span>
+          <span>sent</span>
+        </div>
+        <p className="mt-1 text-[12.5px] leading-snug">Thanks for reaching out! Here are the details — want me to book you a slot?</p>
+      </div>
+      <ul className="mt-3 space-y-1.5 lg:mt-auto lg:pt-4">
         {OUTPUTS.map((o, i) => {
           const done = step > i;
           return (
             <li key={o} className="flex items-center gap-2.5 text-[12.5px]">
-              <span className={cn("grid h-4 w-4 shrink-0 place-items-center rounded-full border transition-colors duration-300", done ? "border-accent bg-accent text-[#1a0a03]" : "border-white/15 text-transparent")}>
+              <span className={cn("grid h-4 w-4 shrink-0 place-items-center rounded-full border transition-colors duration-300", done ? "border-signal bg-signal text-ink" : "border-white/15 text-transparent")}>
                 <Check className="h-2.5 w-2.5" strokeWidth={3.5} />
               </span>
               <span className={cn("transition-colors duration-300", done ? "text-text" : "text-subtle")}>{o}</span>
@@ -182,8 +201,7 @@ export default function HeroVisual() {
       aria-label="Illustration: a lead pipeline showing enquiries from website forms, WhatsApp, Instagram, calls and email, each replied to, booked and logged automatically by Flow HQ."
       className="relative w-full"
     >
-      <div aria-hidden className="pointer-events-none absolute -inset-8 -z-10" style={{ background: "radial-gradient(closest-side, rgba(234,106,47,0.08), transparent)" }} />
-      <div aria-hidden>
+      <div aria-hidden className="grid gap-3 lg:grid-cols-[1fr_300px] lg:gap-5">
         <BrowserFrame>
           {HERO_SCREENSHOT.src ? (
             <img src={HERO_SCREENSHOT.src} alt="" width={1280} height={800} decoding="async" className="block w-full" />
@@ -191,7 +209,7 @@ export default function HeroVisual() {
             <CrmMockup ev={ev} step={step} reduce={reduce} />
           )}
         </BrowserFrame>
-        <FloatingFeed ev={ev} step={step} className="relative z-10 mx-3 -mt-12 max-w-[360px] sm:mx-6 lg:absolute lg:-bottom-10 lg:-left-10 lg:mx-0 lg:mt-0 lg:w-[300px]" />
+        <FloatingFeed ev={ev} step={step} className="lg:self-stretch" />
       </div>
     </div>
   );

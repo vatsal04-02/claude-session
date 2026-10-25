@@ -32,7 +32,7 @@ export default function Intro() {
         <LogoMark draw gradientId="flowhq-intro" className="h-[1.75em] w-auto" />
         <span className="flex whitespace-pre">
           {LETTERS.map((l, i) => (
-            <span key={i} className={cn("intro-l", i < 3 ? "text-[#F8E9C9]" : "text-[#FF6510]")} style={{ "--i": i } as React.CSSProperties}>
+            <span key={i} className={cn("intro-l", i < 3 ? "text-ink" : "text-[#FF6510]")} style={{ "--i": i } as React.CSSProperties}>
               {l}
             </span>
           ))}

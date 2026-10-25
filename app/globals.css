@@ -1,36 +1,99 @@
 @import "tailwindcss";
 
-/* FlowHQ — warm black + orange, editorial */
+/* FlowHQ — "Paper & Signal".
+   Warm paper + near-black ink, one signal orange (the logo's). Editorial type: Bricolage Grotesque display,
+   Instrument Serif italic for the odd emphasised word, Geist for reading. Dark ink bands and one orange band
+   are scoped themes (.theme-ink / .theme-signal) that re-point the same tokens, so every component adapts. */
 @theme {
-  --color-bg: #110b08;
-  --color-bg-soft: #150e0a;
-  --color-surface: #1b130f;
-  --color-surface-2: #211710;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-bright: rgba(245, 220, 200, 0.22);
-  --color-text: #f2e9df;
-  --color-muted: #b9aea3;
-  --color-subtle: #968c82;
-  --color-accent: #ea6a2f;
-  --color-accent-2: #f17a3b;
-  --color-success: #8fc98a;
-  --color-warning: #e8b45a;
-  --color-danger: #e8776b;
+  --color-bg: #f4efe7;
+  --color-bg-soft: #ece5da;
+  --color-surface: #fbf8f3;
+  --color-surface-2: #e7dfd2;
+  --color-border: rgba(23, 18, 14, 0.12);
+  --color-border-bright: rgba(23, 18, 14, 0.26);
+  --color-text: #17120e;
+  --color-muted: #574c43;
+  --color-subtle: #6f645a;
+  /* accent = text-safe burnt orange (≥4.5:1 on paper); signal = the brand orange, for fills and big type */
+  --color-accent: #ad3a09;
+  --color-accent-2: #9c3408;
+  --color-signal: #ff5f15;
+  --color-on-signal: #17120e;
+  --color-ink: #17120e;
+  --color-paper: #f4efe7;
+  --color-success: #2c7339;
+  --color-warning: #8f5c05;
+  --color-danger: #b4372a;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Bricolage Grotesque Variable", var(--font-geist-sans), ui-sans-serif, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-logo: "Poppins", var(--font-geist-sans), sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+/* dark ink band: same tokens, re-pointed */
+.theme-ink {
+  --color-bg: #17120e;
+  --color-bg-soft: #1e1813;
+  --color-surface: #221b15;
+  --color-surface-2: #2b231c;
+  --color-border: rgba(244, 239, 231, 0.1);
+  --color-border-bright: rgba(244, 239, 231, 0.22);
+  --color-text: #f4efe7;
+  --color-muted: #c2b6aa;
+  --color-subtle: #9d9186;
+  --color-accent: #ff7a3d;
+  --color-accent-2: #ff9462;
+  --color-success: #8fc98a;
+  --color-warning: #e8b45a;
+  --color-danger: #ee8679;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+/* back to paper inside another band (e.g. the form card in the orange band) */
+.theme-paper {
+  --color-bg: #f4efe7;
+  --color-bg-soft: #ece5da;
+  --color-surface: #fbf8f3;
+  --color-surface-2: #e7dfd2;
+  --color-border: rgba(23, 18, 14, 0.12);
+  --color-border-bright: rgba(23, 18, 14, 0.26);
+  --color-text: #17120e;
+  --color-muted: #574c43;
+  --color-subtle: #6f645a;
+  --color-accent: #ad3a09;
+  --color-accent-2: #9c3408;
+  --color-success: #2c7339;
+  --color-warning: #8f5c05;
+  --color-danger: #b4372a;
+  color: var(--color-text);
+}
+/* the orange band: ink type on signal */
+.theme-signal {
+  --color-bg: #ff5f15;
+  --color-text: #17120e;
+  --color-muted: #3a1d0c;
+  --color-subtle: #42200d;
+  --color-border: rgba(23, 18, 14, 0.18);
+  --color-border-bright: rgba(23, 18, 14, 0.34);
+  --color-accent: #17120e;
+  --color-accent-2: #000;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 html {
   background: var(--color-bg);
-  /* in-page anchors land just below the sticky navbar (56px phones / 64px desktop) */
-  scroll-padding-top: 72px;
+  /* in-page anchors land just below the fixed navbar */
+  scroll-padding-top: 76px;
 }
 @media (min-width: 768px) {
-  html { scroll-padding-top: 80px; }
+  html { scroll-padding-top: 88px; }
 }
-/* native scrolling; in-page anchor jumps glide unless the visitor prefers reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
@@ -46,90 +109,130 @@ body {
 }
 
 ::selection {
-  background: rgba(234,106,45, 0.35);
-  color: #fff;
+  background: var(--color-signal);
+  color: var(--color-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-text);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* display type: bold modern sans */
+/* ---------- type ---------- */
 .display {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
 }
-.display em {
-  font-style: normal;
+/* one emphasised word per headline: serif italic, in the accent colour */
+.display em,
+.serif-em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
   color: var(--color-accent);
+  padding-right: 0.04em;
 }
 
+/* small uppercase metadata (prices, dates, "sample data") */
 .label {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-/* hero atmosphere: layer 1 (warmth). Layer 2 is .grid-bg, layer 3 the localised glows. */
+/* section kicker: a signal square + a short name, quiet sans — replaces the old mono "— LABEL" */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--color-text);
+}
+.kicker::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--color-signal);
+  border-radius: 2px;
+  flex: none;
+}
+.kicker .kicker-n {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-subtle);
+  letter-spacing: 0.04em;
+}
+
+.item-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 650;
+  font-variation-settings: "opsz" 32;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* ---------- section scaffolding ---------- */
+/* a hairline at the top of a band (only where two same-colour bands meet) */
+.section-edge {
+  border-top: 1px solid var(--color-border);
+}
+
+/* sub-page hero: plain paper with a big orange quarter-disc in the corner */
 .hero-atmos {
-  background:
-    radial-gradient(circle at 78% 18%, rgba(234, 106, 47, 0.1), transparent 36%),
-    radial-gradient(circle at 18% 45%, rgba(130, 60, 30, 0.08), transparent 34%),
-    linear-gradient(180deg, #140d09 0%, #110b08 60%, #110b08 100%);
+  background-color: var(--color-bg);
 }
-
-/* section transition: a hairline that fades out at both ends + a soft shadow falling from the seam */
-.section-edge::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245, 220, 200, 0.14) 18%, rgba(245, 220, 200, 0.14) 82%, transparent);
-}
-.section-edge::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 72px;
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.22), transparent);
-}
-
-.spotlight {
-  position: relative;
-  isolation: isolate;
-}
-.spotlight::before {
-  content: "";
+.grid-layer {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    340px circle at var(--mx, 50%) var(--my, 0%),
-    rgba(234,106,45, 0.09),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
   pointer-events: none;
-  z-index: -1;
+  overflow: hidden;
 }
-.spotlight:hover::before {
-  opacity: 1;
+.grid-layer::after {
+  content: "";
+  position: absolute;
+  right: -14vw;
+  top: -18vw;
+  width: 46vw;
+  height: 46vw;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 9999px;
+  background: var(--color-signal);
+  opacity: calc(var(--grid-o, 0.6) * 0.16);
 }
+.warm-a, .warm-b { background-image: none; }
+
+/* paper grain: very fine noise, gives the flat paper a printed feel */
+.grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0 0.05 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- motion ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track:hover { animation-play-state: paused; }
 
 @keyframes pulse-ring {
   0% { transform: scale(0.8); opacity: 0.7; }
   100% { transform: scale(2.6); opacity: 0; }
 }
-@keyframes blink {
-  50% { opacity: 0.25; }
-}
+@keyframes blink { 50% { opacity: 0.25; } }
 .anim-blink { animation: blink 1.6s ease-in-out infinite; }
 .pulse-dot::after {
   content: "";
@@ -143,19 +246,7 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ---------- flow diagrams ---------- */
-/* chips in a FlowChain light up in sequence once when scrolled into view */
+/* flow diagrams: chips in a FlowChain light up in sequence once when scrolled into view */
 @keyframes chip-run {
   0%, 100% { color: var(--color-muted); }
   5%, 17% { color: var(--color-accent); }
@@ -169,73 +260,37 @@ body {
 .flow-chain[data-run="true"] .flow-chip { animation: chip-run var(--cycle, 5s) ease-in-out 1 both; }
 .flow-chain[data-run="true"] .flow-arrow { animation: arrow-run var(--cycle, 5s) ease-in-out 1 both; }
 
-/* type scale: item titles are quiet sans, not serif */
-.item-title {
-  font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+/* hero entrance: CSS-only so it starts at first paint, before hydration (keeps LCP fast) */
+@keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+.hero-rise { animation: hero-rise 0.9s var(--ease-out-expo) both; animation-delay: var(--rd, 0s); }
+/* headline lines are LCP candidates: they move (clip-reveal), never fade */
+@keyframes line-up { from { transform: translateY(105%); } to { transform: none; } }
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.line-mask > span { display: block; animation: line-up 1s var(--ease-out-expo) both; animation-delay: var(--rd, 0s); }
+
+/* live pulse dot */
+.feed-dot { position: relative; width: 6px; height: 6px; flex: none; border-radius: 9999px; background: var(--color-signal); }
+.feed-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--color-signal); animation: feed-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+@keyframes feed-ping { 0% { transform: scale(1); opacity: 0.5; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
+
+/* tilt cards: vanilla-tilt sets the transform; children can float above the card */
+.tilt { transform-style: preserve-3d; will-change: transform; }
+.tilt-pop { transform: translateZ(28px); }
+
+/* the fixed mobile CTA bar (below md) must never cover the end of the page */
+@media (max-width: 767px) {
+  body { padding-bottom: 80px; }
 }
 
-/* very soft warm light behind mid-page sections */
-.warm-a { background-image: radial-gradient(circle at 86% 18%, rgba(234, 106, 47, 0.05), transparent 38%); }
-.warm-b { background-image: radial-gradient(circle at 10% 60%, rgba(130, 60, 30, 0.08), transparent 36%); }
-
-/* hovering a card brightens its workflow line */
-.group:hover .flow-chip { color: var(--color-text); }
-.group:hover .flow-arrow { color: var(--color-accent); }
-
-/* shared background texture: a faint dot field (no hard grid lines) — noticed only when you look for it.
-   Every Section gets one; --grid-o sets how present it is */
-.grid-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: var(--grid-o, 0.8);
-  background-image: radial-gradient(circle at center, rgba(220, 150, 105, 0.13) 1px, transparent 1.4px);
-  background-size: 28px 28px;
-  background-position: calc(50% + var(--grid-x, 0px)) top;
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent),
-    linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent),
-    linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-composite: intersect;
-}
-
-/* the fixed mobile CTA bar (below lg) must never cover the end of the page */
-@media (max-width: 1023px) {
-  body { padding-bottom: 84px; }
-}
-
-/* ---------- Phase 3 motion ---------- */
-/* cards: lift (motion) + a soft shadow that fades in (opacity only) */
-.card-lift::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.85), 0 10px 30px -18px rgba(234, 106, 47, 0.28);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-.card-lift:hover::after { opacity: 1; }
-.card-lift { isolation: isolate; }
-
-/* page-load brand intro */
+/* page-load brand intro (once per session) */
 .intro {
   position: fixed;
   inset: 0;
   z-index: 100;
   display: grid;
   place-items: center;
-  background: #000;
-  animation: intro-out 0.3s ease 0.85s forwards;
+  background: var(--color-paper);
+  animation: intro-out 0.35s ease 0.85s forwards;
 }
 html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
 @keyframes intro-out { to { opacity: 0; visibility: hidden; } }
@@ -249,7 +304,7 @@ html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
-  animation: intro-dot 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: intro-dot 0.25s var(--ease-out-expo) forwards;
 }
 .intro .mark-dots circle:nth-child(1) { animation-delay: 0.38s; }
 .intro .mark-dots circle:nth-child(2) { animation-delay: 0.42s; }
@@ -264,30 +319,9 @@ html[data-intro="skip"] .intro { animation: intro-out 0.2s ease forwards; }
 @keyframes intro-type { to { opacity: 1; } }
 html[data-intro="off"] .intro { display: none; }
 
-@media (prefers-reduced-motion: reduce) {
-  .intro { display: none; }
-}
-
-/* founder photos: vibrant colour, zoomed in around the face (origin set per photo) */
-.founder-photo img { filter: saturate(1.15) contrast(1.04); transform: scale(1.06); }
-
-/* hero entrance: CSS-only so it starts at first paint, before hydration (keeps LCP fast) */
-@keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-.hero-rise { animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--rd, 0s); }
-/* headline + intro copy are LCP candidates: move, never fade, so they count as painted on first frame */
-@keyframes hero-lift { from { transform: translateY(16px); } to { transform: none; } }
-.hero-lift { animation: hero-lift 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--rd, 0s); }
-/* reduced motion: the hero simply appears (must follow the rules above to override them) */
-@media (prefers-reduced-motion: reduce) {
-  .hero-rise, .hero-lift { animation: none; }
-}
-
-/* live pulse dot (hero inbox card) (ring scales out and fades; static for reduced motion) */
-.feed-dot { position: relative; width: 6px; height: 6px; flex: none; border-radius: 9999px; background: var(--color-accent); }
-.feed-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--color-accent); animation: feed-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
-@keyframes feed-ping { 0% { transform: scale(1); opacity: 0.5; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .feed-dot::after { animation: none; opacity: 0; } }
-
+/* founder photos: natural colour, slightly zoomed around the face */
+.founder-photo img { filter: saturate(1.05) contrast(1.03); transform: scale(1.06); transition: transform 0.8s var(--ease-out-expo); }
+.founder-photo:hover img { transform: scale(1.1); }
 
 /* service-page FAQ (<details>): hide the native marker */
 .faq-item > summary::-webkit-details-marker { display: none; }
@@ -296,84 +330,72 @@ html[data-intro="off"] .intro { display: none; }
 .skip-link {
   position: fixed; left: 12px; top: 12px; z-index: 110;
   padding: 10px 16px; border-radius: 999px;
-  background: var(--color-accent); color: #1a0a03; font-weight: 600; font-size: 14px;
+  background: var(--color-ink); color: var(--color-paper); font-weight: 600; font-size: 14px;
   transform: translateY(-150%);
 }
 .skip-link:focus { transform: none; }
 
-/* ---------- redesign: glass + ambient ---------- */
-/* restrained glass: dark translucent surface, hairline border, soft inner highlight */
+/* surfaces kept for the calculator / demo: solid, no blur */
 .glass {
-  background: linear-gradient(180deg, rgba(38, 27, 20, 0.62), rgba(24, 17, 12, 0.55));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 235, 215, 0.05), 0 30px 70px -38px rgba(0, 0, 0, 0.9);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
-  backdrop-filter: blur(14px) saturate(1.15);
-}
-/* faint dotted cluster, fading out from its centre */
-.ambient-dots {
-  background-image: radial-gradient(rgba(245, 220, 200, 0.16) 1px, transparent 1.4px);
-  background-size: 16px 16px;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
-  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
-  opacity: 0.5;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 30px 60px -40px rgba(23, 18, 14, 0.35);
 }
 
 /* calculator: ₹ coin + tactile sliders */
 .coin-face {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  background: radial-gradient(circle at 34% 28%, #ffe2c0 0%, #f7a45f 34%, #e5692c 64%, #9c3d14 100%);
-  box-shadow: inset 0 0 0 5px rgba(255, 214, 175, 0.35), inset 0 -8px 16px rgba(110, 40, 10, 0.45), 0 18px 40px -14px rgba(234, 106, 47, 0.75);
+  background: radial-gradient(circle at 34% 28%, #ffe2c0 0%, #ff9a52 34%, #ff5f15 64%, #a33a0c 100%);
+  box-shadow: inset 0 0 0 5px rgba(255, 214, 175, 0.35), inset 0 -8px 16px rgba(110, 40, 10, 0.45), 0 18px 40px -14px rgba(255, 95, 21, 0.6);
   text-shadow: 0 1px 0 rgba(255, 220, 190, 0.6);
 }
 .flow-range { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; }
-.flow-range:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; border-radius: 8px; }
+.flow-range:focus-visible { outline: 2px solid var(--color-text); outline-offset: 4px; border-radius: 8px; }
 .flow-range::-webkit-slider-runnable-track {
   height: 6px; border-radius: 999px;
-  background: linear-gradient(to right, var(--color-accent) 0 var(--p, 0%), rgba(245, 220, 200, 0.13) var(--p, 0%) 100%);
+  background: linear-gradient(to right, var(--color-signal) 0 var(--p, 0%), var(--color-border) var(--p, 0%) 100%);
 }
-.flow-range::-moz-range-track { height: 6px; border-radius: 999px; background: rgba(245, 220, 200, 0.13); }
-.flow-range::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--color-accent); }
+.flow-range::-moz-range-track { height: 6px; border-radius: 999px; background: var(--color-border); }
+.flow-range::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--color-signal); }
 .flow-range::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; margin-top: -9px;
   height: 24px; width: 24px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff5ea, #f2e9df 45%, #cdbfb1);
-  border: 3px solid var(--color-accent);
-  box-shadow: 0 0 0 5px rgba(234, 106, 47, 0.16), 0 6px 14px -4px rgba(0, 0, 0, 0.8);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  background: var(--color-paper);
+  border: 3px solid var(--color-ink);
+  box-shadow: 0 6px 14px -4px rgba(23, 18, 14, 0.45);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .flow-range::-moz-range-thumb {
   height: 18px; width: 18px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff5ea, #f2e9df 45%, #cdbfb1);
-  border: 3px solid var(--color-accent);
-  box-shadow: 0 0 0 5px rgba(234, 106, 47, 0.16), 0 6px 14px -4px rgba(0, 0, 0, 0.8);
+  background: var(--color-paper);
+  border: 3px solid var(--color-ink);
 }
 .flow-range:hover::-webkit-slider-thumb,
-.flow-range:active::-webkit-slider-thumb { transform: scale(1.12); box-shadow: 0 0 0 8px rgba(234, 106, 47, 0.2), 0 6px 14px -4px rgba(0, 0, 0, 0.8); }
-
-/* ---------- hero-only texture: a faint line grid that fades toward the edges, plus fine noise ---------- */
-.hero-grid {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: center top;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 35%, #000 0%, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 70% at 60% 35%, #000 0%, transparent 75%);
-}
-.hero-noise {
-  opacity: 0.045;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
+.flow-range:active::-webkit-slider-thumb { transform: scale(1.12); }
 
 /* ---------- long-form article text (resources) ---------- */
-.prose-flow { color: var(--color-muted); font-size: 17px; line-height: 1.78; }
-.prose-flow section + section { margin-top: 3rem; }
-.prose-flow h2 { font-family: var(--font-sans); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; font-size: clamp(1.45rem, 2.4vw, 1.85rem); color: var(--color-text); margin-bottom: 1rem; }
+.prose-flow { color: var(--color-muted); font-size: 17.5px; line-height: 1.78; }
+.prose-flow section + section { margin-top: 3.25rem; }
+.prose-flow h2 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--color-text); margin-bottom: 1rem; }
 .prose-flow p { margin-top: 1rem; }
 .prose-flow ul, .prose-flow ol { margin-top: 1rem; display: grid; gap: 0.6rem; padding-left: 1.4rem; }
 .prose-flow ul { list-style: disc; }
 .prose-flow ol { list-style: decimal; }
-.prose-flow li::marker { color: var(--color-accent); }
-.prose-flow .prose-note { font-size: 14.5px; color: var(--color-subtle); border-left: 2px solid rgba(234, 106, 47, 0.5); padding-left: 0.9rem; }
+.prose-flow li::marker { color: var(--color-signal); }
+.prose-flow .prose-note { font-size: 14.5px; color: var(--color-subtle); border-left: 3px solid var(--color-signal); padding-left: 0.9rem; }
+
+/* reduced motion: everything simply appears (last, so it wins) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .intro { display: none; }
+  .hero-rise, .line-mask > span { animation: none; }
+  .feed-dot::after { animation: none; opacity: 0; }
+}

@@ -65,7 +65,7 @@ export default async function Page({ params }: Props) {
         <div className="px-5 pb-20 md:px-8 md:pb-28">
           <div className="relative mx-auto w-full max-w-[780px]">
             <div className="rounded-2xl border border-accent/30 bg-accent/[0.05] p-6 md:p-7">
-              <div className="label text-[10px] text-accent-2">The short answer</div>
+              <div className="label text-[10px] text-accent">The short answer</div>
               <p className="mt-2 text-[17px] leading-[1.7] text-text">{r.summary}</p>
             </div>
 

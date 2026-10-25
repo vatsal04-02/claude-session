@@ -6,14 +6,14 @@ import { BAND, CONTAINER } from "@/lib/layout";
 /** Social proof. Rendered only when every slot in lib/content.ts is filled (previews show the placeholders). */
 export default function ProofStrip() {
   if (!SHOW_PROOF) return null;
-  const cell = "bg-bg px-4 py-5 md:px-6 md:py-6";
+  const cell = "bg-surface px-5 py-6 md:px-6 md:py-7";
   return (
     <section aria-labelledby="proof-title" className={`${BAND} !py-10 md:!py-14`}>
       <Reveal className={CONTAINER}>
-        <h2 id="proof-title" className="label text-center text-[11px] text-subtle">
+        <h2 id="proof-title" className="kicker">
           Trusted by growing businesses in Lucknow
         </h2>
-        <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border border-border bg-border md:grid-cols-5">
+        <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-[24px] border border-border bg-border md:grid-cols-5">
           {CLIENTS.map((c, i) => (
             <div key={i} className={cell}>
               {c.logo ? (
@@ -30,7 +30,7 @@ export default function ProofStrip() {
           ))}
           {STATS.map((s, i) => (
             <div key={i} className={`${cell} ${i === STATS.length - 1 && STATS.length % 2 === 1 ? "col-span-2 md:col-span-1" : ""}`}>
-              <div className="text-[clamp(1.75rem,3vw,2.25rem)] font-semibold leading-none tabular-nums text-accent">
+              <div className="display text-[clamp(2rem,3.4vw,2.75rem)] leading-none tabular-nums text-text">
                 <Slot value={s.value} />
               </div>
               <div className="mt-2 text-[13px] leading-[1.4] text-muted">

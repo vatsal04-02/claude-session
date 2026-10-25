@@ -2,7 +2,7 @@
 
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { Ambient, Button, Reveal, Section, SectionHeading, SPRING } from "./ui";
+import { Button, Reveal, Section, SectionHeading, SPRING } from "./ui";
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
 
@@ -36,7 +36,7 @@ function Slider({
         <label htmlFor={id} className="text-[15.5px] text-text md:text-[16px]">
           {label}
         </label>
-        <span className="text-[22px] font-semibold tabular-nums text-accent-2">{display}</span>
+        <span className="text-[22px] font-semibold tabular-nums text-accent">{display}</span>
       </div>
       <input
         id={id}
@@ -119,8 +119,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
   }, [leaking, revealed, reduce, shown]);
 
   return (
-    <Section id="calculator" grid="soft" className="overflow-x-clip bg-[#140d09]">
-      <Ambient className="-left-48 top-[30%] hidden h-[520px] w-[520px] md:block" />
+    <Section id="calculator" className="overflow-x-clip bg-bg-soft !border-t-0">
       {heading && (
         <SectionHeading
           eyebrow="Cost of manual work"
@@ -130,8 +129,8 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
       )}
 
       <div className={heading ? "mt-10 grid items-stretch gap-5 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6" : "grid items-stretch gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6"}>
-        <Reveal className="glass space-y-6 rounded-[14px] p-5 md:p-7">
-          <div className="label text-[10.5px] text-accent-2">Manual work</div>
+        <Reveal className="glass space-y-6 rounded-[24px] p-6 md:p-8">
+          <div className="label text-[10.5px] text-accent">Manual work</div>
           <Slider
             id="roi-hours"
             label="Team hours on repetitive work, per week"
@@ -156,7 +155,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
             maxLabel="₹2,000"
             onChange={setRate}
           />
-          <div className="label border-t border-border pt-6 text-[10.5px] text-accent-2">Missed opportunities</div>
+          <div className="label border-t border-border pt-6 text-[10.5px] text-accent">Missed opportunities</div>
           <Slider id="roi-enq" label="Enquiries per week" value={enq} min={0} max={200} step={1} display={`${enq}`} minLabel="0" maxLabel="200" onChange={setEnq} />
           <Slider
             id="roi-ign"
@@ -187,7 +186,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
         {/* result stage: the number is the hero of this section */}
         <div
           ref={stage}
-          className="relative flex flex-col items-center justify-center overflow-hidden rounded-[14px] border border-accent/25 bg-[radial-gradient(ellipse_at_50%_30%,rgba(234,106,47,0.16),transparent_65%)] px-6 py-10 text-center md:px-10 md:py-12"
+          className="theme-ink relative flex flex-col items-center justify-center overflow-hidden rounded-[24px] px-6 py-10 text-center md:px-10 md:py-14"
         >
           <motion.div
             initial={reduce ? false : { opacity: 0, scale: 0.6, y: 10 }}
@@ -223,7 +222,7 @@ export default function RoiCalculator({ auditHref = "#audit", heading = true }: 
               <dt className="text-muted">Missed opportunities</dt>
               <dd className="text-right tabular-nums text-text">{inr(missed)}</dd>
               <dt className="border-t border-border pt-1.5 text-muted">Hours your team could get back</dt>
-              <dd className="border-t border-border pt-1.5 text-right tabular-nums text-accent-2">~{hoursBack} h / month</dd>
+              <dd className="border-t border-border pt-1.5 text-right tabular-nums text-accent">~{hoursBack} h / month</dd>
             </dl>
             <Button href={auditHref}>Find your real number</Button>
           </motion.div>
