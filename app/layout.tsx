@@ -6,13 +6,13 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FlowHQ — AI Automation Studio",
+  title: "FlowHQ — Custom AI Systems for Your Operations",
   description:
-    "FlowHQ builds AI-powered systems that capture leads, manage customers, automate follow-ups and keep your business moving.",
+    "FlowHQ designs and builds custom operational AI systems around how your business actually runs: workflows, assistants, integrations, dashboards and reporting.",
   openGraph: {
-    title: "FlowHQ — Your business, running on autopilot.",
+    title: "FlowHQ — Custom AI systems that run your operations.",
     description:
-      "AI systems for modern businesses: lead capture, AI CRM, WhatsApp and booking automation, revenue recovery.",
+      "Operational AI built around your process: workflow automation, AI assistants, WhatsApp and booking flows, integrations and reporting.",
     type: "website",
   },
 };

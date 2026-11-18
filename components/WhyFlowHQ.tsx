@@ -3,13 +3,14 @@
 import { motion } from "motion/react";
 import { TriangleAlert } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { EASE, Highlight, Reveal, Section, SectionHeading } from "./ui";
+import { EASE, Reveal, Section, SectionHeading } from "./ui";
 
-const WITHOUT = ["Website", "WhatsApp", "Spreadsheet", "Calendar", "Manual follow-up", "Missed context"];
-const WITH = ["Website", "AI", "CRM", "Automation", "Communication", "Human action"];
+const WITHOUT = ["WhatsApp", "Spreadsheet", "Calendar", "Email", "Manual copy-paste", "Missed handoffs"];
+const WITH = ["Intake", "AI", "Your rules", "Your tools", "Automation", "Your team"];
 const JITTER = [0, 14, -10, 10, -6, 6]; // the "without" column is deliberately untidy
 
 const POINTS = [
+  "Custom-built around your process, not a template",
   "Works with the tools you already use",
   "Built around how your team operates",
   "People stay in control where it matters",
@@ -21,13 +22,8 @@ export default function WhyFlowHQ() {
       <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20">
         <div>
           <SectionHeading
-            eyebrow="Why FlowHQ"
-            title={
-              <>
-                You&apos;ve got enough tools. You need them to <Highlight>work as one.</Highlight>
-              </>
-            }
-            sub="Most businesses don't need more software. They need their existing tools and workflows to work together."
+            title="Your tools should work as one."
+            sub="You've got enough tools. Most businesses don't need more software. They need a system built around how they actually work, connected to the tools they already have."
           />
           <ul className="mt-8 hidden space-y-3 sm:block">
             {POINTS.map((p, i) => (

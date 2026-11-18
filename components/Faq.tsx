@@ -7,8 +7,9 @@ import { cn } from "@/lib/cn";
 import { EASE, Reveal, Section, SectionHeading } from "./ui";
 
 const FAQS = [
+  ["Is this off-the-shelf software?", "No. Every system is custom-built around your process, then connected to the tools you already use. You own the workflow, not a template."],
   ["Will WhatsApp ban my number?", "No. We use the official WhatsApp Business API, messages go only to people who opted in, and everything runs inside Meta's rules."],
-  ["Does it replace my staff?", "No. It handles the repetitive work — replies, reminders, follow-ups. Your team steps in exactly where humans win."],
+  ["Does it replace my staff?", "No. It handles the repetitive work — replies, data entry, reminders, reports. Your team steps in exactly where humans win."],
   ["Do you support Hindi?", "Yes. Hindi, English and Hinglish — whatever your customers speak."],
   ["What does it cost?", "Every project is scoped and quoted upfront after a free audit. WhatsApp message charges are pay-as-you-go at Meta's official rates — you see the cost before anything is sent."],
   ["How long does setup take?", "Most systems are live in 7–14 days."],
@@ -20,7 +21,7 @@ export default function Faq() {
     <Section id="faq" className="bg-[#160f0b]">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
-          <SectionHeading eyebrow="FAQ" title="Fair questions." />
+          <SectionHeading title="Fair questions." />
         </div>
         <Reveal>
           <ul className="border-b border-border">

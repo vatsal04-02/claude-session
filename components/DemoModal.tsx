@@ -324,7 +324,7 @@ export default function DemoModal() {
                     value={form.details}
                     onChange={(e) => set("details", e.target.value)}
                     rows={3}
-                    placeholder="Anything else? e.g. “Leads from Instagram get lost”"
+                    placeholder="Anything else? e.g. “Orders arrive on WhatsApp and we retype them”"
                     aria-label="Describe what you want to automate"
                     className={cn(inputCls, "mt-3 resize-none")}
                   />

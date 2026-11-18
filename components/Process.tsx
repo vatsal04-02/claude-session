@@ -4,16 +4,16 @@ import { motion } from "motion/react";
 import { EASE, Section, SectionHeading } from "./ui";
 
 const STEPS = [
-  ["Understand", "We map how your business handles customers and repetitive work."],
-  ["Design", "We design the workflow and decide what to automate."],
-  ["Build", "We build the website, CRM, AI and integrations."],
+  ["Understand", "We map how your team actually works and where the time gets lost."],
+  ["Design", "We design the workflow and decide what to automate and what stays human."],
+  ["Build", "We build the AI, workflows, screens and integrations."],
   ["Launch", "We launch it, then improve it from real usage."],
 ] as const;
 
 export default function Process() {
   return (
     <Section id="process" grid="soft" className="warm-a bg-[#160f0b]">
-      <SectionHeading size="sm" eyebrow="Process" title="How we build it." />
+      <SectionHeading size="sm" title="How we build it." />
       <ol className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 lg:mt-14 lg:grid-cols-4 lg:gap-x-8">
         {STEPS.map(([name, body], i) => (
           <motion.li

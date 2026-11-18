@@ -16,7 +16,7 @@ const SCRIPTS: Record<string, { answer: string; confirm: string; follow: string 
   },
   "What are your prices?": {
     answer: "Happy to help! I've sent our price list. Want a free consultation so we can suggest the right option?",
-    confirm: "Price list sent · Lead saved to the CRM",
+    confirm: "Price list sent · Request logged in your system",
     follow: "Hi again! Any questions on the prices? I can hold a consultation slot for you today.",
   },
   "I need to reschedule my appointment.": {
@@ -79,9 +79,8 @@ export default function LiveDemoChat() {
     <Section id="try-it" className="bg-[#140e0a]">
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
-          eyebrow="Live demo"
           title="Try it in 30 seconds."
-          sub="Play the customer. Watch the system work. (Demo — no real messages sent.)"
+          sub="Play the customer. Watch the system do the work behind the chat. (Demo — no real messages sent.)"
         />
 
         <Reveal y={28}>

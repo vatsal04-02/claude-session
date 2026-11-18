@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { EASE, Section, SectionHeading } from "./ui";
 
-const ITEMS = ["A website that captures leads, not just looks pretty", "One place for every customer", "AI that understands your business", "Follow-ups that run themselves", "Works with your WhatsApp, calendar, email", "We keep improving it with you"];
+const ITEMS = ["A system built around your process, not a template", "One place for every request, customer and task", "AI that understands your business", "Routine work that runs itself", "Connected to your WhatsApp, calendar, email and tools", "We keep improving it with you"];
 
 export default function WhatYouGet() {
   return (
@@ -11,7 +11,6 @@ export default function WhatYouGet() {
       <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <SectionHeading
           size="sm"
-          eyebrow="Implementation partner"
           title="A system that works while you sleep."
           sub="We design it, build it, connect it — and keep improving it with you."
         />

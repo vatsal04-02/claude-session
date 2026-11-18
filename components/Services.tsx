@@ -4,7 +4,6 @@ import { cn } from "@/lib/cn";
 import { useDemo } from "@/lib/demo-context";
 import {
   FlowChain,
-  Highlight,
   Reveal,
   Section,
   SectionHeading,
@@ -18,34 +17,34 @@ import {
 
 const SERVICES = [
   {
-    name: "AI CRM Systems",
-    body: "Every lead, chat and booking — on one screen.",
-    flow: ["Lead", "Contact", "Pipeline", "Action"],
-  },
-  {
-    name: "Lead Automation",
-    body: "Every enquiry answered in seconds, assigned, and followed up.",
-    flow: ["Form", "AI", "Assign", "Follow-up"],
-  },
-  {
-    name: "WhatsApp Automation",
-    body: "Chats that book, remind and follow up — on autopilot.",
-    flow: ["Message", "Context", "Handoff", "Follow-up"],
-  },
-  {
-    name: "Booking Automation",
-    body: "Bookings that confirm themselves. No-shows that chase themselves.",
-    flow: ["Booking", "Confirm", "Reminder", "Outcome"],
-  },
-  {
-    name: "Revenue Recovery",
-    body: "We find the money hiding in your missed calls and dead leads.",
-    flow: ["Missed", "Detect", "Follow-up", "Recover"],
+    name: "Operations Automation",
+    body: "The back-office work nobody wants: data entry, approvals, document handling, routine reports.",
+    flow: ["Request", "AI", "Approval", "Done"],
   },
   {
     name: "AI Business Assistants",
-    body: "An assistant trained on your business — not a generic chatbot.",
+    body: "An assistant trained on your business, not a generic chatbot. It answers, decides and hands off to your team.",
     flow: ["Question", "Context", "AI", "Human"],
+  },
+  {
+    name: "Internal Tools & Dashboards",
+    body: "Custom screens for your team: jobs, orders, stock and staff in one view.",
+    flow: ["Data", "Rules", "Screen", "Action"],
+  },
+  {
+    name: "Integrations & Data Sync",
+    body: "WhatsApp, CRM, sheets, accounting and calendar kept in sync without copy-paste.",
+    flow: ["Tool A", "Sync", "Tool B", "Check"],
+  },
+  {
+    name: "Customer Communication",
+    body: "WhatsApp and email flows that confirm, remind, answer and hand off to a person.",
+    flow: ["Message", "Context", "Handoff", "Follow-up"],
+  },
+  {
+    name: "Reporting & Alerts",
+    body: "Daily and weekly numbers delivered to you, with an alert the moment something breaks.",
+    flow: ["Data", "Rollup", "Report", "Alert"],
   },
 ];
 
@@ -54,10 +53,10 @@ export default function Services() {
   return (
     <Section id="services" grid="strong" className="warm-a bg-[#140e0a]">
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="Services" title={<>We automate the work that <Highlight>eats your day.</Highlight></>} />
+        <SectionHeading title="Custom systems for repeat work." />
         <Reveal delay={0.12}>
-          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            We build the automation layer around the way your business already operates.
+          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-text md:text-[17px]">
+            We automate the work that eats your day. Each system is scoped to your business and built around the way you already operate.
           </p>
         </Reveal>
       </div>
@@ -85,7 +84,7 @@ export default function Services() {
 
       <Reveal delay={0.1} className="mt-8 md:mt-10">
         <p className="max-w-[40rem] text-[16px] leading-[1.75] text-muted">
-          Connects with WhatsApp, email, calendar, forms, payments and your CRM.{" "}
+          Connects with WhatsApp, email, calendar, forms, payments, accounting and your CRM.{" "}
           <button
             type="button"
             onClick={open}

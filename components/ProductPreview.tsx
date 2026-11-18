@@ -1,48 +1,48 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Globe, Mail, MessageCircle, Phone, PhoneMissed } from "lucide-react";
+import { CalendarClock, Mail, MessageCircle, Phone, PhoneMissed } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { Counter, EASE, Reveal, Section, SectionHeading, StatusDot, Tag, Typewriter, useOnScreen, useTicker } from "./ui";
 
 /* Fictional sample data, labelled as such in the UI. */
-const LEADS = [
+const ITEMS = [
   {
-    name: "New Service Enquiry",
-    service: "Requested a callback",
-    source: "Website form",
-    icon: Globe,
-    intent: "High",
-    summary: "Customer is interested and expects a response today.",
-    next: "Call within 15 minutes.",
-  },
-  {
-    name: "Product Enquiry",
-    service: "Asked about availability",
+    name: "New order request",
+    service: "Sent on WhatsApp",
     source: "WhatsApp",
     icon: MessageCircle,
-    intent: "Medium",
-    summary: "Wants details and next steps before deciding.",
-    next: "Send details on WhatsApp.",
+    priority: "High",
+    summary: "Customer wants 40 units delivered Friday. Stock checked: available.",
+    next: "Confirm the order and send the invoice.",
   },
   {
-    name: "Callback Request",
-    service: "Missed call, no message",
+    name: "Supplier invoice",
+    service: "Received by email",
+    source: "Email",
+    icon: Mail,
+    priority: "Medium",
+    summary: "Total matches the purchase order. One line item differs by ₹1,200.",
+    next: "Send to accounts for approval.",
+  },
+  {
+    name: "Missed call",
+    service: "No message left",
     source: "Phone",
     icon: PhoneMissed,
-    intent: "High",
-    summary: "Called twice and left no message. Likely still interested.",
+    priority: "High",
+    summary: "Called twice. Existing customer with an open order.",
     next: "Call back and log the outcome.",
   },
   {
-    name: "Website Lead",
-    service: "Submitted the contact form",
-    source: "Contact form",
-    icon: Mail,
-    intent: "Medium",
-    summary: "Interested, but has not said what they need yet.",
-    next: "Send a short qualifying message.",
+    name: "Appointment change",
+    service: "Asked to move to Thursday",
+    source: "Booking form",
+    icon: CalendarClock,
+    priority: "Low",
+    summary: "Thursday 10:00 is free. A new reminder needs to go out.",
+    next: "Reschedule and notify the team.",
   },
 ];
 
@@ -51,21 +51,20 @@ export default function ProductPreview() {
   const [ref, inView] = useOnScreen<HTMLDivElement>();
   const [sel, setSel] = useState(0);
   const tick = useTicker(3600, inView && !reduce);
-  const lead = LEADS[sel];
+  const item = ITEMS[sel];
 
   const metrics = [
-    { label: "New Leads", value: 12 + Math.floor(tick / 2) },
-    { label: "Follow-ups Due", value: 8 + Math.floor(tick / 4) },
+    { label: "Requests Today", value: 24 + Math.floor(tick / 2) },
+    { label: "Tasks Due", value: 8 + Math.floor(tick / 4) },
     { label: "Appointments", value: 5 + Math.floor(tick / 3) },
-    { label: "Revenue at Risk", value: 42500 - Math.floor(tick / 3) * 3500, prefix: "₹", warn: true },
+    { label: "Overdue Payments", value: 42500 - Math.floor(tick / 3) * 3500, prefix: "₹", warn: true },
   ];
 
   return (
     <Section id="product" space="lg" grid="soft" className="overflow-x-clip bg-[#150e0a]">
       <SectionHeading
-        eyebrow="The control center"
-        title="Everything important, in one place."
-        sub="A shared system for leads, conversations, bookings and follow-up."
+        title="Everything running, in one place."
+        sub="A shared system for requests, conversations, bookings and follow-through."
       />
 
       <Reveal y={30} className="relative mt-12 md:mt-14">
@@ -95,8 +94,8 @@ export default function ProductPreview() {
             </div>
 
             <div className="grid md:grid-cols-[0.8fr_1.2fr]">
-              <ul role="listbox" aria-label="Sample leads" className="no-scrollbar flex gap-2 overflow-x-auto border-b border-border p-2 md:block md:space-y-1 md:border-b-0 md:border-r">
-                {LEADS.map((l, i) => {
+              <ul role="listbox" aria-label="Sample requests" className="no-scrollbar flex gap-2 overflow-x-auto border-b border-border p-2 md:block md:space-y-1 md:border-b-0 md:border-r">
+                {ITEMS.map((l, i) => {
                   const on = i === sel;
                   return (
                     <li key={l.name} className="w-[200px] shrink-0 md:w-auto">
@@ -112,7 +111,7 @@ export default function ProductPreview() {
                       >
                         {on && (
                           <motion.span
-                            layoutId="lead-hl"
+                            layoutId="item-hl"
                             className="absolute inset-0 rounded-lg border border-accent/40 bg-accent/[0.08]"
                             transition={{ type: "spring", stiffness: 400, damping: 34 }}
                           />
@@ -130,26 +129,26 @@ export default function ProductPreview() {
               <div className="p-5 md:p-8">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
-                    key={lead.name}
+                    key={item.name}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.25, ease: EASE }}
                   >
-                    <div className="item-title text-[24px]">{lead.name}</div>
-                    <div className="text-sm text-muted">{lead.service}</div>
-                    <div className="mt-1 text-[13px] text-subtle">{lead.intent} intent · {lead.source}</div>
+                    <div className="item-title text-[24px]">{item.name}</div>
+                    <div className="text-sm text-muted">{item.service}</div>
+                    <div className="mt-1 text-[13px] text-subtle">{item.priority} priority · {item.source}</div>
 
                     <div className="mt-5">
                       <div className="label mb-1.5 flex items-center gap-2 text-[10px] text-accent">
                         <StatusDot tone="accent" /> AI Summary
                       </div>
-                      <Typewriter text={lead.summary} className="text-[16px] leading-[1.7]" />
+                      <Typewriter text={item.summary} className="text-[16px] leading-[1.7]" />
                     </div>
 
                     <div className="mt-4 rounded-lg border border-border bg-bg/50 px-4 py-3">
                       <div className="label text-[10px] text-subtle">Next action</div>
-                      <div className="mt-0.5 text-[15px]">{lead.next}</div>
+                      <div className="mt-0.5 text-[15px]">{item.next}</div>
                     </div>
 
                     <div className="mt-4 flex gap-2">

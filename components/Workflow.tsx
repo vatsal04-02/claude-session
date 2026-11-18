@@ -9,44 +9,44 @@ import { EASE, FlowChain, Reveal, Section, Tag } from "./ui";
 /* kicker = how the system sees the step; result = what exists once the step has run */
 const STAGES = [
   {
-    name: "Capture",
+    name: "Intake",
     kicker: "Input",
-    line: "Every enquiry — website, WhatsApp, even missed calls — caught automatically.",
-    tags: ["Website", "WhatsApp", "Forms", "Calls"],
-    flow: ["Enquiry", "Lead created"],
-    result: "Lead created",
+    line: "Requests arrive from anywhere — chats, forms, calls, emails, files — and land in one place.",
+    tags: ["WhatsApp", "Email", "Forms", "Files"],
+    flow: ["Request", "Task created"],
+    result: "Task created",
   },
   {
     name: "Understand",
     kicker: "Understand",
-    line: "AI reads what the customer actually wants.",
-    tags: ["Intent", "Context", "Priority"],
-    flow: ["Message", "AI", "Context"],
-    result: "Intent understood",
+    line: "AI reads the request, pulls out the details and works out what it needs.",
+    tags: ["Intent", "Details", "Priority"],
+    flow: ["Message", "AI", "Details"],
+    result: "Details extracted",
   },
   {
-    name: "Manage",
-    kicker: "Record",
-    line: "One place that knows the customer and the next move.",
-    tags: ["CRM", "Owner", "Timeline"],
-    flow: ["Lead", "Record", "Next action"],
+    name: "Decide",
+    kicker: "Rules",
+    line: "Your rules set the route: who owns it, what is approved, what gets escalated.",
+    tags: ["Rules", "Owner", "Approvals"],
+    flow: ["Task", "Rules", "Owner"],
     result: "Owner assigned",
-  },
-  {
-    name: "Automate",
-    kicker: "Automate",
-    line: "Follow-ups, reminders and nudges run while you work.",
-    tags: ["Follow-up", "Tasks", "Reminders"],
-    flow: ["Trigger", "Rule", "Action"],
-    result: "Follow-up created",
   },
   {
     name: "Act",
     kicker: "Action",
-    line: "Your team steps in exactly where humans win.",
-    tags: ["Person", "Tool", "Workflow"],
-    flow: ["Decision", "Action", "Outcome"],
-    result: "Next action completed",
+    line: "The system does the work: updates records, sends messages, files documents, books time.",
+    tags: ["Records", "Messages", "Calendar"],
+    flow: ["Trigger", "Rule", "Action"],
+    result: "Work done",
+  },
+  {
+    name: "Report",
+    kicker: "Review",
+    line: "Your team sees what happened and steps in only where judgment is needed.",
+    tags: ["Dashboard", "Alerts", "Audit trail"],
+    flow: ["Action", "Log", "Insight"],
+    result: "Logged and reported",
   },
 ] as const;
 
@@ -148,19 +148,14 @@ export default function Workflow() {
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         {/* left: sticky heading + live "now" panel */}
         <div className="lg:sticky lg:top-32 lg:self-start">
-          <Reveal>
-            <span className="label inline-flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent/70" /> Workflow
-            </span>
-          </Reveal>
           <Reveal delay={0.07}>
-            <h2 className="display mt-4 text-[clamp(2.25rem,4.4vw,3.5rem)]">
-              From enquiry to customer <br /> in five steps.
+            <h2 className="display text-[clamp(2.25rem,4.4vw,3.5rem)]">
+              Request to done in five steps.
             </h2>
           </Reveal>
           <Reveal delay={0.14}>
-            <p className="mt-5 max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-              Every system we build runs the same five steps — automatically.
+            <p className="mt-5 max-w-[30rem] text-[16px] leading-[1.75] text-text md:text-[17px]">
+              The details change for every business. The shape of the system doesn&apos;t.
             </p>
           </Reveal>
 

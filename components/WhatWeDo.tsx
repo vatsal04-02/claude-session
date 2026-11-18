@@ -3,15 +3,15 @@
 import { motion } from "motion/react";
 import { Database, Plug, Sparkles, Workflow, Zap, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { EASE, Highlight, Reveal, Section, SectionHeading, Stagger, StaggerItem } from "./ui";
+import { EASE, Reveal, Section, SectionHeading, Stagger, StaggerItem } from "./ui";
 
 const BLOCKS: { name: string; body: string; icon: LucideIcon }[] = [
-  { icon: Sparkles, name: "AI", body: "Reads every message and knows what the customer wants." },
-  { icon: Database, name: "CRM", body: "Every lead, chat and booking in one place. Nothing slips." },
-  { icon: Zap, name: "Automation", body: "Follow-ups, reminders and nudges — without anyone having to remember." },
-  { icon: Plug, name: "Integrations", body: "WhatsApp, calls, calendar, email — plugged into how your team already works." },
+  { icon: Sparkles, name: "AI", body: "Reads messages, documents and requests, and works out what should happen next." },
+  { icon: Database, name: "Your records", body: "Customers, jobs, orders and payments in one source of truth. Nothing lives in someone's head." },
+  { icon: Zap, name: "Automation", body: "Approvals, reminders, handoffs and reports run without anyone chasing." },
+  { icon: Plug, name: "Integrations", body: "WhatsApp, calendar, email, sheets and accounting, plugged into how your team already works." },
 ];
-const STEPS = ["Capture", "Understand", "Manage", "Automate", "Act"];
+const STEPS = ["Intake", "Understand", "Decide", "Act", "Report"];
 
 /* Gradient-bordered card: lifts and glows on hover. */
 function GlowCard({ children, strong, className }: { children: React.ReactNode; strong?: boolean; className?: string }) {
@@ -46,10 +46,10 @@ export default function WhatWeDo() {
       className="bg-[#160f0b] [background-image:radial-gradient(ellipse_55%_38%_at_22%_10%,rgba(234,106,47,0.11),transparent_72%)]"
     >
       <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <SectionHeading eyebrow="What FlowHQ does" title={<>Not more software. A system that <Highlight>sells for you.</Highlight></>} />
+        <SectionHeading title="Built around how you operate." />
         <Reveal delay={0.12}>
-          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-muted md:text-[17px]">
-            We turn the daily chaos of enquiries, chats and bookings into one <Highlight delay={0.2}>connected</Highlight> system. The CRM is just one part.
+          <p className="max-w-[30rem] text-[16px] leading-[1.75] text-text md:text-[17px]">
+            Not more software. Every business runs differently, so we don&apos;t sell a template. We design the workflows, AI and integrations around your process and run them as one connected system.
           </p>
         </Reveal>
       </div>
@@ -66,7 +66,7 @@ export default function WhatWeDo() {
                   <h3 className="text-[28px] font-medium leading-tight tracking-[-0.01em]">Workflows</h3>
                 </div>
                 <p className="mt-3 max-w-[28ch] text-[16px] leading-[1.7] text-muted">
-                  Every enquiry, chat, booking and follow-up — one connected flow.
+                  Every request, task, approval and report — one connected flow.
                 </p>
                 <ol className="relative mt-8 flex flex-wrap gap-x-5 gap-y-2 lg:block lg:space-y-2.5">
                   <span aria-hidden className="absolute bottom-2 left-[3px] top-2 hidden w-px bg-gradient-to-b from-accent/70 via-accent/40 to-accent/70 lg:block" />

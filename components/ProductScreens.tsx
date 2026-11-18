@@ -4,18 +4,17 @@ import { Section, SectionHeading, Stagger, StaggerItem } from "./ui";
 
 /* Screenshots live in public/screenshot-1.webp … screenshot-3.webp. */
 const SHOTS = [
-  { src: "screenshot-1.webp", title: "Pipeline", rest: "every lead, one board", alt: "FlowHQ CRM pipeline board" },
-  { src: "screenshot-2.webp", title: "WhatsApp inbox", rest: "chats and follow-ups", alt: "FlowHQ WhatsApp inbox" },
-  { src: "screenshot-3.webp", title: "Dashboard", rest: "your numbers at a glance.", alt: "FlowHQ dashboard" },
+  { src: "screenshot-1.webp", title: "Pipeline board", rest: "work moving through stages", alt: "Example pipeline board for tracking work through stages" },
+  { src: "screenshot-2.webp", title: "WhatsApp inbox", rest: "conversations your team can pick up", alt: "Example WhatsApp inbox" },
+  { src: "screenshot-3.webp", title: "Dashboard", rest: "your numbers at a glance", alt: "Example reporting dashboard" },
 ];
 
 export default function ProductScreens() {
   return (
     <Section id="product-screens" className="bg-[#140e0a]">
       <SectionHeading
-        eyebrow="The product"
-        title="This is what your screen looks like."
-        sub="The actual FlowHQ CRM — leads, pipeline, WhatsApp inbox, bookings."
+        title="The screens your team works in."
+        sub="Example interfaces from the systems we build. Yours is designed around your process, not copied from these."
       />
       <Stagger className="mt-12 grid gap-5 md:mt-14 md:grid-cols-3">
         {SHOTS.map((s) => (

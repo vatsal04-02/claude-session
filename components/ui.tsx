@@ -124,7 +124,7 @@ export function SectionHeading({
   size = "md",
   className,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: React.ReactNode;
   sub?: React.ReactNode;
   size?: "md" | "sm";
@@ -132,16 +132,19 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-3xl", className)}>
-      <Reveal>
-        <span className="label inline-flex items-center gap-2.5 text-accent">
-          <span className="h-px w-6 bg-accent/70" />
-          {eyebrow}
-        </span>
-      </Reveal>
+      {eyebrow && (
+        <Reveal>
+          <span className="label inline-flex items-center gap-2.5 text-accent">
+            <span className="h-px w-6 bg-accent/70" />
+            {eyebrow}
+          </span>
+        </Reveal>
+      )}
       <Reveal delay={0.07}>
         <h2
           className={cn(
-            "display mt-4 text-balance text-text",
+            "display text-balance text-text",
+            eyebrow && "mt-4",
             size === "md" ? "text-[clamp(2.25rem,4.4vw,3.5rem)]" : "text-[clamp(1.9rem,3.4vw,2.75rem)]"
           )}
         >

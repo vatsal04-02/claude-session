@@ -12,26 +12,26 @@ const INDUSTRIES = [
     id: "clinics",
     label: "Clinics",
     items: [
-      "Appointment booking on WhatsApp, no reply needed",
-      "Reminders that cut no-shows",
-      "Automatic follow-up for reports and Google reviews",
+      "Appointments booked, moved and confirmed on WhatsApp",
+      "Patient records, reports and prescriptions filed automatically",
+      "Reminders and review requests sent without front-desk effort",
     ],
   },
   {
     id: "salons",
     label: "Salons & Spas",
     items: [
-      "Booking confirmations in seconds",
-      "Birthday and festival offers on autopilot",
-      "Rebooking reminders that bring clients back",
+      "Bookings, rescheduling and staff rosters in one system",
+      "Package balances and stock tracked automatically",
+      "Rebooking reminders sent on schedule",
     ],
   },
   {
     id: "restaurants",
     label: "Restaurants & Cafés",
     items: [
-      "Table reservations over WhatsApp",
-      "Festival and weekend offers to past visitors",
+      "Reservations and orders flowing into one dashboard",
+      "Daily sales and stock report on your phone every morning",
       "Review requests after every visit",
     ],
   },
@@ -39,18 +39,18 @@ const INDUSTRIES = [
     id: "realestate",
     label: "Real Estate",
     items: [
-      "Instant replies to portal enquiries — before competitors call",
-      "Site-visit scheduling with reminders",
-      "Follow-up sequences for cold leads",
+      "Listings, owner details and documents managed in one place",
+      "Site visits scheduled with reminders and owner updates",
+      "Portal enquiries routed to the right agent instantly",
     ],
   },
   {
     id: "coaching",
     label: "Coaching",
     items: [
-      "Admission enquiries answered instantly",
-      "Fee follow-ups without awkward calls",
-      "Batch and schedule reminders",
+      "Admissions, batches and attendance in one system",
+      "Fee reminders and receipts without awkward calls",
+      "Schedule changes sent to every parent at once",
     ],
   },
 ] as const;
@@ -70,9 +70,8 @@ export default function IndustryTabs() {
   return (
     <Section id="industries" className="bg-[#160f0b]">
       <SectionHeading
-        eyebrow="Industries"
         title="Pick your business."
-        sub="See exactly what FlowHQ would automate for you."
+        sub="See what a custom FlowHQ system would run for you."
       />
 
       <Reveal className="mt-12 md:mt-14">
@@ -125,7 +124,7 @@ export default function IndustryTabs() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3, ease: EASE }}
             >
-              <div className="label text-accent">What FlowHQ automates · {cur.label}</div>
+              <div className="text-[15px] text-accent">What a FlowHQ system runs for {cur.label.toLowerCase()}</div>
               <ul className="mt-6 divide-y divide-border">
                 {cur.items.map((it, i) => (
                   <motion.li

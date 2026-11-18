@@ -32,11 +32,11 @@ export const BUSINESS_TYPES = [
 ] as const;
 
 export const AUTOMATION_OPTIONS = [
-  "Lead management",
-  "WhatsApp",
-  "Appointments",
-  "Follow-ups",
-  "CRM",
-  "Customer management",
+  "Operations workflows",
+  "WhatsApp & customer chat",
+  "Appointments & bookings",
+  "Reports & dashboards",
+  "CRM & data sync",
+  "AI assistant",
   "Other",
 ] as const;

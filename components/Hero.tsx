@@ -1,18 +1,18 @@
 "use client";
 
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { Database, Globe, Sparkles, UserCheck, UserPlus, Workflow, type LucideIcon } from "lucide-react";
+import { ClipboardCheck, Inbox, Plug, ShieldCheck, Sparkles, UserCheck, type LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
 import { cn } from "@/lib/cn";
-import { Button, EASE, Highlight, StatusDot } from "./ui";
+import { Button, EASE, StatusDot } from "./ui";
 
 const NODES = [
-  { name: "Form Submit", tag: "TRIGGER", log: "New enquiry · requested a callback" },
-  { name: "Enrich", tag: "LOOKUP", log: "Source: website" },
-  { name: "AI Agent", tag: "REASON", log: "AI understood intent" },
-  { name: "Next Action", tag: "DECIDE", log: "Next action created" },
-  { name: "CRM + Send", tag: "ACT", log: "CRM updated" },
+  { name: "Request in", log: "Order #1042 · received on WhatsApp" },
+  { name: "Read and extract", log: "Items, quantity and address pulled out" },
+  { name: "Check your systems", log: "Stock and delivery calendar checked" },
+  { name: "Apply your rules", log: "Within limits · no approval needed" },
+  { name: "Do the work", log: "Invoice sent · team notified" },
 ];
 
 const STEP_MS = 1300;
@@ -26,12 +26,12 @@ function rise(delay: number) {
 }
 
 const SYSTEM: { icon: LucideIcon; name: string; sub: string }[] = [
-  { icon: Globe, name: "Website", sub: "Forms, calls, chats" },
-  { icon: UserPlus, name: "Lead", sub: "Captured and owned" },
-  { icon: Sparkles, name: "AI", sub: "Reads the intent" },
-  { icon: Database, name: "CRM", sub: "Keeps the record" },
-  { icon: Workflow, name: "Automation", sub: "Moves work forward" },
-  { icon: UserCheck, name: "Customer", sub: "Booked and informed" },
+  { icon: Inbox, name: "Intake", sub: "Chats, forms, calls, files" },
+  { icon: Sparkles, name: "AI", sub: "Reads and understands" },
+  { icon: ShieldCheck, name: "Your rules", sub: "Decides what is allowed" },
+  { icon: Plug, name: "Your tools", sub: "Records, calendar, accounts" },
+  { icon: UserCheck, name: "Your team", sub: "Steps in where it matters" },
+  { icon: ClipboardCheck, name: "Reports", sub: "Shows what happened" },
 ];
 
 export default function Hero() {
@@ -41,53 +41,23 @@ export default function Hero() {
       id="top"
       className="hero-atmos relative overflow-hidden px-5 pb-16 pt-28 md:px-8 md:pb-[88px] md:pt-32"
     >
-      {/* layer 2: grid · layer 3: two soft, localised glows (one drifts very slowly) */}
-      <div aria-hidden className="grid-layer" style={{ "--grid-o": 1 } as React.CSSProperties} />
-      <div
-        aria-hidden
-        className="anim-glow pointer-events-none absolute -right-24 top-16 h-[520px] w-[520px] rounded-full bg-[rgba(234,106,47,0.11)] blur-[140px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-32 top-[8%] h-[420px] w-[420px] rounded-full bg-[rgba(130,60,30,0.09)] blur-[130px]"
-      />
-
       <div className="relative mx-auto max-w-[1140px]">
         <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
           <div>
-            <motion.span
-              {...rise(0.05)}
-              className="label inline-flex items-center gap-3 text-accent-2"
-              style={{ letterSpacing: "0.18em" }}
-            >
-              <span className="h-px w-6 bg-accent" /> AI Automation Studio
-              <span aria-hidden className="hidden text-accent/50 sm:inline">·</span>
-              <span className="hidden text-accent/80 sm:inline">Systems that run the repeat work</span>
-            </motion.span>
-
-            <h1 className="display mt-5 text-[clamp(2.6rem,5.6vw,4.5rem)] text-text" style={{ fontWeight: 780, lineHeight: 1.02 }}>
+            <h1 className="display text-[clamp(2.9rem,6.4vw,5.25rem)] text-text" style={{ fontWeight: 780, lineHeight: 1 }}>
               <motion.span {...rise(0.15)} className="block">
-                You&apos;re not short
+                Operations that
               </motion.span>
               <motion.span {...rise(0.25)} className="block">
-                on leads.
-              </motion.span>
-              <motion.span {...rise(0.38)} className="mt-3 block">
-                You&apos;re short on
-              </motion.span>
-              <motion.span {...rise(0.45)} className="block">
-                <Highlight delay={1}>follow-up.</Highlight>
+                run themselves.
               </motion.span>
             </h1>
 
-            <motion.p {...rise(0.5)} className="mt-7 max-w-[520px] text-balance text-[19px] font-medium leading-[1.5] text-text">
-              We build AI systems that catch every enquiry, reply in seconds, and turn chats into <Highlight delay={1.5}>customers.</Highlight>
+            <motion.p {...rise(0.4)} className="mt-8 max-w-[34rem] text-balance text-[20px] font-medium leading-[1.5] text-text">
+              FlowHQ designs and builds custom AI systems around how your business actually works, wired into the tools you already use.
             </motion.p>
-            <motion.p {...rise(0.58)} className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.75] text-muted/80">
-              FlowHQ builds AI-powered systems that capture every lead, automate the follow-ups your team forgets, and plug into the tools you already use.
-            </motion.p>
-            <motion.p {...rise(0.64)} className="label mt-5 text-subtle" style={{ fontSize: 10.5, letterSpacing: "0.1em" }}>
-              AI Systems · Automation · CRM · Integrations
+            <motion.p {...rise(0.5)} className="mt-4 max-w-[34rem] text-[16px] leading-[1.7] text-text">
+              Intake, approvals, scheduling, documents, reporting: the repeat work your team does by hand, run by a system built for your process.
             </motion.p>
 
             <motion.div {...rise(0.7)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
@@ -115,7 +85,7 @@ export default function Hero() {
   );
 }
 
-/* Thin system rail: Website → Lead → AI → CRM → Automation → Customer.
+/* Thin system rail: Intake → AI → Your rules → Your tools → Your team → Reports.
    A ~8s loop: the active node glows orange, finished ones go muted orange, upcoming stay grey,
    and a small light travels the line. Pauses while off-screen; static when motion is reduced. */
 const RAIL_STEP_MS = 1150;
@@ -136,7 +106,7 @@ function SystemStrip() {
 
   return (
     <motion.div ref={ref} {...rise(0.85)} className="mt-16 md:mt-20">
-      <div className="label mb-4 text-subtle">One connected system</div>
+      <div className="mb-4 text-[15px] text-muted">One connected system, built around your process</div>
       <ol className="relative grid grid-cols-3 gap-y-6 lg:grid-cols-6">
         <motion.span
           aria-hidden
@@ -187,7 +157,7 @@ function SystemStrip() {
   );
 }
 
-/* One workflow run: Form Submit → Enrich → AI Agent → Guardrail → CRM + Send */
+/* One workflow run: request in → extract → check systems → apply rules → do the work */
 function LiveRun() {
   const reduce = useReducedMotion();
   const n = NODES.length;
@@ -215,8 +185,8 @@ function LiveRun() {
   return (
     <div className="rounded-2xl border border-border bg-surface p-5 shadow-[inset_0_1px_0_rgba(255,225,200,0.06),inset_0_0_70px_rgba(150,70,30,0.07),0_30px_60px_-30px_rgba(0,0,0,0.8)] transition-colors duration-300 hover:border-border-bright">
       <div className="mb-3 flex items-center justify-between">
-        <span className="label text-subtle">Workflow · new enquiry</span>
-        <span className="label flex items-center gap-2 text-muted">
+        <span className="text-[14px] text-muted">Workflow · new order</span>
+        <span className="flex items-center gap-2 text-[14px] text-muted">
           <StatusDot tone="accent" pulse /> {done ? "Complete" : "Running"}
         </span>
       </div>
@@ -282,15 +252,15 @@ function LiveRun() {
       </ol>
 
       {/* tiny event stream: entries appear as the run progresses */}
-      <ul className="mt-4 space-y-1 border-t border-border pt-3 font-mono text-[10.5px] leading-[1.6] text-subtle">
+      <ul className="mt-4 space-y-1.5 pt-1 text-[13px] leading-[1.5] tabular-nums text-muted">
         {[
-          ["09:41:33", "enquiry captured", 0],
-          ["09:41:35", "intent understood", 2],
-          ["09:41:36", "next action created", 4],
+          ["09:41:33", "order received", 0],
+          ["09:41:35", "stock confirmed", 2],
+          ["09:41:36", "invoice sent", 4],
         ].map(([t, msg, at]) => (
           <li key={t as string} className={cn("flex gap-3 transition-opacity duration-700", tick >= (at as number) ? "opacity-100" : "opacity-0")}>
-            <span className="text-subtle/80">{t}</span>
-            <span className="text-muted/80">{msg}</span>
+            <span className="text-subtle">{t}</span>
+            <span>{msg}</span>
           </li>
         ))}
       </ul>
