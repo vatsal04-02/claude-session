@@ -21,7 +21,7 @@ const SCENARIOS: Record<string, Step[]> = {
     { kind: "event", text: "Instagram DM · 9:40 PM" },
     { kind: "you", text: "Hi! Is the weekend batch open? What's the fee?" },
     { kind: "ai", text: "Admission enquiry · weekend batch · wants fee details" },
-    { kind: "auto", tool: "CRM", text: "Lead created and tagged 'Weekend batch'" },
+    { kind: "auto", tool: "CRM", text: "Contact created and tagged 'Weekend batch'" },
     { kind: "bot", text: "Thanks for reaching out! Yes, the weekend batch has seats. I've sent the fee details — want a call tomorrow at 11 AM?" },
     { kind: "auto", tool: "Task", text: "Counsellor call-back scheduled" },
     { kind: "auto", tool: "Team", text: "Counsellor notified" },
@@ -41,11 +41,11 @@ const SCENARIOS: Record<string, Step[]> = {
     { kind: "event", text: "Website form · quote request" },
     { kind: "you", text: "We need an annual maintenance quote for 3 offices in Lucknow." },
     { kind: "ai", text: "Quote request · 3 offices · annual contract" },
-    { kind: "auto", tool: "CRM", text: "Lead created with the details" },
+    { kind: "auto", tool: "CRM", text: "Record created with the details" },
     { kind: "bot", text: "Thanks! We've got your request and a team member will send the quote today. Could you share the office addresses?" },
     { kind: "auto", tool: "Task", text: "Quote task assigned · due in 4 hours" },
     { kind: "auto", tool: "Team", text: "Sales team notified" },
-    { kind: "done", text: "Lead captured and routed in seconds" },
+    { kind: "done", text: "Request captured and routed in seconds" },
   ],
   "After-hours WhatsApp": [
     { kind: "event", text: "WhatsApp · 11:20 PM" },
@@ -58,7 +58,15 @@ const SCENARIOS: Record<string, Step[]> = {
     { kind: "auto", tool: "Team", text: "Front desk sees it first thing in the morning" },
     { kind: "done", text: "Booked overnight — nobody replied by hand" },
   ],
-  "Quiet lead": [
+  "Supplier invoice": [
+    { kind: "event", text: "Email · supplier invoice (PDF)" },
+    { kind: "ai", text: "Invoice read · ₹48,200 · matches purchase order #1042" },
+    { kind: "auto", tool: "Sheet", text: "Added to the payables sheet" },
+    { kind: "auto", tool: "Task", text: "Approval task created for accounts" },
+    { kind: "auto", tool: "Team", text: "Accounts notified" },
+    { kind: "done", text: "Filed and routed — nobody retyped it" },
+  ],
+  "Quiet quote": [
     { kind: "event", text: "Quote sent 3 days ago · no reply" },
     { kind: "ai", text: "Quote pending · customer has gone quiet" },
     { kind: "bot", text: "Hi! Just checking in on the quote we sent. Happy to answer any questions or adjust it." },
@@ -74,9 +82,9 @@ const TOOL_ICON = { CRM: Database, Sheet, Task: ListChecks, Team: Users } as con
 
 // the four steps every run moves through (they light up on the left as the run progresses)
 const STEPS = [
-  { name: "Capture", line: "Every enquiry lands in one place.", Icon: Inbox },
+  { name: "Capture", line: "Every request lands in one place.", Icon: Inbox },
   { name: "Understand", line: "AI reads it and decides what's next.", Icon: Sparkles },
-  { name: "Act", line: "Replies, bookings and CRM updates run on their own.", Icon: Zap },
+  { name: "Act", line: "Replies, bookings, approvals and updates run on their own.", Icon: Zap },
   { name: "Report", line: "You see what came in and what happened.", Icon: ChartColumn },
 ] as const;
 const STAGE_OF: Record<Kind, number> = { event: 0, you: 0, ai: 1, auto: 2, bot: 2, done: 3 };

@@ -6,8 +6,8 @@ import { Reveal, SectionHeading } from "./ui";
 import { BAND, CONTAINER } from "@/lib/layout";
 
 const PROBLEMS = [
-  { title: "Leads slip through", line: "Enquiries arrive on five channels. Some are never seen." },
-  { title: "Follow-ups get forgotten", line: "The quote goes out. Then nobody chases it." },
+  { title: "Work slips through", line: "Requests arrive on five channels. Some are never seen." },
+  { title: "Manual work piles up", line: "Someone retypes the same details into three places, every day." },
   { title: "Tools don't talk", line: "Your CRM, sheet and WhatsApp each tell a different story." },
 ] as const;
 
@@ -25,10 +25,10 @@ export default function Problem() {
           eyebrow="The problem"
           title={
             <>
-              Where enquiries <em>leak</em>.
+              Where operations <em>leak</em>.
             </>
           }
-          sub="Three small leaks. Together they cost you customers every single week."
+          sub="Three small leaks. Together they cost you hours and customers every single week."
           className="lg:sticky lg:top-32"
         />
         <ol className="border-b border-border">

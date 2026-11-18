@@ -21,7 +21,7 @@ const facts = [
   "## Key facts",
   "",
   "- Name: Flow HQ (also written FlowHQ)",
-  "- What: AI automation studio — lead capture, instant replies, follow-ups, appointment booking, CRM updates and team alerts",
+  "- What: AI automation studio building custom operational AI systems — workflow automation, AI assistants, integrations, dashboards and reporting, including enquiry capture, instant replies, follow-ups, appointment booking, CRM updates and team alerts",
   "- Channels: website forms, WhatsApp (official WhatsApp Business API), Instagram, phone calls, email",
   "- Based in: Lucknow, Uttar Pradesh, India; works with businesses across India",
   "- Founders: Prachi Pathak and Vatsal Tripathi (co-founders; they build every system themselves)",
@@ -47,7 +47,7 @@ function pageMap() {
     "## Tools",
     "",
     `- [Manual work cost calculator](${u("/calculator/")}): estimate what slow replies and repetitive admin cost a business each month`,
-    `- [Live demo](${u("/#try-it")}): sample runs of the system handling an Instagram DM, a missed call, a website form, an after-hours WhatsApp and a quiet lead`
+    `- [Live demo](${u("/#try-it")}): sample runs of the system handling an Instagram DM, a missed call, a website form, an after-hours WhatsApp, a supplier invoice and a quiet quote`
   );
   return out;
 }
@@ -58,7 +58,7 @@ export function llmsTxt() {
     "",
     `> ${ORG_DEFINITION}`,
     "",
-    "Not just AI — systems that work. Every enquiry is captured in one place, answered instantly, followed up, booked and logged, and the right person on the team is notified.",
+    "Not just AI — systems that work. Every request is captured in one place, understood by AI, handled under the client's own rules, logged in their tools and passed to the right person on the team.",
     "",
     ...facts,
     "",

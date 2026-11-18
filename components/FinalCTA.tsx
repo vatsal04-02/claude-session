@@ -24,10 +24,10 @@ export default function FinalCTA() {
         <Reveal>
           <span className="kicker [&::before]:!bg-ink">Get started</span>
           <h2 className="display mt-6 text-balance text-[clamp(3rem,8vw,7rem)] text-text" style={{ lineHeight: 0.92, letterSpacing: "-0.055em" }}>
-            Ready to stop losing <span className="font-serif font-normal italic tracking-[-0.02em]">leads?</span>
+            Ready to run on <span className="font-serif font-normal italic tracking-[-0.02em]">autopilot?</span>
           </h2>
           <p className="mt-6 max-w-[30rem] text-[16.5px] leading-[1.6] text-muted md:text-[19px]">
-            Tell us how enquiries reach you today. We&apos;ll reply with what to automate and a fixed quote — free, no obligation.
+            Tell us how work moves through your business today. We&apos;ll reply with what to automate and a fixed quote — free, no obligation.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             {BOOKING_URL ? (

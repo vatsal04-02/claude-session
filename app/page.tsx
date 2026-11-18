@@ -18,15 +18,15 @@ import { HOME_FAQS } from "@/lib/faq";
 import { faqPage, JsonLd, webPage } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
-const TITLE = "Flow HQ | AI Lead Capture & Follow-up Automation, Lucknow";
+const TITLE = "Flow HQ | Custom Operational AI Systems, Lucknow";
 const DESCRIPTION =
-  "AI systems that capture leads from your website, WhatsApp, Instagram, calls and email — then follow up, book and update your CRM. Built in Lucknow.";
+  "Custom operational AI systems built around how your business runs: workflows, AI assistants, integrations and dashboards that handle replies, bookings, approvals and reporting. Built in Lucknow.";
 
 export const metadata = pageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: "/",
-  socialTitle: "Flow HQ — Never lose a lead again.",
+  socialTitle: "Flow HQ — Operations on autopilot.",
 });
 
 /* Section order: hero → integrations → proof → problem → features (bento) → the system (demo) → reviews → work → packages → founders → social links → FAQ → closing CTA + audit form.

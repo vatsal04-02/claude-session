@@ -103,7 +103,7 @@ function CrmSnippet() {
 
 function AlertSnippet() {
   const toasts = [
-    ["New lead · Instagram", "Assigned to the counsellor"],
+    ["New request · Instagram", "Assigned to the counsellor"],
     ["Follow-up due", "Today, 10:00 AM"],
   ];
   return (
@@ -130,7 +130,7 @@ function ReportSnippet() {
         <span>Weekly report · sample</span>
         <span className="flex items-center gap-3">
           <span className="flex items-center gap-1.5">
-            <i className="h-2 w-2 rounded-sm bg-text/25" /> Leads
+            <i className="h-2 w-2 rounded-sm bg-text/25" /> Requests
           </span>
           <span className="flex items-center gap-1.5">
             <i className="h-2 w-2 rounded-sm bg-signal" /> Booked
@@ -156,12 +156,12 @@ function ReportSnippet() {
 }
 
 const CARDS = [
-  { title: "Lead Inbox", line: "Every channel, one place.", Icon: Inbox, span: "lg:col-span-7", ink: true, Snippet: InboxSnippet },
-  { title: "AI Follow-up", line: "Instant replies and timed follow-ups, around the clock.", Icon: Sparkles, span: "lg:col-span-5", Snippet: ChatSnippet },
+  { title: "Request Inbox", line: "Every channel, one place.", Icon: Inbox, span: "lg:col-span-7", ink: true, Snippet: InboxSnippet },
+  { title: "AI Assistants", line: "Instant replies, decisions and timed follow-ups, around the clock.", Icon: Sparkles, span: "lg:col-span-5", Snippet: ChatSnippet },
   { title: "Booking & Reminders", line: "Slots booked in your calendar, reminders sent.", Icon: CalendarCheck, span: "lg:col-span-4", Snippet: BookingSnippet },
-  { title: "CRM Sync", line: "Every lead logged in the CRM or sheet you own.", Icon: Database, span: "lg:col-span-4", Snippet: CrmSnippet },
+  { title: "Data Sync", line: "Every record kept current in the CRM, sheet or tool you own.", Icon: Database, span: "lg:col-span-4", Snippet: CrmSnippet },
   { title: "Team Alerts", line: "The right person knows the moment it matters.", Icon: BellRing, span: "lg:col-span-4", Snippet: AlertSnippet },
-  { title: "Reports", line: "See what came in, and what happened next.", Icon: ChartColumn, span: "lg:col-span-12", ink: true, wide: true, Snippet: ReportSnippet },
+  { title: "Reports", line: "See what came in, what the system did, and what needs you.", Icon: ChartColumn, span: "lg:col-span-12", ink: true, wide: true, Snippet: ReportSnippet },
 ] as const;
 
 export default function Features() {
@@ -174,11 +174,11 @@ export default function Features() {
             eyebrow="What you get"
             title={
               <>
-                Everything between <em>enquiry</em> and booked.
+                Everything between <em>request</em> and done.
               </>
             }
           />
-          <p className="max-w-[22rem] text-[15.5px] leading-[1.6] text-muted lg:pb-3">Six working parts, one system. Built around how your business already runs.</p>
+          <p className="max-w-[22rem] text-[15.5px] leading-[1.6] text-muted lg:pb-3">Six working parts, one custom system. Built around how your business already runs.</p>
         </div>
         {/* phones: a swipe row (next card peeks) keeps the page short; md+: the bento grid */}
         <ul tabIndex={0} aria-label="Features" className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-12 md:mt-16">

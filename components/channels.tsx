@@ -39,8 +39,8 @@ export const EVENTS: LeadEvent[] = [
   { id: 4, time: "11:12", channel: "call", who: "Imran A.", text: "Missed call · text-back sent", end: "Booked" },
   { id: 5, time: "11:20", channel: "email", who: "Pooja T.", text: "Quote request", end: "Follow-up due" },
   { id: 6, time: "11:31", channel: "whatsapp", who: "Karan V.", text: "“Can I reschedule?”", end: "Booked" },
-  { id: 7, time: "11:44", channel: "form", who: "Sneha R.", text: "Enquiry about fees", end: "Replied" },
+  { id: 7, time: "11:44", channel: "form", who: "Sneha R.", text: "Question about fees", end: "Replied" },
   { id: 8, time: "11:52", channel: "instagram", who: "Vikram P.", text: "“Do you have a slot today?”", end: "Booked" },
 ];
 
-export const OUTPUTS = ["Instant reply sent", "Appointment booked", "CRM updated", "Team notified"] as const;
+export const OUTPUTS = ["Instant reply sent", "Booking or task created", "Records updated", "Team notified"] as const;

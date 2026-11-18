@@ -10,7 +10,7 @@ const phone = `+${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2, 7)} ${
 
 /** One-line definition, used verbatim in the Organization data, llms.txt and the homepage FAQ so every source agrees. */
 export const ORG_DEFINITION =
-  "Flow HQ is an AI automation studio in Lucknow, India. It builds AI systems that capture enquiries from a business's website, WhatsApp, Instagram, calls and email, then reply, follow up, book appointments and update the CRM automatically.";
+  "Flow HQ is an AI automation studio in Lucknow, India. It designs and builds custom operational AI systems — workflows, AI assistants, integrations and dashboards — that run a business's repeat work, from customer enquiries and bookings to approvals, data entry and reporting.";
 
 /** The founders as their own entities (referenced by @id from the Organization). */
 export const FOUNDERS = [
@@ -42,6 +42,10 @@ export const organization = {
   foundingLocation: { "@type": "Place", name: "Lucknow, Uttar Pradesh, India" },
   founder: FOUNDERS.map((f) => ({ "@id": f["@id"] })),
   knowsAbout: [
+    "Custom operational AI systems",
+    "Workflow automation",
+    "AI assistants",
+    "Business dashboards and internal tools",
     "Lead capture automation",
     "Lead follow-up automation",
     "Appointment booking automation",

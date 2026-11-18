@@ -11,7 +11,7 @@ import { Button, Magnetic } from "./ui";
    each headline line slides up inside its own mask — transform only, never opacity. */
 const rd = (s: number) => ({ "--rd": `${s}s` }) as React.CSSProperties;
 
-const OUTCOMES = ["Instant reply", "Appointment booked", "CRM updated", "Team notified"] as const;
+const OUTCOMES = ["Request understood", "Work routed", "Records updated", "Team notified"] as const;
 
 export default function Hero() {
   return (
@@ -33,11 +33,11 @@ export default function Hero() {
             </p>
             <h1 className="display mt-6 text-[clamp(3.75rem,11.5vw,10rem)] text-text md:mt-8" style={{ lineHeight: 0.9, letterSpacing: "-0.045em", wordSpacing: "0.04em" }}>
               <span className="line-mask">
-                <span style={rd(0)}>Never lose</span>
+                <span style={rd(0)}>Operations</span>
               </span>
               <span className="line-mask">
                 <span style={rd(0.08)}>
-                  a <em>lead</em> again.
+                  on <em>autopilot</em>.
                 </span>
               </span>
             </h1>
@@ -55,7 +55,7 @@ export default function Hero() {
                     <MessageCircle className="h-4 w-4" />
                   </span>
                   <span className="leading-tight">
-                    <span className="block text-[12.5px] font-semibold text-text">New enquiry</span>
+                    <span className="block text-[12.5px] font-semibold text-text">New request</span>
                     <span className="block text-[11px] text-subtle">WhatsApp · just now</span>
                   </span>
                 </div>
@@ -82,8 +82,7 @@ export default function Hero() {
 
         <div className="mt-6 grid gap-8 border-t border-border pt-8 md:mt-10 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
           <p id="hero-summary" className="hero-rise max-w-[38rem] text-[17px] leading-[1.6] text-muted md:text-[20px] md:leading-[1.55]" style={rd(0.15)}>
-            We build AI systems that capture every enquiry from your website, WhatsApp, Instagram and calls — then{" "}
-            <span className="text-text">follow up, book, and update your CRM</span> on their own.
+            We design and build <span className="text-text">custom operational AI systems</span> around how your business actually runs — replies, bookings, approvals, data entry and reporting, wired into the tools you already use.
           </p>
           <div className="hero-rise flex flex-col gap-3 sm:flex-row sm:items-center" style={rd(0.22)}>
             <Magnetic strength={0.3} max={10}>
@@ -97,7 +96,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <ul aria-label="What happens to every enquiry" className="hero-rise mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] text-muted md:mt-10" style={rd(0.3)}>
+        <ul aria-label="What happens to every request" className="hero-rise mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] text-muted md:mt-10" style={rd(0.3)}>
           {OUTCOMES.map((o, i) => (
             <li key={o} className="flex items-center gap-2">
               <span className="font-mono text-[11px] text-subtle">0{i + 1}</span>
@@ -112,7 +111,7 @@ export default function Hero() {
         <ScrollTiltIn className="theme-ink relative overflow-hidden rounded-[24px] p-3 pt-4 shadow-[0_60px_120px_-50px_rgba(23,18,14,0.55)] sm:p-5 md:rounded-[32px] md:p-8 lg:p-10">
           <div className="mb-4 flex items-center justify-between gap-4 px-1 md:mb-6">
             <p className="text-[14px] font-medium text-text md:text-[15px]">
-              One pipeline for every channel <span className="text-subtle">— this is what you get.</span>
+              One system for every request <span className="text-subtle">— this is what you get.</span>
             </p>
             <span className="label hidden items-center gap-2 text-[10px] text-subtle sm:inline-flex">
               <span className="feed-dot" /> Live sample

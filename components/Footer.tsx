@@ -25,7 +25,7 @@ export default function Footer({ base = "" }: { base?: "" | "/" }) {
             Not just AI. <em>Systems</em> that work.
           </p>
           <p className="mt-4 max-w-[30ch] text-[14px] leading-[1.6] text-muted">
-            AI systems that capture leads, follow up and keep your CRM updated. Lucknow, working across India.
+            Custom operational AI systems: workflows, assistants and integrations built around your business. Lucknow, working across India.
           </p>
         </div>
 

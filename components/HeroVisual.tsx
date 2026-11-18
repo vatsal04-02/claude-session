@@ -8,8 +8,8 @@ import { cn } from "@/lib/cn";
 import { CHANNELS, chan, EVENTS, OUTPUTS, type Status } from "./channels";
 import { useOnScreen } from "./ui";
 
-/* The hero visual: a CRM lead pipeline inside a browser frame, with the live "unified inbox" feed floating over its corner.
-   One loop drives both: a sample enquiry arrives on a channel → instant reply → appointment booked → CRM updated → team notified,
+/* The hero visual: an operations workflow board inside a browser frame, with the live "unified inbox" feed floating over its corner.
+   One loop drives both: a sample request arrives on a channel → instant reply → booking or task created → records updated → team notified,
    and the newest CRM row follows along. Sample data only (labelled). Static for reduced motion; pauses off-screen.
    Swap the mockup for a real screenshot with HERO_SCREENSHOT in lib/content.ts. */
 
@@ -60,7 +60,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
           <i className="h-2.5 w-2.5 rounded-full bg-white/15" />
           <i className="h-2.5 w-2.5 rounded-full bg-white/15" />
         </span>
-        <span className="mx-auto rounded-md bg-white/[0.05] px-12 py-1 text-[11px] text-subtle">Leads · Pipeline</span>
+        <span className="mx-auto rounded-md bg-white/[0.05] px-12 py-1 text-[11px] text-subtle">Operations · Workflows</span>
         <span className="w-[42px]" aria-hidden />
       </div>
       {children}
@@ -75,7 +75,7 @@ function CrmMockup({ ev, step, reduce }: { ev: number; step: number; reduce: boo
     <div className="text-[13px]">
       <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-3">
         <div className="flex items-center gap-4">
-          <span className="text-[14px] font-semibold text-text">Leads</span>
+          <span className="text-[14px] font-semibold text-text">Requests</span>
           <span className="hidden gap-1 sm:flex">
             {["All", "New", "Replied", "Booked"].map((t, i) => (
               <span key={t} className={cn("rounded-md px-2 py-1 text-[12px]", i === 0 ? "bg-white/[0.07] text-text" : "text-subtle")}>
@@ -87,10 +87,10 @@ function CrmMockup({ ev, step, reduce }: { ev: number; step: number; reduce: boo
         <span className="label text-[10px] text-subtle">Sample data</span>
       </div>
       <div className="hidden grid-cols-[1.5fr_1fr_1fr_1.1fr] gap-3 border-b border-white/[0.08] px-4 py-2 text-[11px] uppercase tracking-[0.08em] text-subtle md:grid">
-        <span>Lead</span>
+        <span>Request</span>
         <span>Source</span>
         <span>Status</span>
-        <span>Last AI follow-up</span>
+        <span>Last AI action</span>
       </div>
       <ul className="relative h-[336px] overflow-hidden md:h-[324px]">
         <AnimatePresence initial={false}>
@@ -198,7 +198,7 @@ export default function HeroVisual() {
     <div
       ref={ref}
       role="img"
-      aria-label="Illustration: a lead pipeline showing enquiries from website forms, WhatsApp, Instagram, calls and email, each replied to, booked and logged automatically by Flow HQ."
+      aria-label="Illustration: an operations dashboard showing requests from website forms, WhatsApp, Instagram, calls and email, each answered, routed and logged automatically by a custom Flow HQ system."
       className="relative w-full"
     >
       <div aria-hidden className="grid gap-3 lg:grid-cols-[1fr_300px] lg:gap-5">

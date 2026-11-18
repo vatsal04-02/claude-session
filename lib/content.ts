@@ -35,7 +35,7 @@ export const isFilled = (s?: string) => !!s && !/\[[^\]]*\]/.test(s);
 
 /** A real CRM screenshot for the hero. Put the file in /public (16:10 or wider works best) and set `src`, e.g. "/crm-screenshot.webp".
     Until then the hero shows the built-in sample CRM mockup. */
-export const HERO_SCREENSHOT: { src: string; alt: string } = { src: "", alt: "Flow HQ lead pipeline" };
+export const HERO_SCREENSHOT: { src: string; alt: string } = { src: "", alt: "Flow HQ operations workflow board" };
 
 /* ───────────────────────────── 1. proof strip ───────────────────────────── */
 
@@ -110,7 +110,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     result: "[RESULT]",
   },
   {
-    label: "Website + lead automation",
+    label: "Website + workflow automation",
     clientType: "[CLIENT TYPE · CITY]",
     problem: "[THE PROBLEM THEY HAD]",
     built: "[WHAT WE BUILT]",
@@ -145,15 +145,15 @@ export type Pkg = {
 
 export const PACKAGES: Pkg[] = [
   {
-    name: "Lead Follow-up System",
+    name: "Workflow Automation",
     price: "₹[X]",
     monthly: "₹[X]",
-    blurb: "Never miss an enquiry again.",
+    blurb: "Take the repeat work off your team.",
     bullets: [
-      "Enquiries captured from your website, WhatsApp, Instagram and calls",
-      "Instant AI reply and automatic follow-ups",
-      "Appointments booked into your calendar",
-      "Every lead logged in a CRM or sheet you own",
+      "Requests captured from your website, WhatsApp, Instagram, email and calls",
+      "AI that reads, replies and routes under your rules",
+      "Bookings, reminders and follow-ups handled automatically",
+      "Everything logged in a CRM or sheet you own",
     ],
     terms: "One-time setup. Optional monthly care plan.",
   },
@@ -163,22 +163,22 @@ export const PACKAGES: Pkg[] = [
     monthly: "₹[X]",
     blurb: "Follow-up plus the tools to grow.",
     bullets: [
-      "Everything in Lead Follow-up",
+      "Everything in Workflow Automation",
       "A website or landing page built to turn visitors into enquiries",
       "Review requests and re-booking reminders",
-      "A monthly report on leads and bookings",
+      "A monthly report on requests and bookings",
     ],
     terms: "One-time setup. Optional monthly care plan.",
     featured: true,
   },
   {
-    name: "Custom CRM & Dashboards",
+    name: "Custom Operational System",
     price: null,
     custom: true,
     blurb: "Built around how your business runs.",
     bullets: [
-      "A CRM shaped around your process",
-      "Dashboards for leads, bookings and revenue",
+      "AI assistants, workflows and a CRM shaped around your process",
+      "Dashboards for requests, bookings and revenue",
       "Connected to the tools you already use",
       "You own the data and the accounts",
     ],
